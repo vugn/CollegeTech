@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:teknisi_app/utils/color_palette.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({
-    super.key,
-    required this.controller,
-    this.node,
-    this.size,
-    this.icon,
-    this.autofillHints,
-    this.label,
-    this.type,
-    this.maxLines,
-    this.suffixIcon,
-    this.onPressed,
-    required this.hint,
-    this.isPassword,
-    this.noLabel,
-  });
+  const CustomTextField(
+      {super.key,
+      required this.controller,
+      this.node,
+      this.size,
+      this.icon,
+      this.autofillHints,
+      this.label,
+      this.type,
+      this.maxLines,
+      this.suffixIcon,
+      this.onPressed,
+      required this.hint,
+      this.isPassword,
+      this.noLabel,
+      this.textInputAction});
   final TextEditingController controller;
   final FocusNode? node;
   final Size? size;
@@ -28,6 +28,7 @@ class CustomTextField extends StatefulWidget {
   final String hint;
   final TextInputType? type;
   final int? maxLines;
+  final TextInputAction? textInputAction;
   final VoidCallback? onPressed;
   final bool? isPassword;
   final Iterable<String>? autofillHints;
@@ -52,6 +53,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         controller: widget.controller,
         keyboardType: widget.type,
         obscureText: widget.isPassword ?? false,
+        textInputAction: widget.textInputAction,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(horizontal: 16),
             filled: true,

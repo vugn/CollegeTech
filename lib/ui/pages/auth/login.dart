@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 224,
                 child: Center(
                   child: Text(
-                    "Hai Kamu ! Silahkan isi Formulis di bawah",
+                    "Hai ${isTechnicianActive ? 'Teknisi' : 'Kamu'} ! \nSilahkan isi Formulir di bawah",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
@@ -104,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _emailLoginController,
                       hint: 'e-Mail',
                       type: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
                     ),
                     const SizedBox(
                       height: 16,
@@ -113,10 +114,69 @@ class _LoginPageState extends State<LoginPage> {
                       hint: 'Password',
                       isPassword: true,
                       type: TextInputType.visiblePassword,
+                      textInputAction: TextInputAction.done,
                     ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Lupa Password?',
+                            style: TextStyle(color: Colors.black),
+                          )),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    FilledButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          minimumSize: MaterialStatePropertyAll(
+                              Size(MediaQuery.of(context).size.width, 48)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
+                          backgroundColor: MaterialStatePropertyAll(
+                              _passwordLoginController.value.text.isNotEmpty &&
+                                      _emailLoginController
+                                          .value.text.isNotEmpty
+                                  ? cotech
+                                  : const Color(0xFFF4F4F4))),
+                      child: Text(
+                        "Masuk",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                          color: _passwordLoginController
+                                      .value.text.isNotEmpty &&
+                                  _emailLoginController.value.text.isNotEmpty
+                              ? Colors.white
+                              : const Color(cotechSecondaryValue),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        )),
+                      ),
+                    )
                   ],
                 ),
-              )
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Belum Punya Akun?"),
+                    TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          'Daftar',
+                          style: TextStyle(color: Colors.black),
+                        ))
+                  ],
+                ),
+              ),
             ],
           ),
         )),
