@@ -13,6 +13,7 @@ const MaterialColor cotech = MaterialColor(_cotechPrimaryValue, <int, Color>{
   900: Color(0xFFE87506),
 });
 const int _cotechPrimaryValue = 0xFFF2A213;
+const int cotechSecondaryValue = 0xFFB1B1B1;
 
 const MaterialColor cotechAccent =
     MaterialColor(_cotechAccentValue, <int, Color>{
