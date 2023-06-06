@@ -17,9 +17,7 @@ class MainApp extends StatelessWidget {
       title: 'CoTech Indonesia',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          useMaterial3: true,
-          primarySwatch: cotech,
-          fontFamily: GoogleFonts.poppins().fontFamily),
+          primarySwatch: cotech, fontFamily: GoogleFonts.poppins().fontFamily),
       initialRoute: Routes.LOGIN,
       getPages: AppPages.routes,
     );
