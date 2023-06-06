@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:teknisi_app/routes/app_pages.dart';
+import 'package:teknisi_app/utils/color_palette.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +12,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return GetMaterialApp(
+      title: 'CoTech Indonesia',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        primarySwatch: cotech,
       ),
+      initialRoute: Routes.LOGIN,
+      getPages: AppPages.routes,
     );
   }
 }
