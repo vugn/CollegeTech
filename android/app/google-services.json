@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "955752340817",
+    "project_id": "cotech-indonesia",
+    "storage_bucket": "cotech-indonesia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955752340817:android:99962aae71ab5fae260770",
+        "android_client_info": {
+          "package_name": "com.diluarnalar.cotechindonesia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955752340817-p9d8evgj9r18ar7o48t3tv5t3rqq39mt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP9H6XfqLe6GxbO1spsJHB4uyxfktGFyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955752340817-p9d8evgj9r18ar7o48t3tv5t3rqq39mt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
