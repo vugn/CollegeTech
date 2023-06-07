@@ -54,7 +54,8 @@ class RegisterController extends GetxController {
   }
 
   void imagePicker(TextEditingController contoller) async {
-    XFile? result = await ImagePicker().pickImage(source: ImageSource.camera);
+    XFile? result = await ImagePicker().pickImage(
+        source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
     if (result != null) {
       profileImage = result;
       contoller.text = formatFileList(isList: false, pathString: result.path);
