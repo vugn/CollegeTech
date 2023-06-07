@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:teknisi_app/routes/app_pages.dart';
-import 'package:teknisi_app/utils/color_palette.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
+import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {

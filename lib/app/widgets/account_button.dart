@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:teknisi_app/utils/color_palette.dart';
+import 'package:teknisi_app/app/utils/color_palette.dart';
 
 class AccountButton extends StatefulWidget {
   const AccountButton(

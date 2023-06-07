@@ -1,23 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:teknisi_app/utils/color_palette.dart';
-import 'package:teknisi_app/widgets/account_button.dart';
-import 'package:teknisi_app/widgets/forms.dart';
+import 'package:teknisi_app/app/utils/color_palette.dart';
+import 'package:teknisi_app/app/widgets/account_button.dart';
+import 'package:teknisi_app/app/widgets/forms.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import '../controllers/login_controller.dart';
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
+class LoginView extends GetView<LoginController> {
+  const LoginView({super.key});
 
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _emailLoginController = TextEditingController();
-  final TextEditingController _passwordLoginController =
-      TextEditingController();
-  bool isUserActive = true;
-  bool isTechnicianActive = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,36 +36,34 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 32,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  AccountButton(
-                    imageButton: true,
-                    imageAssets: "assets/images/icons/user_ic.png",
-                    label: 'Umum',
-                    isActive: isUserActive,
-                    onTap: () {
-                      setState(() {
-                        isUserActive = true;
-                        isTechnicianActive = false;
-                      });
-                    },
-                  ),
-                  AccountButton(
-                    imageButton: true,
-                    imageAssets: "assets/images/icons/worker_ic.png",
-                    label: 'Teknisi',
-                    isActive: isTechnicianActive,
-                    onTap: () {
-                      setState(() {
-                        isUserActive = false;
-                        isTechnicianActive = true;
-                      });
-                    },
-                  )
-                ],
+            Obx(
+              () => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    AccountButton(
+                      imageButton: true,
+                      imageAssets: "assets/images/icons/user_ic.png",
+                      label: 'Umum',
+                      isActive: controller.isUserActive.value,
+                      onTap: () {
+                        controller.isUserActive.value = true;
+                        controller.isTechnicianActive.value = false;
+                      },
+                    ),
+                    AccountButton(
+                      imageButton: true,
+                      imageAssets: "assets/images/icons/worker_ic.png",
+                      label: 'Teknisi',
+                      isActive: controller.isTechnicianActive.value,
+                      onTap: () {
+                        controller.isUserActive.value = false;
+                        controller.isTechnicianActive.value = true;
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
             const SizedBox(
@@ -83,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
               width: 224,
               child: Center(
                 child: Text(
-                  "Hai ${isTechnicianActive ? 'Teknisi' : 'Kamu'} ! \nSilahkan isi Formulir di bawah",
+                  "Hai ${controller.isTechnicianActive.value ? 'Teknisi' : 'Kamu'} ! \nSilahkan isi Formulir di bawah",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                       textStyle: const TextStyle(
@@ -102,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   CustomTextField(
-                    controller: _emailLoginController,
+                    controller: controller.emailLoginController,
                     hint: 'e-Mail',
                     type: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
@@ -111,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 16,
                   ),
                   CustomTextField(
-                    controller: _passwordLoginController,
+                    controller: controller.passwordLoginController,
                     hint: 'Password',
                     isPassword: true,
                     type: TextInputType.visiblePassword,
@@ -132,12 +122,14 @@ class _LoginPageState extends State<LoginPage> {
                   AccountButton(
                       label: 'Masuk',
                       size: Size(MediaQuery.of(context).size.width, 48),
-                      isActive:
-                          _passwordLoginController.value.text.isNotEmpty &&
-                              _emailLoginController.value.text.isNotEmpty,
+                      isActive: controller
+                              .passwordLoginController.value.text.isNotEmpty &&
+                          controller.emailLoginController.value.text.isNotEmpty,
                       onTap: () {
-                        if (_passwordLoginController.value.text.isNotEmpty &&
-                            _emailLoginController.value.text.isNotEmpty) {
+                        if (controller.passwordLoginController.value.text
+                                .isNotEmpty &&
+                            controller
+                                .emailLoginController.value.text.isNotEmpty) {
                           Get.toNamed(
                             '/test',
                           );
