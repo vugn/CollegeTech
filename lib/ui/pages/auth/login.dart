@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   AccountButton(
+                    imageButton: true,
                     imageAssets: "assets/images/icons/user_ic.png",
                     label: 'Umum',
                     isActive: isUserActive,
@@ -60,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   AccountButton(
+                    imageButton: true,
                     imageAssets: "assets/images/icons/worker_ic.png",
                     label: 'Teknisi',
                     isActive: isTechnicianActive,
@@ -126,33 +128,13 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 12,
                   ),
-                  FilledButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                        minimumSize: MaterialStatePropertyAll(
-                            Size(MediaQuery.of(context).size.width, 48)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8))),
-                        backgroundColor: MaterialStatePropertyAll(
-                            _passwordLoginController.value.text.isNotEmpty &&
-                                    _emailLoginController.value.text.isNotEmpty
-                                ? cotech
-                                : const Color(0xFFF4F4F4))),
-                    child: Text(
-                      "Masuk",
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                        color: _passwordLoginController.value.text.isNotEmpty &&
-                                _emailLoginController.value.text.isNotEmpty
-                            ? Colors.white
-                            : const Color(cotechSecondaryValue),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      )),
-                    ),
-                  )
+                  AccountButton(
+                      label: 'Masuk',
+                      size: Size(MediaQuery.of(context).size.width, 48),
+                      isActive:
+                          _passwordLoginController.value.text.isNotEmpty &&
+                              _emailLoginController.value.text.isNotEmpty,
+                      onTap: () {}),
                 ],
               ),
             ),
