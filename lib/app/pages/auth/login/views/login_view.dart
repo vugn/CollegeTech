@@ -69,18 +69,20 @@ class LoginView extends GetView<LoginController> {
             const SizedBox(
               height: 24,
             ),
-            SizedBox(
-              width: 224,
-              child: Center(
-                child: Text(
-                  "Hai ${controller.isTechnicianActive.value ? 'Teknisi' : 'Kamu'} ! \nSilahkan isi Formulir di bawah",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      textStyle: const TextStyle(
-                    color: Color(cotechSecondaryValue),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  )),
+            Obx(
+              () => SizedBox(
+                width: 224,
+                child: Center(
+                  child: Text(
+                    "Hai ${controller.isTechnicianActive.value ? 'Teknisi' : 'Kamu'} ! \nSilahkan isi Formulir di bawah",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                      color: Color(cotechSecondaryValue),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    )),
+                  ),
                 ),
               ),
             ),
@@ -104,6 +106,7 @@ class LoginView extends GetView<LoginController> {
                     controller: controller.passwordLoginController,
                     hint: 'Password',
                     isPassword: true,
+                    maxLines: 1,
                     type: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
                   ),
@@ -113,7 +116,7 @@ class LoginView extends GetView<LoginController> {
                         onPressed: () {},
                         child: const Text(
                           'Lupa Password?',
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(color: cotech),
                         )),
                   ),
                   const SizedBox(
@@ -147,10 +150,14 @@ class LoginView extends GetView<LoginController> {
                 children: [
                   const Text("Belum Punya Akun?"),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(
+                          '/register',
+                        );
+                      },
                       child: const Text(
                         'Daftar',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: cotech),
                       ))
                 ],
               ),
