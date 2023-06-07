@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/utils/color_palette.dart';
 import 'package:teknisi_app/widgets/account_button.dart';
@@ -134,7 +135,14 @@ class _LoginPageState extends State<LoginPage> {
                       isActive:
                           _passwordLoginController.value.text.isNotEmpty &&
                               _emailLoginController.value.text.isNotEmpty,
-                      onTap: () {}),
+                      onTap: () {
+                        if (_passwordLoginController.value.text.isNotEmpty &&
+                            _emailLoginController.value.text.isNotEmpty) {
+                          Get.toNamed(
+                            '/test',
+                          );
+                        }
+                      }),
                 ],
               ),
             ),

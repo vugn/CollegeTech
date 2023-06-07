@@ -14,6 +14,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      defaultTransition: Transition.cupertino,
       title: 'CoTech Indonesia',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

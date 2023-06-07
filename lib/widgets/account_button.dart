@@ -125,7 +125,7 @@ Widget filledButton(
     required Size size,
     BorderRadius? borderRadius}) {
   return FilledButton(
-    onPressed: () {},
+    onPressed: onTap,
     style: ButtonStyle(
         minimumSize: MaterialStatePropertyAll(size),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
