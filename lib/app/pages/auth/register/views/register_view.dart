@@ -200,7 +200,7 @@ Widget userRegist(BuildContext context) {
                     .confirmPasswordRegisterController.value.text.isNotEmpty
                 ? controller.isPasswordMatch.value
                     ? null
-                    : "Password tidak sam"
+                    : "Password tidak sama"
                 : null,
             onChange: (value) {
               value != controller.passwordRegisterController.value.text
@@ -389,7 +389,7 @@ Widget technicianUserRegistrationForm(BuildContext context) {
                     .confirmPasswordRegisterController.value.text.isNotEmpty
                 ? controller.isPasswordMatch.value
                     ? null
-                    : "Password tidak sam"
+                    : "Password tidak sama"
                 : null,
             onChange: (value) {
               value != controller.passwordRegisterController.value.text
