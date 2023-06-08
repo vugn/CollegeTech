@@ -10,6 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
+import '../../../../data/repositories/firebase/firebase_auth.dart';
+import '../../../../data/repositories/firebase/firebase_functions.dart';
+
 class RegisterController extends GetxController {
   final Rx<TextEditingController> fullNameRegisterController =
       TextEditingController().obs;
@@ -37,11 +40,16 @@ class RegisterController extends GetxController {
   RxBool isUserActive = true.obs;
   RxBool isTechnicianActive = false.obs;
 
+// Auth Validate
   RxBool isPasswordMatch = false.obs;
   RxBool isEmailCorrect = false.obs;
+  RxBool isPhoneNumberCorrect = false.obs;
 
   XFile? profileImage;
   List<File>? ktmImage;
+
+  final FirebaseAuthentication _authentication = FirebaseAuthentication();
+  final FirebaseFunctions _functions = FirebaseFunctions();
 
   void pickDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -188,7 +196,15 @@ class RegisterController extends GetxController {
         phoneNumberRegisterController.value.text.isNotEmpty &&
         passwordRegisterController.value.text.isNotEmpty &&
         confirmPasswordRegisterController.value.text.isNotEmpty) {
-      print("IS NOT TECHNICIAN");
+      _authentication
+          .createAccount(
+              email: emailRegisterController.value.text,
+              password: passwordRegisterController.value.text)
+          .then((value) => _functions.createUserCredential(
+              fullName: fullNameRegisterController.value.text,
+              phoneNumber: phoneNumberRegisterController.value.text,
+              email: emailRegisterController.value.text,
+              password: passwordRegisterController.value.text));
     }
   }
 }

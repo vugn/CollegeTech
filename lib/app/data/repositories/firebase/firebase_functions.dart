@@ -16,7 +16,7 @@ class FirebaseFunctions {
   int _documentLimit = 5;
   RxBool isLoading = false.obs;
 
-  Future<void> createUserCredential({
+  Future<void> createTechnicianUserCredential({
     required String fullName,
     required String phoneNumber,
     required String birth,
@@ -45,7 +45,31 @@ class FirebaseFunctions {
         "email": email
       }).then((value) {
         Indicator.closeLoading();
-        Get.toNamed(Routes.HOME);
+        Get.toNamed(Routes.TESWIDGET);
+      });
+    } catch (e) {
+      showAlert(e.toString());
+    }
+  }
+
+  Future<void> createUserCredential({
+    required String fullName,
+    required String phoneNumber,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _firebaseFirestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .set({
+        "uid": _auth.currentUser!.uid,
+        "fullName": fullName,
+        "phoneNumber": phoneNumber,
+        "email": email
+      }).then((value) {
+        Indicator.closeLoading();
+        Get.toNamed(Routes.TESWIDGET);
       });
     } catch (e) {
       showAlert(e.toString());

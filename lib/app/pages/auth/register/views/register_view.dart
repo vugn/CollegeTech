@@ -144,6 +144,17 @@ Widget userRegist(BuildContext context) {
             controller: controller.phoneNumberRegisterController.value,
             hint: 'Nomor Telepon',
             type: TextInputType.phone,
+            errorText:
+                controller.phoneNumberRegisterController.value.text.isNotEmpty
+                    ? controller.isPhoneNumberCorrect.value
+                        ? null
+                        : 'Nomor Telepon tidak benar'
+                    : null,
+            onChange: (value) {
+              RegExp(r'(^(?:[+0]9)?[0-9]{10,15}$)').hasMatch(value)
+                  ? controller.isPhoneNumberCorrect.value = true
+                  : controller.isPhoneNumberCorrect.value = false;
+            },
           ),
           const SizedBox(
             height: 16,
@@ -152,8 +163,11 @@ Widget userRegist(BuildContext context) {
             controller: controller.emailRegisterController.value,
             hint: 'e-Mail',
             type: TextInputType.emailAddress,
-            errorText:
-                controller.isEmailCorrect.value ? null : "Email tidak benar",
+            errorText: controller.emailRegisterController.value.text.isNotEmpty
+                ? controller.isEmailCorrect.value
+                    ? null
+                    : "Email tidak benar"
+                : null,
             onChange: (value) {
               RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                       .hasMatch(value)
@@ -182,8 +196,12 @@ Widget userRegist(BuildContext context) {
             maxLines: 1,
             type: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
-            errorText:
-                controller.isPasswordMatch.value ? null : "Password tidak sama",
+            errorText: controller
+                    .confirmPasswordRegisterController.value.text.isNotEmpty
+                ? controller.isPasswordMatch.value
+                    ? null
+                    : "Password tidak sam"
+                : null,
             onChange: (value) {
               value != controller.passwordRegisterController.value.text
                   ? controller.isPasswordMatch.value = false
@@ -225,6 +243,17 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             controller: controller.phoneNumberRegisterController.value,
             hint: 'Nomor Telepon',
             type: TextInputType.phone,
+            errorText:
+                controller.phoneNumberRegisterController.value.text.isNotEmpty
+                    ? controller.isPhoneNumberCorrect.value
+                        ? null
+                        : 'Nomor Telepon tidak benar'
+                    : null,
+            onChange: (value) {
+              RegExp(r'(^(?:[+0]9)?[0-9]{10,15}$)').hasMatch(value)
+                  ? controller.isPhoneNumberCorrect.value = true
+                  : controller.isPhoneNumberCorrect.value = false;
+            },
           ),
           const SizedBox(
             height: 16,
@@ -323,8 +352,11 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             controller: controller.emailRegisterController.value,
             hint: 'e-Mail',
             type: TextInputType.emailAddress,
-            errorText:
-                controller.isEmailCorrect.value ? null : "Email tidak benar",
+            errorText: controller.emailRegisterController.value.text.isNotEmpty
+                ? controller.isEmailCorrect.value
+                    ? null
+                    : "Email tidak benar"
+                : null,
             onChange: (value) {
               RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                       .hasMatch(value)
@@ -353,8 +385,12 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             maxLines: 1,
             type: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
-            errorText:
-                controller.isPasswordMatch.value ? null : "Password tidak sama",
+            errorText: controller
+                    .confirmPasswordRegisterController.value.text.isNotEmpty
+                ? controller.isPasswordMatch.value
+                    ? null
+                    : "Password tidak sam"
+                : null,
             onChange: (value) {
               value != controller.passwordRegisterController.value.text
                   ? controller.isPasswordMatch.value = false
