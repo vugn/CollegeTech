@@ -152,6 +152,14 @@ Widget userRegist(BuildContext context) {
             controller: controller.emailRegisterController.value,
             hint: 'e-Mail',
             type: TextInputType.emailAddress,
+            errorText:
+                controller.isEmailCorrect.value ? null : "Email tidak benar",
+            onChange: (value) {
+              RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)
+                  ? controller.isEmailCorrect.value = true
+                  : controller.isEmailCorrect.value = false;
+            },
           ),
           const SizedBox(
             height: 16,
@@ -174,6 +182,13 @@ Widget userRegist(BuildContext context) {
             maxLines: 1,
             type: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
+            errorText:
+                controller.isPasswordMatch.value ? null : "Password tidak sama",
+            onChange: (value) {
+              value != controller.passwordRegisterController.value.text
+                  ? controller.isPasswordMatch.value = false
+                  : controller.isPasswordMatch.value = true;
+            },
           ),
           const SizedBox(
             height: 32,
@@ -308,6 +323,14 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             controller: controller.emailRegisterController.value,
             hint: 'e-Mail',
             type: TextInputType.emailAddress,
+            errorText:
+                controller.isEmailCorrect.value ? null : "Email tidak benar",
+            onChange: (value) {
+              RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)
+                  ? controller.isEmailCorrect.value = true
+                  : controller.isEmailCorrect.value = false;
+            },
           ),
           const SizedBox(
             height: 16,
@@ -330,6 +353,13 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             maxLines: 1,
             type: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
+            errorText:
+                controller.isPasswordMatch.value ? null : "Password tidak sama",
+            onChange: (value) {
+              value != controller.passwordRegisterController.value.text
+                  ? controller.isPasswordMatch.value = false
+                  : controller.isPasswordMatch.value = true;
+            },
           ),
           const SizedBox(
             height: 16,

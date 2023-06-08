@@ -36,6 +36,10 @@ class RegisterController extends GetxController {
 
   RxBool isUserActive = true.obs;
   RxBool isTechnicianActive = false.obs;
+
+  RxBool isPasswordMatch = false.obs;
+  RxBool isEmailCorrect = false.obs;
+
   XFile? profileImage;
   List<File>? ktmImage;
 
@@ -153,7 +157,9 @@ class RegisterController extends GetxController {
         emailRegisterController.value.text.isNotEmpty &&
         phoneNumberRegisterController.value.text.isNotEmpty &&
         passwordRegisterController.value.text.isNotEmpty &&
-        confirmPasswordRegisterController.value.text.isNotEmpty) {
+        confirmPasswordRegisterController.value.text.isNotEmpty &&
+        isPasswordMatch.value &&
+        isEmailCorrect.value) {
       return true.obs;
     } else {
       return false.obs;

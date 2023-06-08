@@ -17,6 +17,7 @@ class CustomTextField extends StatefulWidget {
       this.label,
       this.onTap,
       this.readOnly,
+      this.errorText,
       this.dropdownList,
       required this.hint,
       this.isDropdown = false,
@@ -32,6 +33,7 @@ class CustomTextField extends StatefulWidget {
   final Icon? icon;
   final Icon? suffixIcon;
   final String? label;
+  final String? errorText;
   final bool? readOnly;
   final bool? expands;
   final bool? noLabel;
@@ -95,6 +97,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               onTap: widget.onTap,
               onChanged: widget.onChange,
               decoration: InputDecoration(
+                  errorText: widget.errorText,
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   filled: true,
