@@ -48,6 +48,8 @@ class FirebaseFunctions {
         Get.toNamed(Routes.TESWIDGET);
       });
     } catch (e) {
+      Indicator.closeLoading();
+      print(e);
       showAlert(e.toString());
     }
   }
@@ -55,6 +57,7 @@ class FirebaseFunctions {
   Future<void> createUserCredential({
     required String fullName,
     required String phoneNumber,
+    required int accountType,
     required String email,
     required String password,
   }) async {
@@ -66,10 +69,11 @@ class FirebaseFunctions {
         "uid": _auth.currentUser!.uid,
         "fullName": fullName,
         "phoneNumber": phoneNumber,
+        "accounType": accountType,
         "email": email
       }).then((value) {
         Indicator.closeLoading();
-        Get.toNamed(Routes.TESWIDGET);
+        Get.offAndToNamed(Routes.TESWIDGET);
       });
     } catch (e) {
       showAlert(e.toString());

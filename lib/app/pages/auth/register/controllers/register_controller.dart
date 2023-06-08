@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 import '../../../../data/repositories/firebase/firebase_auth.dart';
 import '../../../../data/repositories/firebase/firebase_functions.dart';
@@ -196,6 +197,7 @@ class RegisterController extends GetxController {
         phoneNumberRegisterController.value.text.isNotEmpty &&
         passwordRegisterController.value.text.isNotEmpty &&
         confirmPasswordRegisterController.value.text.isNotEmpty) {
+      Indicator.showLoading();
       _authentication
           .createAccount(
               email: emailRegisterController.value.text,
@@ -203,6 +205,7 @@ class RegisterController extends GetxController {
           .then((value) => _functions.createUserCredential(
               fullName: fullNameRegisterController.value.text,
               phoneNumber: phoneNumberRegisterController.value.text,
+              accountType: 0,
               email: emailRegisterController.value.text,
               password: passwordRegisterController.value.text));
     }
