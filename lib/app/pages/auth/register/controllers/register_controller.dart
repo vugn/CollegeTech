@@ -63,7 +63,7 @@ class RegisterController extends GetxController {
     if (result != null) {
       profileImage = result;
       contoller.text = formatFileList(isList: false, pathString: result.path);
-      Get.appUpdate();
+      update();
     } else {}
   }
 
@@ -112,6 +112,7 @@ class RegisterController extends GetxController {
         profileImage = null;
         profileUploadRegisterController.value.clear();
         Get.back();
+        update();
       },
     );
 
@@ -159,8 +160,9 @@ class RegisterController extends GetxController {
     }
   }
 
-  void onSumbitted() {
-    if (fullNameRegisterController.value.text.isNotEmpty &&
+  void onSumbitted({required bool isTechnician}) {
+    if (isTechnician &&
+        fullNameRegisterController.value.text.isNotEmpty &&
         emailRegisterController.value.text.isNotEmpty &&
         phoneNumberRegisterController.value.text.isNotEmpty &&
         birthRegisterController.value.text.isNotEmpty &&
@@ -172,6 +174,15 @@ class RegisterController extends GetxController {
         passwordRegisterController.value.text.isNotEmpty &&
         confirmPasswordRegisterController.value.text.isNotEmpty &&
         profileImage!.path.isNotEmpty &&
-        ktmImage!.isNotEmpty) {}
+        ktmImage!.isNotEmpty) {
+      print("ISTECHNICIAN");
+    } else if (isTechnician == false &&
+        fullNameRegisterController.value.text.isNotEmpty &&
+        emailRegisterController.value.text.isNotEmpty &&
+        phoneNumberRegisterController.value.text.isNotEmpty &&
+        passwordRegisterController.value.text.isNotEmpty &&
+        confirmPasswordRegisterController.value.text.isNotEmpty) {
+      print("IS NOT TECHNICIAN");
+    }
   }
 }

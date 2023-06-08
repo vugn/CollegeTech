@@ -183,7 +183,7 @@ Widget userRegist(BuildContext context) {
               size: Size(MediaQuery.of(context).size.width, 48),
               isActive: controller.isUserFilled().value,
               onTap: () {
-                // controller.onSumbitted();
+                controller.onSumbitted(isTechnician: false);
               })
         ],
       ),
@@ -305,31 +305,6 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             height: 16,
           ),
           CustomTextField(
-            controller: controller.profileUploadRegisterController.value,
-            hint: 'Ambil Foto Profile',
-            icon: Icon(
-              Icons.upload_file,
-              color: controller
-                      .profileUploadRegisterController.value.text.isNotEmpty
-                  ? cotech
-                  : const Color(cotechSecondaryValue),
-            ),
-            readOnly: true,
-            type: TextInputType.text,
-            onTap: () async {
-              if (controller
-                  .profileUploadRegisterController.value.text.isEmpty) {
-                controller.imagePicker(
-                    controller.profileUploadRegisterController.value);
-              } else {
-                controller.showAlertDialog(context);
-              }
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          CustomTextField(
             controller: controller.emailRegisterController.value,
             hint: 'e-Mail',
             type: TextInputType.emailAddress,
@@ -357,6 +332,31 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             textInputAction: TextInputAction.done,
           ),
           const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.profileUploadRegisterController.value,
+            hint: 'Ambil Foto Profile',
+            icon: Icon(
+              Icons.upload_file,
+              color: controller
+                      .profileUploadRegisterController.value.text.isNotEmpty
+                  ? cotech
+                  : const Color(cotechSecondaryValue),
+            ),
+            readOnly: true,
+            type: TextInputType.text,
+            onTap: () async {
+              if (controller
+                  .profileUploadRegisterController.value.text.isEmpty) {
+                controller.imagePicker(
+                    controller.profileUploadRegisterController.value);
+              } else {
+                controller.showAlertDialog(context);
+              }
+            },
+          ),
+          const SizedBox(
             height: 32,
           ),
           Obx(() => AccountButton(
@@ -364,7 +364,7 @@ Widget technicianUserRegistrationForm(BuildContext context) {
               size: Size(MediaQuery.of(context).size.width, 48),
               isActive: controller.isFilled().value,
               onTap: () {
-                controller.onSumbitted();
+                controller.onSumbitted(isTechnician: true);
               })),
         ],
       ),
