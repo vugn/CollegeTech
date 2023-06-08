@@ -112,183 +112,9 @@ class RegisterView extends GetView<RegisterController> {
             const SizedBox(
               height: 24,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  CustomTextField(
-                    controller: controller.fullNameRegisterController,
-                    hint: 'Nama Lengkap',
-                    type: TextInputType.name,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.phoneNumberRegisterController,
-                    hint: 'Nomor Telepon',
-                    type: TextInputType.phone,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.birthRegisterController,
-                    hint: 'Tanggal Lahir',
-                    icon: Icon(
-                      Icons.calendar_month,
-                      color: controller
-                              .birthRegisterController.value.text.isNotEmpty
-                          ? cotech
-                          : const Color(cotechSecondaryValue),
-                    ),
-                    readOnly: true,
-                    type: TextInputType.datetime,
-                    onTap: () async {
-                      controller.pickDate(context);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.certificateUploadRegisterController,
-                    hint: 'Upload Sertifikat',
-                    icon: Icon(
-                      Icons.upload_file,
-                      color: controller.certificateUploadRegisterController
-                              .value.text.isNotEmpty
-                          ? cotech
-                          : const Color(cotechSecondaryValue),
-                    ),
-                    readOnly: true,
-                    type: TextInputType.text,
-                    onTap: () async {
-                      controller.filePicker(
-                          controller.certificateUploadRegisterController);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SizedBox(
-                    height: 97,
-                    child: CustomTextField(
-                      controller: controller.skillDescriptionRegisterController,
-                      hint: 'Deskripsi Skill',
-                      expands: true,
-                      maxLines: null,
-                      type: TextInputType.multiline,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    dropdownController:
-                        controller.universityDropdownRegisterController,
-                    hint: 'Pilih Universitas',
-                    isDropdown: true,
-                    dropdownList: const [
-                      DropDownValueModel(
-                          name:
-                              'Universitas Islam Kalimantan Muhammad Arsyad Al Banjari',
-                          value: 'uniskamab'),
-                      DropDownValueModel(
-                          name: 'Universitas Lambung Mangkurat', value: 'ulm'),
-                      DropDownValueModel(
-                          name: 'Universitas Islam Negeri Antasari',
-                          value: 'uinantasari'),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.ktmUploadRegisterController,
-                    hint: 'Upload KTM',
-                    icon: Icon(
-                      Icons.upload_file,
-                      color: controller
-                              .ktmUploadRegisterController.value.text.isNotEmpty
-                          ? cotech
-                          : const Color(cotechSecondaryValue),
-                    ),
-                    readOnly: true,
-                    type: TextInputType.text,
-                    onTap: () async {
-                      controller
-                          .filePicker(controller.ktmUploadRegisterController);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.profileUploadRegisterController,
-                    hint: 'Ambil Foto Profile',
-                    icon: Icon(
-                      Icons.upload_file,
-                      color: controller.profileUploadRegisterController.value
-                              .text.isNotEmpty
-                          ? cotech
-                          : const Color(cotechSecondaryValue),
-                    ),
-                    readOnly: true,
-                    type: TextInputType.text,
-                    onTap: () async {
-                      if (controller
-                          .profileUploadRegisterController.value.text.isEmpty) {
-                        controller.imagePicker(
-                            controller.profileUploadRegisterController);
-                      } else {
-                        controller.showAlertDialog(context);
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.emailRegisterController,
-                    hint: 'e-Mail',
-                    type: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.passwordRegisterController,
-                    hint: 'Password',
-                    isPassword: true,
-                    maxLines: 1,
-                    type: TextInputType.visiblePassword,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.confirmPasswordRegisterController,
-                    hint: 'Konfirmasi Password',
-                    isPassword: true,
-                    maxLines: 1,
-                    type: TextInputType.visiblePassword,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  Obx(() => AccountButton(
-                      label: 'Daftar',
-                      size: Size(MediaQuery.of(context).size.width, 48),
-                      isActive: controller.isFilled().value,
-                      onTap: () {
-                        controller.onSumbitted();
-                      })),
-                ],
-              ),
-            ),
+            Obx(() => controller.isUserActive.value
+                ? userRegist(context)
+                : technicianUserRegistrationForm(context)),
             const SizedBox(
               height: 32,
             ),
@@ -297,4 +123,251 @@ class RegisterView extends GetView<RegisterController> {
       )),
     );
   }
+}
+
+Widget userRegist(BuildContext context) {
+  return GetBuilder<RegisterController>(
+    init: RegisterController(),
+    builder: (controller) => Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          CustomTextField(
+            controller: controller.fullNameRegisterController.value,
+            hint: 'Nama Lengkap',
+            type: TextInputType.name,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.phoneNumberRegisterController.value,
+            hint: 'Nomor Telepon',
+            type: TextInputType.phone,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.emailRegisterController.value,
+            hint: 'e-Mail',
+            type: TextInputType.emailAddress,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.passwordRegisterController.value,
+            hint: 'Password',
+            isPassword: true,
+            maxLines: 1,
+            type: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.confirmPasswordRegisterController.value,
+            hint: 'Konfirmasi Password',
+            isPassword: true,
+            maxLines: 1,
+            type: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          AccountButton(
+              label: 'Daftar',
+              size: Size(MediaQuery.of(context).size.width, 48),
+              isActive: controller.isUserFilled().value,
+              onTap: () {
+                // controller.onSumbitted();
+              })
+        ],
+      ),
+    ),
+  );
+}
+
+Widget technicianUserRegistrationForm(BuildContext context) {
+  return GetBuilder<RegisterController>(
+    init: RegisterController(),
+    builder: (controller) => Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        children: [
+          CustomTextField(
+            controller: controller.fullNameRegisterController.value,
+            hint: 'Nama Lengkap',
+            type: TextInputType.name,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.phoneNumberRegisterController.value,
+            hint: 'Nomor Telepon',
+            type: TextInputType.phone,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.birthRegisterController.value,
+            hint: 'Tanggal Lahir',
+            icon: Icon(
+              Icons.calendar_month,
+              color: controller.birthRegisterController.value.text.isNotEmpty
+                  ? cotech
+                  : const Color(cotechSecondaryValue),
+            ),
+            readOnly: true,
+            type: TextInputType.datetime,
+            onTap: () async {
+              controller.pickDate(context);
+            },
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.certificateUploadRegisterController.value,
+            hint: 'Upload Sertifikat',
+            icon: Icon(
+              Icons.upload_file,
+              color: controller
+                      .certificateUploadRegisterController.value.text.isNotEmpty
+                  ? cotech
+                  : const Color(cotechSecondaryValue),
+            ),
+            readOnly: true,
+            type: TextInputType.text,
+            onTap: () async {
+              controller.filePicker(
+                  controller.certificateUploadRegisterController.value);
+            },
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          SizedBox(
+            height: 97,
+            child: CustomTextField(
+              controller: controller.skillDescriptionRegisterController.value,
+              hint: 'Deskripsi Skill',
+              expands: true,
+              maxLines: null,
+              type: TextInputType.multiline,
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            dropdownController: controller.universityDropdownRegisterController,
+            hint: 'Pilih Universitas',
+            isDropdown: true,
+            dropdownList: const [
+              DropDownValueModel(
+                  name:
+                      'Universitas Islam Kalimantan Muhammad Arsyad Al Banjari',
+                  value: 'uniskamab'),
+              DropDownValueModel(
+                  name: 'Universitas Lambung Mangkurat', value: 'ulm'),
+              DropDownValueModel(
+                  name: 'Universitas Islam Negeri Antasari',
+                  value: 'uinantasari'),
+            ],
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.ktmUploadRegisterController.value,
+            hint: 'Upload KTM',
+            icon: Icon(
+              Icons.upload_file,
+              color:
+                  controller.ktmUploadRegisterController.value.text.isNotEmpty
+                      ? cotech
+                      : const Color(cotechSecondaryValue),
+            ),
+            readOnly: true,
+            type: TextInputType.text,
+            onTap: () async {
+              controller
+                  .filePicker(controller.ktmUploadRegisterController.value);
+            },
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.profileUploadRegisterController.value,
+            hint: 'Ambil Foto Profile',
+            icon: Icon(
+              Icons.upload_file,
+              color: controller
+                      .profileUploadRegisterController.value.text.isNotEmpty
+                  ? cotech
+                  : const Color(cotechSecondaryValue),
+            ),
+            readOnly: true,
+            type: TextInputType.text,
+            onTap: () async {
+              if (controller
+                  .profileUploadRegisterController.value.text.isEmpty) {
+                controller.imagePicker(
+                    controller.profileUploadRegisterController.value);
+              } else {
+                controller.showAlertDialog(context);
+              }
+            },
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.emailRegisterController.value,
+            hint: 'e-Mail',
+            type: TextInputType.emailAddress,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.passwordRegisterController.value,
+            hint: 'Password',
+            isPassword: true,
+            maxLines: 1,
+            type: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          CustomTextField(
+            controller: controller.confirmPasswordRegisterController.value,
+            hint: 'Konfirmasi Password',
+            isPassword: true,
+            maxLines: 1,
+            type: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          Obx(() => AccountButton(
+              label: 'Daftar',
+              size: Size(MediaQuery.of(context).size.width, 48),
+              isActive: controller.isFilled().value,
+              onTap: () {
+                controller.onSumbitted();
+              })),
+        ],
+      ),
+    ),
+  );
 }

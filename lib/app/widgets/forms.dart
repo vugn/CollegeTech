@@ -23,6 +23,7 @@ class CustomTextField extends StatefulWidget {
       this.isPassword,
       this.noLabel,
       this.expands,
+      this.onChange,
       this.textInputAction});
   final TextEditingController? controller;
   final SingleValueDropDownController? dropdownController;
@@ -41,6 +42,7 @@ class CustomTextField extends StatefulWidget {
   final int? maxLines;
   final TextInputAction? textInputAction;
   final VoidCallback? onTap;
+  final Function(String)? onChange;
   final bool? isPassword;
   final Iterable<String>? autofillHints;
 
@@ -91,6 +93,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               textInputAction: widget.textInputAction,
               readOnly: widget.readOnly ?? false,
               onTap: widget.onTap,
+              onChanged: widget.onChange,
               decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

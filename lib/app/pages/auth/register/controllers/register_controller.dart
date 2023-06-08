@@ -11,26 +11,28 @@ import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
 class RegisterController extends GetxController {
-  final TextEditingController fullNameRegisterController =
-      TextEditingController();
-  final TextEditingController emailRegisterController = TextEditingController();
-  final TextEditingController phoneNumberRegisterController =
-      TextEditingController();
-  final TextEditingController birthRegisterController = TextEditingController();
-  final TextEditingController certificateUploadRegisterController =
-      TextEditingController();
-  final TextEditingController skillDescriptionRegisterController =
-      TextEditingController();
+  final Rx<TextEditingController> fullNameRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> emailRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> phoneNumberRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> birthRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> certificateUploadRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> skillDescriptionRegisterController =
+      TextEditingController().obs;
   final SingleValueDropDownController universityDropdownRegisterController =
       SingleValueDropDownController();
-  final TextEditingController ktmUploadRegisterController =
-      TextEditingController();
-  final TextEditingController profileUploadRegisterController =
-      TextEditingController();
-  final TextEditingController passwordRegisterController =
-      TextEditingController();
-  final TextEditingController confirmPasswordRegisterController =
-      TextEditingController();
+  final Rx<TextEditingController> ktmUploadRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> profileUploadRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> passwordRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> confirmPasswordRegisterController =
+      TextEditingController().obs;
 
   RxBool isUserActive = true.obs;
   RxBool isTechnicianActive = false.obs;
@@ -46,7 +48,7 @@ class RegisterController extends GetxController {
     if (pickedDate == null) {
       return;
     }
-    birthRegisterController.text = parseDateTime(pickedDate.toString());
+    birthRegisterController.value.text = parseDateTime(pickedDate.toString());
   }
 
   String parseDateTime(String inputDate) {
@@ -108,7 +110,7 @@ class RegisterController extends GetxController {
       onPressed: () async {
         await File(profileImage!.path).delete();
         profileImage = null;
-        profileUploadRegisterController.clear();
+        profileUploadRegisterController.value.clear();
         Get.back();
       },
     );
@@ -138,7 +140,19 @@ class RegisterController extends GetxController {
         ktmUploadRegisterController.value.text.isNotEmpty &&
         passwordRegisterController.value.text.isNotEmpty &&
         confirmPasswordRegisterController.value.text.isNotEmpty &&
-        profileUploadRegisterController.text.isNotEmpty) {
+        profileUploadRegisterController.value.text.isNotEmpty) {
+      return true.obs;
+    } else {
+      return false.obs;
+    }
+  }
+
+  RxBool isUserFilled() {
+    if (fullNameRegisterController.value.text.isNotEmpty &&
+        emailRegisterController.value.text.isNotEmpty &&
+        phoneNumberRegisterController.value.text.isNotEmpty &&
+        passwordRegisterController.value.text.isNotEmpty &&
+        confirmPasswordRegisterController.value.text.isNotEmpty) {
       return true.obs;
     } else {
       return false.obs;
