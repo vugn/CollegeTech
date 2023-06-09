@@ -177,27 +177,9 @@ class RegisterController extends GetxController {
   }
 
   void onSumbitted({required bool isTechnician}) async {
-    if (isTechnician &&
-        fullNameRegisterController.value.text.isNotEmpty &&
-        emailRegisterController.value.text.isNotEmpty &&
-        phoneNumberRegisterController.value.text.isNotEmpty &&
-        birthRegisterController.value.text.isNotEmpty &&
-        certificateUploadRegisterController.value.text.isNotEmpty &&
-        skillDescriptionRegisterController.value.text.isNotEmpty &&
-        universityDropdownRegisterController.dropDownValue!.name.isNotEmpty &&
-        ktmUploadRegisterController.value.text.isNotEmpty &&
-        profileUploadRegisterController.value.text.isNotEmpty &&
-        passwordRegisterController.value.text.isNotEmpty &&
-        confirmPasswordRegisterController.value.text.isNotEmpty &&
-        profileImage!.path.isNotEmpty &&
-        ktmImage!.isNotEmpty) {
+    if (isTechnician && isFilled().value) {
       print("ISTECHNICIAN");
-    } else if (isTechnician == false &&
-        fullNameRegisterController.value.text.isNotEmpty &&
-        emailRegisterController.value.text.isNotEmpty &&
-        phoneNumberRegisterController.value.text.isNotEmpty &&
-        passwordRegisterController.value.text.isNotEmpty &&
-        confirmPasswordRegisterController.value.text.isNotEmpty) {
+    } else if (isTechnician == false && isUserFilled().value) {
       Indicator.showLoading();
       try {
         bool emailRegistered = await _functions.getEmailDuplicate(
