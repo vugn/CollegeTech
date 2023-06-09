@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -201,23 +200,30 @@ class RegisterController extends GetxController {
         confirmPasswordRegisterController.value.text.isNotEmpty) {
       Indicator.showLoading();
       try {
-        QuerySnapshot snap = await FirebaseFirestore.instance.collection('users').where("email", isEqualTo: emailRegisterController.value.text).get();
+        bool emailRegistered = await _functions.getEmailDuplicate(
+            email: emailRegisterController.value.text);
+        bool phoneRegistered = await _functions.getPhoneNumberDuplicate(
+            phoneNumber: phoneNumberRegisterController.value.text);
 
-        if(snap.docs.isEmpty){
-          await _authentication.createAccount(
-              email: emailRegisterController.value.text,
-              password: passwordRegisterController.value.text);
-          await _functions.createUserCredential(
-              fullName: fullNameRegisterController.value.text,
-              phoneNumber: phoneNumberRegisterController.value.text,
-              accountType: 0,
-              email: emailRegisterController.value.text,
-              password: passwordRegisterController.value.text);
+        if (!emailRegistered) {
+          if (!phoneRegistered) {
+            await _authentication.createAccount(
+                email: emailRegisterController.value.text,
+                password: passwordRegisterController.value.text);
+            await _functions.createUserCredential(
+                fullName: fullNameRegisterController.value.text,
+                phoneNumber: phoneNumberRegisterController.value.text,
+                accountType: 0,
+                email: emailRegisterController.value.text,
+                password: passwordRegisterController.value.text);
+          } else {
+            Indicator.closeLoading();
+            showAlert('Nomor Telepon sudah di gunakan');
+          }
         } else {
           Indicator.closeLoading();
           showAlert('Email sudah di gunakan');
         }
-
       } catch (e) {
         Indicator.closeLoading();
         print(e);

@@ -1,6 +1,6 @@
 import 'package:dropdown_textfield/dropdown_textfield.dart';
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/auth/register/controllers/register_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';

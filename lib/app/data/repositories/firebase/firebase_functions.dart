@@ -82,6 +82,32 @@ class FirebaseFunctions {
       showAlert(e.toString());
     }
   }
+
+  Future<bool> getEmailDuplicate({required String email}) async {
+    QuerySnapshot getEmail = await _firebaseFirestore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (getEmail.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> getPhoneNumberDuplicate({required String phoneNumber}) async {
+    QuerySnapshot getPhoneNumber = await _firebaseFirestore
+        .collection('users')
+        .where('phoneNumber', isEqualTo: phoneNumber)
+        .get();
+
+    if (getPhoneNumber.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 //   Future<void> uploadBlog(String title, String description, File image) async {
 //     try {
