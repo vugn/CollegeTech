@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/routes/app_pages.dart';
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class FirebaseAuthentication {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -17,6 +18,7 @@ class FirebaseAuthentication {
         password: password,
       );
     } catch (e) {
+      Indicator.closeLoading();
       print(e.toString());
     }
   }
@@ -40,5 +42,15 @@ class FirebaseAuthentication {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  User? currentUser() {
+    try {
+      var user = _auth.currentUser;
+      return user;
+    } catch (e) {
+      print(e);
+    }
+    return null;
   }
 }

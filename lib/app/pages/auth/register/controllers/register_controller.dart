@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
+import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 import '../../../../data/repositories/firebase/firebase_auth.dart';
@@ -175,7 +177,7 @@ class RegisterController extends GetxController {
     }
   }
 
-  void onSumbitted({required bool isTechnician}) {
+  void onSumbitted({required bool isTechnician}) async {
     if (isTechnician &&
         fullNameRegisterController.value.text.isNotEmpty &&
         emailRegisterController.value.text.isNotEmpty &&
@@ -198,16 +200,28 @@ class RegisterController extends GetxController {
         passwordRegisterController.value.text.isNotEmpty &&
         confirmPasswordRegisterController.value.text.isNotEmpty) {
       Indicator.showLoading();
-      _authentication
-          .createAccount(
+      try {
+        QuerySnapshot snap = await FirebaseFirestore.instance.collection('users').where("email", isEqualTo: emailRegisterController.value.text).get();
+
+        if(snap.docs.isEmpty){
+          await _authentication.createAccount(
               email: emailRegisterController.value.text,
-              password: passwordRegisterController.value.text)
-          .then((value) => _functions.createUserCredential(
+              password: passwordRegisterController.value.text);
+          await _functions.createUserCredential(
               fullName: fullNameRegisterController.value.text,
               phoneNumber: phoneNumberRegisterController.value.text,
               accountType: 0,
               email: emailRegisterController.value.text,
-              password: passwordRegisterController.value.text));
+              password: passwordRegisterController.value.text);
+        } else {
+          Indicator.closeLoading();
+          showAlert('Email sudah di gunakan');
+        }
+
+      } catch (e) {
+        Indicator.closeLoading();
+        print(e);
+      }
     }
   }
 }

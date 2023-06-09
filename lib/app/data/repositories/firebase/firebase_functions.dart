@@ -43,7 +43,8 @@ class FirebaseFunctions {
         "university": university,
         "profilePhoto": profilePhoto,
         "email": email
-      }).then((value) {
+      }).then((value) async {
+        await _auth.currentUser!.updateDisplayName(fullName);
         Indicator.closeLoading();
         Get.toNamed(Routes.TESWIDGET);
       });
@@ -71,11 +72,13 @@ class FirebaseFunctions {
         "phoneNumber": phoneNumber,
         "accounType": accountType,
         "email": email
-      }).then((value) {
+      }).then((value) async {
+        await _auth.currentUser!.updateDisplayName(fullName);
         Indicator.closeLoading();
         Get.offAndToNamed(Routes.TESWIDGET);
       });
     } catch (e) {
+      Indicator.closeLoading();
       showAlert(e.toString());
     }
   }
