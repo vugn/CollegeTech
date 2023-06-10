@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -108,6 +110,75 @@ class FirebaseFunctions {
       return false;
     }
   }
+
+  Future<String> uploadProfilePicture(
+      {required File file,
+      required bool isTechnician,
+      required String uidName}) async {
+    try {
+      var refrence = _storage
+          .ref()
+          .child(isTechnician
+              ? 'images/profiles/technicians/'
+              : '/images/profiles/users/')
+          .child("/$uidName.jpg");
+
+      var uploadTask = await refrence.putFile(file);
+
+      String url = await uploadTask.ref.getDownloadURL();
+
+      return url;
+    } catch (e) {
+      showAlert("$e");
+      return "";
+    }
+  }
+
+  Future<List<String>> uploadCertificatesTechnician(
+      {required List<File> files, required String uid}) async {
+    try {
+      String imageName = generateId();
+
+      Reference refrence = _storage
+          .ref()
+          .child('images/certificates/technicians/$uid/')
+          .child("/$imageName.jpg");
+      Reference getStorageRefrence =
+          _storage.ref().child('images/certificates/technicians/$uid/');
+
+      files.map((file) async => await refrence.putFile(file)).toList();
+      ListResult refList = await getStorageRefrence.listAll();
+      List<String> urls = refList.items.map((e) => e.fullPath).toList();
+
+      return urls;
+    } catch (e) {
+      showAlert("$e");
+      return [""];
+    }
+  }
+
+  Future<List<String>> uploadKtmsTechnician(
+      {required List<File> files, required String uid}) async {
+    try {
+      String imageName = generateId();
+
+      Reference refrence = _storage
+          .ref()
+          .child('images/ktms/technicians/$uid/')
+          .child("/$imageName.jpg");
+      Reference getStorageRefrence =
+          _storage.ref().child('images/ktms/technicians/$uid/');
+
+      files.map((file) async => await refrence.putFile(file)).toList();
+      ListResult refList = await getStorageRefrence.listAll();
+      List<String> urls = refList.items.map((e) => e.fullPath).toList();
+
+      return urls;
+    } catch (e) {
+      showAlert("$e");
+      return [""];
+    }
+  }
 }
 //   Future<void> uploadBlog(String title, String description, File image) async {
 //     try {
@@ -133,23 +204,6 @@ class FirebaseFunctions {
 //       });
 //     } catch (e) {
 //       showAlert("$e");
-//     }
-//   }
-
-//   Future<String> uploadImage(File file) async {
-//     try {
-//       String imageName = generateId();
-
-//       var refrence = _storage.ref().child("/images").child("/$imageName.jpg");
-
-//       var uploadTask = await refrence.putFile(file);
-
-//       String url = await uploadTask.ref.getDownloadURL();
-
-//       return url;
-//     } catch (e) {
-//       showAlert("$e");
-//       return "";
 //     }
 //   }
 
