@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/domain/entities/universities/university_entity.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../widgets/indicator.dart';
@@ -108,6 +109,23 @@ class FirebaseFunctions {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<List<UniversityEntity>> getUniversities() async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> getUniversities =
+          await _firebaseFirestore
+              .collection('universities')
+              .doc('banjarmasin')
+              .get();
+      List? data = getUniversities.data()?.values.toList()[0];
+      List? universities = data?.map((e) => e).toList();
+      return universities?.map((e) => UniversityEntity.fromJson(e)).toList() ??
+          [const UniversityEntity(name: '', value: '')];
+    } catch (e) {
+      showAlert("$e");
+      return [const UniversityEntity(name: '', value: '')];
     }
   }
 

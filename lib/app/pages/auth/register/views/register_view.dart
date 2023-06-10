@@ -313,17 +313,12 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             dropdownController: controller.universityDropdownRegisterController,
             hint: 'Pilih Universitas',
             isDropdown: true,
-            dropdownList: const [
-              DropDownValueModel(
-                  name:
-                      'Universitas Islam Kalimantan Muhammad Arsyad Al Banjari',
-                  value: 'uniskamab'),
-              DropDownValueModel(
-                  name: 'Universitas Lambung Mangkurat', value: 'ulm'),
-              DropDownValueModel(
-                  name: 'Universitas Islam Negeri Antasari',
-                  value: 'uinantasari'),
-            ],
+            dropdownList: controller.universityList
+                .map(
+                  (university) => DropDownValueModel(
+                      name: university.name, value: university.value),
+                )
+                .toList(),
           ),
           const SizedBox(
             height: 16,

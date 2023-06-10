@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 import 'package:teknisi_app/app/data/constants.dart';
+import 'package:teknisi_app/app/domain/entities/universities/university_entity.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 import '../../../../data/repositories/firebase/firebase_auth.dart';
@@ -46,12 +47,19 @@ class RegisterController extends GetxController {
   RxBool isPasswordMatch = false.obs;
   RxBool isEmailCorrect = false.obs;
   RxBool isPhoneNumberCorrect = false.obs;
+  RxList<UniversityEntity> universityList = <UniversityEntity>[].obs;
 
   XFile? profileImage;
   List<File>? ktmImage;
 
   final FirebaseAuthentication _authentication = FirebaseAuthentication();
   final FirebaseFunctions _functions = FirebaseFunctions();
+
+  @override
+  void onInit() async {
+    universityList.value = await _functions.getUniversities();
+    super.onInit();
+  }
 
   void pickDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
