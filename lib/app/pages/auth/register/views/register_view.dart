@@ -290,7 +290,7 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             type: TextInputType.text,
             onTap: () async {
               controller.filePicker(
-                  controller.certificateUploadRegisterController.value);
+                  controller.certificateUploadRegisterController.value, true);
             },
           ),
           const SizedBox(
@@ -336,8 +336,8 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             readOnly: true,
             type: TextInputType.text,
             onTap: () async {
-              controller
-                  .filePicker(controller.ktmUploadRegisterController.value);
+              controller.filePicker(
+                  controller.ktmUploadRegisterController.value, false);
             },
           ),
           const SizedBox(

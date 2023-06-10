@@ -21,30 +21,46 @@ class FirebaseFunctions {
 
   Future<void> createTechnicianUserCredential({
     required String fullName,
+    required int accountType,
     required String phoneNumber,
     required String birth,
-    required List<String> certificates,
+    required List<File> certificates,
+    required List<File> ktms,
     required String skillDescription,
     required String university,
-    required List<String> ktms,
-    required String profilePhoto,
+    required File profilePhoto,
     required String email,
+    required String fileCertificateExt,
     required String password,
     required String confirmPassword,
   }) async {
     try {
+      List<Future<String>> certificateList = certificates
+          .map((e) async => await uploadCertificatesTechnician(
+              file: e,
+              uid: _auth.currentUser!.uid,
+              fileExt: fileCertificateExt))
+          .toList();
+      List<Future<String>> ktmList = ktms
+          .map((e) async =>
+              await uploadKtmsTechnician(file: e, uid: _auth.currentUser!.uid))
+          .toList();
       await _firebaseFirestore
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .set({
+        "accounType": accountType,
         "uid": _auth.currentUser!.uid,
         "fullName": fullName,
         "phoneNumber": phoneNumber,
         "birth": birth,
-        "certificates": certificates,
-        "skillDescription": skillDescription,
+        "certificates": await Future.wait(certificateList),
+        "ktms": await Future.wait(ktmList),
         "university": university,
-        "profilePhoto": profilePhoto,
+        "profilePhoto": await uploadProfilePicture(
+            file: profilePhoto,
+            isTechnician: true,
+            uidName: _auth.currentUser!.uid),
         "email": email
       }).then((value) async {
         await _auth.currentUser!.updateDisplayName(fullName);
@@ -82,6 +98,7 @@ class FirebaseFunctions {
       });
     } catch (e) {
       Indicator.closeLoading();
+      print(e);
       showAlert(e.toString());
     }
   }
@@ -140,43 +157,39 @@ class FirebaseFunctions {
               ? 'images/profiles/technicians/'
               : '/images/profiles/users/')
           .child("/$uidName.jpg");
+      await refrence.putFile(file);
 
-      var uploadTask = await refrence.putFile(file);
-
-      String url = await uploadTask.ref.getDownloadURL();
-
-      return url;
+      return refrence.getDownloadURL();
     } catch (e) {
+      print(e.toString());
       showAlert("$e");
       return "";
     }
   }
 
-  Future<List<String>> uploadCertificatesTechnician(
-      {required List<File> files, required String uid}) async {
+  Future<String> uploadCertificatesTechnician(
+      {required File file,
+      required String uid,
+      required String fileExt}) async {
     try {
       String imageName = generateId();
 
       Reference refrence = _storage
           .ref()
           .child('images/certificates/technicians/$uid/')
-          .child("/$imageName.jpg");
-      Reference getStorageRefrence =
-          _storage.ref().child('images/certificates/technicians/$uid/');
+          .child("/$imageName.$fileExt");
 
-      files.map((file) async => await refrence.putFile(file)).toList();
-      ListResult refList = await getStorageRefrence.listAll();
-      List<String> urls = refList.items.map((e) => e.fullPath).toList();
-
-      return urls;
+      await refrence.putFile(file);
+      return refrence.getDownloadURL();
     } catch (e) {
+      print(e.toString());
       showAlert("$e");
-      return [""];
+      return '';
     }
   }
 
-  Future<List<String>> uploadKtmsTechnician(
-      {required List<File> files, required String uid}) async {
+  Future<String> uploadKtmsTechnician(
+      {required File file, required String uid}) async {
     try {
       String imageName = generateId();
 
@@ -187,14 +200,11 @@ class FirebaseFunctions {
       Reference getStorageRefrence =
           _storage.ref().child('images/ktms/technicians/$uid/');
 
-      files.map((file) async => await refrence.putFile(file)).toList();
-      ListResult refList = await getStorageRefrence.listAll();
-      List<String> urls = refList.items.map((e) => e.fullPath).toList();
-
-      return urls;
+      await refrence.putFile(file);
+      return refrence.getDownloadURL();
     } catch (e) {
       showAlert("$e");
-      return [""];
+      return "";
     }
   }
 }

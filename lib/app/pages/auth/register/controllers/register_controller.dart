@@ -49,8 +49,9 @@ class RegisterController extends GetxController {
   RxBool isPhoneNumberCorrect = false.obs;
   RxList<UniversityEntity> universityList = <UniversityEntity>[].obs;
 
-  XFile? profileImage;
-  List<File>? ktmImage;
+  Rx<XFile>? profileImage = XFile('').obs;
+  RxList<File> ktmsImage = <File>[].obs;
+  RxList<File> certificiates = <File>[].obs;
 
   final FirebaseAuthentication _authentication = FirebaseAuthentication();
   final FirebaseFunctions _functions = FirebaseFunctions();
@@ -83,19 +84,19 @@ class RegisterController extends GetxController {
     XFile? result = await ImagePicker().pickImage(
         source: ImageSource.camera, preferredCameraDevice: CameraDevice.front);
     if (result != null) {
-      profileImage = result;
+      profileImage?.value = result;
       contoller.text = formatFileList(isList: false, pathString: result.path);
       update();
     } else {}
   }
 
-  void filePicker(TextEditingController contoller) async {
+  void filePicker(TextEditingController contoller, bool isCertificate) async {
     FilePickerResult? result =
         await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path ?? '')).toList();
-      ktmImage = files;
+      isCertificate ? certificiates.value = files : ktmsImage.value = files;
       contoller.text = formatFileList(isList: true, pathsList: files);
     } else {
       result?.paths.map((path) async => await File(path ?? '').delete());
@@ -130,7 +131,7 @@ class RegisterController extends GetxController {
         style: TextStyle(color: Colors.redAccent),
       ),
       onPressed: () async {
-        await File(profileImage!.path).delete();
+        await File(profileImage!.value.path).delete();
         profileImage = null;
         profileUploadRegisterController.value.clear();
         Get.back();
@@ -140,7 +141,7 @@ class RegisterController extends GetxController {
 
     AlertDialog alert = AlertDialog(
       title: const Text("Foto Profil mu"),
-      content: Image.file(File(profileImage!.path)),
+      content: Image.file(File(profileImage!.value.path)),
       actions: [okButton, deleteButton],
     );
 
@@ -186,7 +187,46 @@ class RegisterController extends GetxController {
 
   void onSumbitted({required bool isTechnician}) async {
     if (isTechnician && isFilled().value) {
-      print("ISTECHNICIAN");
+      Indicator.showLoading();
+      try {
+        bool emailRegistered = await _functions.getEmailDuplicate(
+            email: emailRegisterController.value.text);
+        bool phoneRegistered = await _functions.getPhoneNumberDuplicate(
+            phoneNumber: phoneNumberRegisterController.value.text);
+        print(certificiates);
+        print(ktmsImage);
+        if (!emailRegistered) {
+          if (!phoneRegistered) {
+            await _authentication.createAccount(
+                email: emailRegisterController.value.text,
+                password: passwordRegisterController.value.text);
+            await _functions.createTechnicianUserCredential(
+                fullName: fullNameRegisterController.value.text,
+                accountType: 1,
+                phoneNumber: phoneNumberRegisterController.value.text,
+                birth: birthRegisterController.value.text,
+                certificates: certificiates!,
+                fileCertificateExt: path.basename(certificiates![0].path),
+                ktms: ktmsImage!,
+                skillDescription: skillDescriptionRegisterController.value.text,
+                university:
+                    universityDropdownRegisterController.dropDownValue?.value,
+                profilePhoto: File(profileImage?.value.path ?? ''),
+                email: emailRegisterController.value.text,
+                password: passwordRegisterController.value.text,
+                confirmPassword: confirmPasswordRegisterController.value.text);
+          } else {
+            Indicator.closeLoading();
+            showAlert('Nomor Telepon sudah di gunakan');
+          }
+        } else {
+          Indicator.closeLoading();
+          showAlert('Email sudah di gunakan');
+        }
+      } catch (e) {
+        Indicator.closeLoading();
+        print(e);
+      }
     } else if (isTechnician == false && isUserFilled().value) {
       Indicator.showLoading();
       try {
