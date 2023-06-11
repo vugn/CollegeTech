@@ -15,9 +15,6 @@ class FirebaseFunctions {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final bool _hasMoreData = true;
-  DocumentSnapshot? _lastDocument;
-  final int _documentLimit = 5;
   RxBool isLoading = false.obs;
 
   Future<void> createTechnicianUserCredential({

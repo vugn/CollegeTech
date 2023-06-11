@@ -169,7 +169,7 @@ Widget userRegist(BuildContext context) {
                     : "Email tidak benar"
                 : null,
             onChange: (value) {
-              RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                       .hasMatch(value)
                   ? controller.isEmailCorrect.value = true
                   : controller.isEmailCorrect.value = false;
