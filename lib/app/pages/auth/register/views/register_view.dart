@@ -366,7 +366,7 @@ Widget technicianUserRegistrationForm(BuildContext context) {
                     : "Email tidak benar"
                 : null,
             onChange: (value) {
-              RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                       .hasMatch(value)
                   ? controller.isEmailCorrect.value = true
                   : controller.isEmailCorrect.value = false;
@@ -382,6 +382,18 @@ Widget technicianUserRegistrationForm(BuildContext context) {
             maxLines: 1,
             type: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
+            errorText:
+                controller.passwordRegisterController.value.text.isNotEmpty
+                    ? controller.isPasswordCorrect.value
+                        ? null
+                        : "Password minimal 6 karakter"
+                    : null,
+            onChange: (value) {
+              controller.isPasswordCorrect.value =
+                  RegExp("(?=.*[0-9a-zA-Z]).{6,}").hasMatch(value)
+                      ? true
+                      : false;
+            },
           ),
           const SizedBox(
             height: 16,

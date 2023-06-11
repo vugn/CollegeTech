@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
@@ -19,16 +21,40 @@ class FirebaseAuthentication {
       );
     } catch (e) {
       Indicator.closeLoading();
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<User?> login(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
-      print(e.toString());
+      UserCredential result =
+          await _auth.signInWithEmailAndPassword(email: email, password: email);
+      User? user = result.user;
+      Indicator.closeLoading();
+      return Future.value(user);
+    } on FirebaseAuthException catch (e) {
+      Indicator.closeLoading();
+      if (kDebugMode) {
+        print(e.code);
+      }
+      switch (e.code) {
+        case 'invalid-email':
+          showAlert(e.code);
+          break;
+        case 'wrong-password':
+          showAlert(e.code);
+          break;
+        case 'user-not-found':
+          showAlert(e.code);
+          break;
+        case 'user-disabled':
+          showAlert(e.code);
+          break;
+      }
     }
+    return null;
   }
 
   Future<void> logOut() async {
@@ -40,7 +66,9 @@ class FirebaseAuthentication {
       //   Get.toNamed(Routes.AUTHENTICATION);
       // });
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
@@ -49,7 +77,9 @@ class FirebaseAuthentication {
       var user = _auth.currentUser;
       return user;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
     return null;
   }

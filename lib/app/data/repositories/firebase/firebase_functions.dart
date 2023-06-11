@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/domain/entities/universities/university_entity.dart';
 
@@ -67,11 +68,13 @@ class FirebaseFunctions {
       }).then((value) async {
         await _auth.currentUser!.updateDisplayName(fullName);
         Indicator.closeLoading();
-        Get.toNamed(Routes.TESWIDGET);
+        Get.offAllNamed(Routes.TESWIDGET);
       });
     } catch (e) {
       Indicator.closeLoading();
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       showAlert(e.toString());
     }
   }
@@ -100,7 +103,9 @@ class FirebaseFunctions {
       });
     } catch (e) {
       Indicator.closeLoading();
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
       showAlert(e.toString());
     }
   }
@@ -163,7 +168,9 @@ class FirebaseFunctions {
 
       return refrence.getDownloadURL();
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       showAlert("$e");
       return "";
     }
@@ -184,7 +191,9 @@ class FirebaseFunctions {
       await refrence.putFile(file);
       return refrence.getDownloadURL();
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       showAlert("$e");
       return '';
     }
@@ -199,8 +208,6 @@ class FirebaseFunctions {
           .ref()
           .child('images/ktms/technicians/$uid/')
           .child("/$imageName.jpg");
-      Reference getStorageRefrence =
-          _storage.ref().child('images/ktms/technicians/$uid/');
 
       await refrence.putFile(file);
       return refrence.getDownloadURL();

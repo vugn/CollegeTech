@@ -89,58 +89,75 @@ class LoginView extends GetView<LoginController> {
             const SizedBox(
               height: 24,
             ),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  CustomTextField(
-                    controller: controller.emailLoginController,
-                    hint: 'e-Mail',
-                    type: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
+            Obx(() => Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      CustomTextField(
+                        controller: controller.emailLoginController.value,
+                        hint: 'e-Mail',
+                        type: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        errorText: controller
+                                .emailLoginController.value.text.isNotEmpty
+                            ? controller.isEmailCorrect.value
+                                ? null
+                                : "Email tidak benar"
+                            : null,
+                        onChange: (value) {
+                          RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)
+                              ? controller.isEmailCorrect.value = true
+                              : controller.isEmailCorrect.value = false;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      CustomTextField(
+                        controller: controller.passwordLoginController.value,
+                        hint: 'Password',
+                        isPassword: true,
+                        maxLines: 1,
+                        type: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
+                        errorText: controller
+                                .passwordLoginController.value.text.isNotEmpty
+                            ? controller.isPasswordCorrect.value
+                                ? null
+                                : "Password minimal 6 karakter"
+                            : null,
+                        onChange: (value) {
+                          controller.isPasswordCorrect.value =
+                              RegExp("(?=.*[0-9a-zA-Z]).{6,}").hasMatch(value)
+                                  ? true
+                                  : false;
+                        },
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Lupa Password?',
+                              style: TextStyle(color: cotech),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      AccountButton(
+                          label: 'Masuk',
+                          size: Size(MediaQuery.of(context).size.width, 48),
+                          isActive: controller.isFilled().value,
+                          onTap: () {
+                            if (controller.isFilled().value) {
+                              controller.onSubmitted();
+                            }
+                          }),
+                    ],
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  CustomTextField(
-                    controller: controller.passwordLoginController,
-                    hint: 'Password',
-                    isPassword: true,
-                    maxLines: 1,
-                    type: TextInputType.visiblePassword,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Lupa Password?',
-                          style: TextStyle(color: cotech),
-                        )),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  AccountButton(
-                      label: 'Masuk',
-                      size: Size(MediaQuery.of(context).size.width, 48),
-                      isActive: controller
-                              .passwordLoginController.value.text.isNotEmpty &&
-                          controller.emailLoginController.value.text.isNotEmpty,
-                      onTap: () {
-                        if (controller.passwordLoginController.value.text
-                                .isNotEmpty &&
-                            controller
-                                .emailLoginController.value.text.isNotEmpty) {
-                          Get.toNamed(
-                            '/test',
-                          );
-                        }
-                      }),
-                ],
-              ),
-            ),
+                )),
             const SizedBox(
               height: 32,
             ),

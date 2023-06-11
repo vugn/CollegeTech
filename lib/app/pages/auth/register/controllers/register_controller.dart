@@ -50,6 +50,7 @@ class RegisterController extends GetxController {
   RxBool isPasswordMatch = false.obs;
   RxBool isEmailCorrect = false.obs;
   RxBool isPhoneNumberCorrect = false.obs;
+  RxBool isPasswordCorrect = false.obs;
   RxList<UniversityEntity> universityList = <UniversityEntity>[].obs;
 
   Rx<XFile>? profileImage = XFile('').obs;
