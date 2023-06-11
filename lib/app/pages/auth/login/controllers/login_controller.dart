@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 import '../../../../data/repositories/firebase/firebase_auth.dart';
@@ -26,6 +27,12 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_authentication.currentUser() != null) {
+        Get.offAllNamed(Routes.HOME);
+      }
+    });
+
     await _googleMapsFunctions.getLocation();
     super.onInit();
   }

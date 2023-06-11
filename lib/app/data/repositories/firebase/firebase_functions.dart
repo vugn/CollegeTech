@@ -126,6 +126,25 @@ class FirebaseFunctions {
     }
   }
 
+  Future<QuerySnapshot?> getUserCredential(String email) async {
+    try {
+      QuerySnapshot user = await _firebaseFirestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get();
+      if (user.docs.isNotEmpty) {
+        return user;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      return null;
+    }
+  }
+
   Future<bool> getEmailDuplicate({required String email}) async {
     QuerySnapshot getEmail = await _firebaseFirestore
         .collection('users')
