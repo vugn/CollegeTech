@@ -205,9 +205,9 @@ class RegisterController extends GetxController {
                 accountType: 1,
                 phoneNumber: phoneNumberRegisterController.value.text,
                 birth: birthRegisterController.value.text,
-                certificates: certificiates!,
-                fileCertificateExt: path.basename(certificiates![0].path),
-                ktms: ktmsImage!,
+                certificates: certificiates,
+                fileCertificateExt: path.basename(certificiates[0].path),
+                ktms: ktmsImage,
                 skillDescription: skillDescriptionRegisterController.value.text,
                 university:
                     universityDropdownRegisterController.dropDownValue?.value,
