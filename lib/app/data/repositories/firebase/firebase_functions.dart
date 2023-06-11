@@ -15,9 +15,9 @@ class FirebaseFunctions {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  bool _hasMoreData = true;
+  final bool _hasMoreData = true;
   DocumentSnapshot? _lastDocument;
-  int _documentLimit = 5;
+  final int _documentLimit = 5;
   RxBool isLoading = false.obs;
 
   Future<void> createTechnicianUserCredential({
@@ -33,8 +33,6 @@ class FirebaseFunctions {
     required File profilePhoto,
     required String email,
     required String fileCertificateExt,
-    required String password,
-    required String confirmPassword,
   }) async {
     try {
       List<Future<String>> certificateList = certificates
@@ -51,7 +49,7 @@ class FirebaseFunctions {
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .set({
-        "accounType": accountType,
+        "accountType": accountType,
         "uid": _auth.currentUser!.uid,
         "fullName": fullName,
         "phoneNumber": phoneNumber,
@@ -94,7 +92,7 @@ class FirebaseFunctions {
         "uid": _auth.currentUser!.uid,
         "fullName": fullName,
         "phoneNumber": phoneNumber,
-        "accounType": accountType,
+        "accountType": accountType,
         "email": email
       }).then((value) async {
         await _auth.currentUser!.updateDisplayName(fullName);
@@ -107,6 +105,27 @@ class FirebaseFunctions {
         print(e);
       }
       showAlert(e.toString());
+    }
+  }
+
+  Future<bool> getUserTypeExist(
+      {required String email, required int accountType}) async {
+    try {
+      QuerySnapshot user = await _firebaseFirestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .where('accountType', isEqualTo: accountType)
+          .get();
+      if (user.docs.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+      return false;
     }
   }
 

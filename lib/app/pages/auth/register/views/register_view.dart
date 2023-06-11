@@ -185,6 +185,18 @@ Widget userRegist(BuildContext context) {
             maxLines: 1,
             type: TextInputType.visiblePassword,
             textInputAction: TextInputAction.done,
+            errorText:
+                controller.passwordRegisterController.value.text.isNotEmpty
+                    ? controller.isPasswordCorrect.value
+                        ? null
+                        : "Password minimal 6 karakter"
+                    : null,
+            onChange: (value) {
+              controller.isPasswordCorrect.value =
+                  RegExp("(?=.*[0-9a-zA-Z]).{6,}").hasMatch(value)
+                      ? true
+                      : false;
+            },
           ),
           const SizedBox(
             height: 16,

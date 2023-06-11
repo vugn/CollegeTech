@@ -193,38 +193,30 @@ class RegisterController extends GetxController {
     if (isTechnician && isFilled().value) {
       Indicator.showLoading();
       try {
-        bool emailRegistered = await _functions.getEmailDuplicate(
-            email: emailRegisterController.value.text);
         bool phoneRegistered = await _functions.getPhoneNumberDuplicate(
             phoneNumber: phoneNumberRegisterController.value.text);
-        if (!emailRegistered) {
-          if (!phoneRegistered) {
-            await _authentication.createAccount(
-                email: emailRegisterController.value.text,
-                password: passwordRegisterController.value.text);
-            await _functions.createTechnicianUserCredential(
-                fullName: fullNameRegisterController.value.text,
-                accountType: 1,
-                phoneNumber: phoneNumberRegisterController.value.text,
-                birth: birthRegisterController.value.text,
-                certificates: certificiates,
-                fileCertificateExt: path.basename(certificiates[0].path),
-                ktms: ktmsImage,
-                address: addressRegisterController.value.text,
-                skillDescription: skillDescriptionRegisterController.value.text,
-                university:
-                    universityDropdownRegisterController.dropDownValue?.value,
-                profilePhoto: File(profileImage?.value.path ?? ''),
-                email: emailRegisterController.value.text,
-                password: passwordRegisterController.value.text,
-                confirmPassword: confirmPasswordRegisterController.value.text);
-          } else {
-            Indicator.closeLoading();
-            showAlert('Nomor Telepon sudah di gunakan');
-          }
+        if (!phoneRegistered) {
+          await _authentication.createAccount(
+              email: emailRegisterController.value.text,
+              password: passwordRegisterController.value.value.text);
+          await _functions.createTechnicianUserCredential(
+            fullName: fullNameRegisterController.value.text,
+            accountType: 1,
+            phoneNumber: phoneNumberRegisterController.value.text,
+            birth: birthRegisterController.value.text,
+            certificates: certificiates,
+            fileCertificateExt: path.basename(certificiates[0].path),
+            ktms: ktmsImage,
+            address: addressRegisterController.value.text,
+            skillDescription: skillDescriptionRegisterController.value.text,
+            university:
+                universityDropdownRegisterController.dropDownValue?.value,
+            profilePhoto: File(profileImage?.value.path ?? ''),
+            email: emailRegisterController.value.text,
+          );
         } else {
           Indicator.closeLoading();
-          showAlert('Email sudah di gunakan');
+          showAlert('Nomor Telepon sudah di gunakan');
         }
       } catch (e) {
         Indicator.closeLoading();
@@ -242,9 +234,10 @@ class RegisterController extends GetxController {
 
         if (!emailRegistered) {
           if (!phoneRegistered) {
+            print(passwordRegisterController.value.text);
             await _authentication.createAccount(
                 email: emailRegisterController.value.text,
-                password: passwordRegisterController.value.text);
+                password: passwordRegisterController.value.value.text);
             await _functions.createUserCredential(
                 fullName: fullNameRegisterController.value.text,
                 phoneNumber: phoneNumberRegisterController.value.text,

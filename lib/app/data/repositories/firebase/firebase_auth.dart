@@ -19,18 +19,32 @@ class FirebaseAuthentication {
         email: email,
         password: password,
       );
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       Indicator.closeLoading();
       if (kDebugMode) {
-        print(e.toString());
+        print(e.code);
+      }
+      switch (e.code) {
+        case 'email-already-in-use':
+          showAlert('Email Sudah di gunakan');
+          break;
+        case 'invalid-email':
+          showAlert('Email tidak valid');
+          break;
+        case 'operation-not-allowed':
+          showAlert(e.code);
+          break;
+        case 'weak-password':
+          showAlert('Password lemah');
+          break;
       }
     }
   }
 
-  Future<User?> login(String email, String password) async {
+  Future<User?> login({required String email, required String password}) async {
     try {
-      UserCredential result =
-          await _auth.signInWithEmailAndPassword(email: email, password: email);
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       User? user = result.user;
       Indicator.closeLoading();
       return Future.value(user);
@@ -41,16 +55,16 @@ class FirebaseAuthentication {
       }
       switch (e.code) {
         case 'invalid-email':
-          showAlert(e.code);
+          showAlert('Email tidak valid');
           break;
         case 'wrong-password':
-          showAlert(e.code);
+          showAlert('Password Salah');
           break;
         case 'user-not-found':
-          showAlert(e.code);
+          showAlert('Akun tidak di temukan');
           break;
         case 'user-disabled':
-          showAlert(e.code);
+          showAlert('Akun dimatikan');
           break;
       }
     }

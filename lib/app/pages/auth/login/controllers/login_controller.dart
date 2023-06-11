@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/data/constants.dart';
+import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 import '../../../../data/repositories/firebase/firebase_auth.dart';
@@ -19,6 +21,7 @@ class LoginController extends GetxController {
   RxBool isPasswordCorrect = false.obs;
 
   final FirebaseAuthentication _authentication = FirebaseAuthentication();
+  final FirebaseFunctions _firebaseFunctions = FirebaseFunctions();
   final GoogleMapsFunctions _googleMapsFunctions = GoogleMapsFunctions();
 
   @override
@@ -39,8 +42,29 @@ class LoginController extends GetxController {
   void onSubmitted() async {
     try {
       Indicator.showLoading();
-      await _authentication.login(
-          emailLoginController.value.text, passwordLoginController.value.text);
+      bool isTechnicianAccount = await _firebaseFunctions.getUserTypeExist(
+          email: emailLoginController.value.text, accountType: 1);
+      bool isUserAccount = await _firebaseFunctions.getUserTypeExist(
+          email: emailLoginController.value.text, accountType: 0);
+      if (isTechnicianActive.value) {
+        if (isTechnicianAccount) {
+          await _authentication.login(
+              email: emailLoginController.value.text,
+              password: passwordLoginController.value.text);
+        } else {
+          Indicator.closeLoading();
+          showAlert('Akun tidak ditemukan');
+          return;
+        }
+      } else if (isUserAccount) {
+        await _authentication.login(
+            email: emailLoginController.value.text,
+            password: passwordLoginController.value.text);
+      } else {
+        Indicator.closeLoading();
+        showAlert('Akun tidak ditemukan');
+        return;
+      }
     } catch (e) {
       Indicator.closeLoading();
       if (kDebugMode) {
