@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +33,8 @@ class RegisterController extends GetxController {
   final SingleValueDropDownController universityDropdownRegisterController =
       SingleValueDropDownController();
   final Rx<TextEditingController> ktmUploadRegisterController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> addressRegisterController =
       TextEditingController().obs;
   final Rx<TextEditingController> profileUploadRegisterController =
       TextEditingController().obs;
@@ -193,8 +196,6 @@ class RegisterController extends GetxController {
             email: emailRegisterController.value.text);
         bool phoneRegistered = await _functions.getPhoneNumberDuplicate(
             phoneNumber: phoneNumberRegisterController.value.text);
-        print(certificiates);
-        print(ktmsImage);
         if (!emailRegistered) {
           if (!phoneRegistered) {
             await _authentication.createAccount(
@@ -208,6 +209,7 @@ class RegisterController extends GetxController {
                 certificates: certificiates,
                 fileCertificateExt: path.basename(certificiates[0].path),
                 ktms: ktmsImage,
+                address: addressRegisterController.value.text,
                 skillDescription: skillDescriptionRegisterController.value.text,
                 university:
                     universityDropdownRegisterController.dropDownValue?.value,
@@ -225,7 +227,9 @@ class RegisterController extends GetxController {
         }
       } catch (e) {
         Indicator.closeLoading();
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
     } else if (isTechnician == false && isUserFilled().value) {
       Indicator.showLoading();
@@ -256,7 +260,9 @@ class RegisterController extends GetxController {
         }
       } catch (e) {
         Indicator.closeLoading();
-        print(e);
+        if (kDebugMode) {
+          print(e);
+        }
       }
     }
   }

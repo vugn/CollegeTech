@@ -27,6 +27,7 @@ class FirebaseFunctions {
     required List<File> certificates,
     required List<File> ktms,
     required String skillDescription,
+    required String address,
     required String university,
     required File profilePhoto,
     required String email,
@@ -56,6 +57,7 @@ class FirebaseFunctions {
         "birth": birth,
         "certificates": await Future.wait(certificateList),
         "ktms": await Future.wait(ktmList),
+        "address": address,
         "university": university,
         "profilePhoto": await uploadProfilePicture(
             file: profilePhoto,

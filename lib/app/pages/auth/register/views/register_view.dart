@@ -343,6 +343,19 @@ Widget technicianUserRegistrationForm(BuildContext context) {
           const SizedBox(
             height: 16,
           ),
+          SizedBox(
+            height: 97,
+            child: CustomTextField(
+              controller: controller.addressRegisterController.value,
+              hint: 'Alamat Lengkap',
+              expands: true,
+              maxLines: null,
+              type: TextInputType.multiline,
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
           CustomTextField(
             controller: controller.emailRegisterController.value,
             hint: 'e-Mail',
