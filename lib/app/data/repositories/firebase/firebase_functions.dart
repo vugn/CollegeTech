@@ -251,6 +251,22 @@ class FirebaseFunctions {
       return "";
     }
   }
+
+  Future<List<String>> getCertificateList(String uid) async {
+    try {
+      ListResult reference = await _storage
+          .ref()
+          .child('images/certificates/technicians/$uid/')
+          .listAll();
+      return await Future.wait(
+          reference.items.map((e) => e.getDownloadURL()).toList());
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return [];
+    }
+  }
 }
 //   Future<void> uploadBlog(String title, String description, File image) async {
 //     try {

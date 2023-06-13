@@ -11,6 +11,7 @@ import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:teknisi_app/app/widgets/account_button.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -25,6 +26,8 @@ class HomeView extends GetView<HomeController> {
           if (snapshot.hasData) {
             var userData =
                 jsonDecode(jsonEncode(snapshot.data?.docs.first.data()));
+            List<dynamic> certificateList = userData['certificates'];
+            List<dynamic> skillsList = userData['skills'];
             if (userData['accountType'] == 1) {
               return Stack(
                 children: [
@@ -66,7 +69,7 @@ class HomeView extends GetView<HomeController> {
                                   )),
                                 ),
                                 Text(
-                                  userData['fullName'],
+                                  'Teknisi ${skillsList[0]}',
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                     color: Colors.white,
@@ -234,7 +237,10 @@ class HomeView extends GetView<HomeController> {
                                           ),
                                           Container(
                                             width: double.maxFinite,
-                                            height: 135,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                4,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
@@ -247,6 +253,124 @@ class HomeView extends GetView<HomeController> {
                                                       color: Colors.black
                                                           .withOpacity(0.25))
                                                 ]),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  color: Colors.grey.shade200,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      7,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 14),
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    padding:
+                                                        const EdgeInsets.all(0),
+                                                    physics:
+                                                        const BouncingScrollPhysics(),
+                                                    itemExtent: 20,
+                                                    itemCount:
+                                                        certificateList.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.3,
+                                                            child: Text(
+                                                              getFileName(
+                                                                  certificateList[
+                                                                      index]),
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              FilledButton(
+                                                                  onPressed:
+                                                                      () {},
+                                                                  style:
+                                                                      ButtonStyle(
+                                                                    minimumSize:
+                                                                        const MaterialStatePropertyAll(Size(
+                                                                            33,
+                                                                            15)),
+                                                                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(2))),
+                                                                    padding: const MaterialStatePropertyAll(
+                                                                        EdgeInsets
+                                                                            .zero),
+                                                                  ),
+                                                                  child:
+                                                                      const Text(
+                                                                    'Lihat',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            10,
+                                                                        color: Colors
+                                                                            .white),
+                                                                  )),
+                                                              FilledButton(
+                                                                  onPressed:
+                                                                      () {},
+                                                                  style:
+                                                                      ButtonStyle(
+                                                                    minimumSize:
+                                                                        const MaterialStatePropertyAll(Size(
+                                                                            33,
+                                                                            15)),
+                                                                    backgroundColor:
+                                                                        const MaterialStatePropertyAll(
+                                                                            Colors.redAccent),
+                                                                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(2))),
+                                                                    padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            4)),
+                                                                  ),
+                                                                  child:
+                                                                      const Text(
+                                                                    'Hapus',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            10,
+                                                                        color: Colors
+                                                                            .white),
+                                                                  )),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                SizedBox(
+                                                  width: 218,
+                                                  child: AccountButton(
+                                                      label: 'Tambah +',
+                                                      isActive: true,
+                                                      onTap: () {}),
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -274,7 +398,10 @@ class HomeView extends GetView<HomeController> {
                                           ),
                                           Container(
                                             width: double.maxFinite,
-                                            height: 135,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                4,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(12),
@@ -287,6 +414,94 @@ class HomeView extends GetView<HomeController> {
                                                       color: Colors.black
                                                           .withOpacity(0.25))
                                                 ]),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  color: Colors.grey.shade200,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      7,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 16,
+                                                      vertical: 14),
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    padding:
+                                                        const EdgeInsets.all(0),
+                                                    physics:
+                                                        const BouncingScrollPhysics(),
+                                                    itemExtent: 20,
+                                                    itemCount:
+                                                        skillsList.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width /
+                                                                2.3,
+                                                            child: Text(
+                                                              skillsList[index],
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                            ),
+                                                          ),
+                                                          FilledButton(
+                                                              onPressed: () {},
+                                                              style:
+                                                                  ButtonStyle(
+                                                                minimumSize:
+                                                                    const MaterialStatePropertyAll(
+                                                                        Size(33,
+                                                                            15)),
+                                                                backgroundColor:
+                                                                    const MaterialStatePropertyAll(
+                                                                        Colors
+                                                                            .redAccent),
+                                                                shape: MaterialStatePropertyAll(
+                                                                    RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(2))),
+                                                                padding: const MaterialStatePropertyAll(
+                                                                    EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            4)),
+                                                              ),
+                                                              child: const Text(
+                                                                'Hapus',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10,
+                                                                    color: Colors
+                                                                        .white),
+                                                              ))
+                                                        ],
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                                const Spacer(),
+                                                SizedBox(
+                                                  width: 218,
+                                                  child: AccountButton(
+                                                      label: 'Tambah +',
+                                                      isActive: true,
+                                                      onTap: () {}),
+                                                ),
+                                                const SizedBox(
+                                                  height: 20,
+                                                )
+                                              ],
+                                            ),
                                           ),
                                           const SizedBox(
                                             height: 200,
