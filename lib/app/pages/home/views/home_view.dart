@@ -380,7 +380,11 @@ class HomeView extends GetView<HomeController> {
                                                   child: AccountButton(
                                                       label: 'Tambah +',
                                                       isActive: true,
-                                                      onTap: () {}),
+                                                      onTap: () {
+                                                        controller
+                                                            .showAddCertificateDialog(
+                                                                context);
+                                                      }),
                                                 ),
                                                 const SizedBox(
                                                   height: 20,
