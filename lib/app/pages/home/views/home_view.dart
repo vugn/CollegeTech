@@ -5,13 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
+import 'package:teknisi_app/app/widgets/bottom_navbar.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -19,6 +19,10 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Obx(() => BottomNavbar(
+            currentIndex: controller.currentIndex.value,
+            onTap: (value) => controller.navbarTap(value),
+          )),
       body: FutureBuilder<QuerySnapshot?>(
         future: controller.firebaseFunctions
             .getUserCredential(controller.currentUser!.email!),
@@ -114,13 +118,25 @@ class HomeView extends GetView<HomeController> {
                                             controller.carouselController.value,
                                         items: [
                                           Container(
-                                            color: Colors.red,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: Colors.grey.shade300,
+                                            ),
                                           ),
                                           Container(
-                                            color: Colors.green,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: Colors.grey.shade300,
+                                            ),
                                           ),
                                           Container(
-                                            color: Colors.blue,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: Colors.grey.shade300,
+                                            ),
                                           ),
                                         ],
                                         options: CarouselOptions(

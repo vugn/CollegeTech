@@ -13,10 +13,15 @@ class HomeController extends GetxController {
   RxInt carouselCurrent = 0.obs;
 
   User? currentUser;
+  RxInt currentIndex = 0.obs;
 
   @override
   void onInit() {
     currentUser = _authentication.currentUser();
     super.onInit();
+  }
+
+  void navbarTap(int int) {
+    currentIndex.value = int;
   }
 }
