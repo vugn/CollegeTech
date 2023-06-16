@@ -13,6 +13,7 @@ import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.da
 import 'package:path/path.dart' as path;
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   final FirebaseAuthentication _authentication = FirebaseAuthentication();
@@ -140,5 +141,15 @@ class HomeController extends GetxController {
         return alert;
       },
     );
+  }
+
+  Future<void> openCertificate(String url) async {
+    Uri data = Uri.parse(url);
+    if (!await launchUrl(
+      data,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

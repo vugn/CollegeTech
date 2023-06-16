@@ -25,8 +25,6 @@ class HomeView extends GetView<HomeController> {
           )),
       body: StreamBuilder<DocumentSnapshot?>(
         stream: controller.userCredentialSnaphot,
-        // future: controller.firebaseFunctions
-        //     .getUserCredential(controller.currentUser!.email!),
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.waiting ||
               snapshot.connectionState != ConnectionState.none) {
@@ -317,7 +315,11 @@ class HomeView extends GetView<HomeController> {
                                                             children: [
                                                               FilledButton(
                                                                   onPressed:
-                                                                      () {},
+                                                                      () async {
+                                                                    await controller
+                                                                        .openCertificate(
+                                                                            certificateList[index]);
+                                                                  },
                                                                   style:
                                                                       ButtonStyle(
                                                                     minimumSize:
