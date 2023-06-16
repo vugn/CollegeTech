@@ -72,7 +72,7 @@ class HomeView extends GetView<HomeController> {
                                   )),
                                 ),
                                 Text(
-                                  'Teknisi ${skillsList[0]}',
+                                  ' ${skillsList.isNotEmpty ? 'Teknisi ${skillsList[0]}' : 'Belum Memiliki Skill'}',
                                   style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                     color: Colors.white,
@@ -478,64 +478,84 @@ class HomeView extends GetView<HomeController> {
                                                         const EdgeInsets.all(0),
                                                     physics:
                                                         const BouncingScrollPhysics(),
-                                                    itemExtent: 20,
+                                                    itemExtent:
+                                                        skillsList.isNotEmpty
+                                                            ? 20
+                                                            : null,
                                                     itemCount:
-                                                        skillsList.length,
+                                                        skillsList.isNotEmpty
+                                                            ? skillsList.length
+                                                            : 1,
                                                     itemBuilder:
                                                         (context, index) {
-                                                      return Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2.3,
-                                                            child: Text(
-                                                              skillsList[index],
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            ),
-                                                          ),
-                                                          FilledButton(
-                                                              onPressed: () {
-                                                                controller.showDeleteSkillDialog(
-                                                                    context,
-                                                                    skillsList[
-                                                                        index]);
-                                                              },
-                                                              style:
-                                                                  ButtonStyle(
-                                                                minimumSize:
-                                                                    const MaterialStatePropertyAll(
-                                                                        Size(33,
-                                                                            15)),
-                                                                backgroundColor:
-                                                                    const MaterialStatePropertyAll(
-                                                                        Colors
-                                                                            .redAccent),
-                                                                shape: MaterialStatePropertyAll(
-                                                                    RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(2))),
-                                                                padding: const MaterialStatePropertyAll(
-                                                                    EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            4)),
+                                                      if (skillsList
+                                                          .isNotEmpty) {
+                                                        return Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.3,
+                                                              child: Text(
+                                                                skillsList[
+                                                                    index],
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                               ),
-                                                              child: const Text(
-                                                                'Hapus',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ))
-                                                        ],
+                                                            ),
+                                                            FilledButton(
+                                                                onPressed: () {
+                                                                  controller.showDeleteSkillDialog(
+                                                                      context,
+                                                                      skillsList[
+                                                                          index]);
+                                                                },
+                                                                style:
+                                                                    ButtonStyle(
+                                                                  minimumSize:
+                                                                      const MaterialStatePropertyAll(
+                                                                          Size(
+                                                                              33,
+                                                                              15)),
+                                                                  backgroundColor:
+                                                                      const MaterialStatePropertyAll(
+                                                                          Colors
+                                                                              .redAccent),
+                                                                  shape: MaterialStatePropertyAll(
+                                                                      RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(2))),
+                                                                  padding: const MaterialStatePropertyAll(
+                                                                      EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              4)),
+                                                                ),
+                                                                child:
+                                                                    const Text(
+                                                                  'Hapus',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          10,
+                                                                      color: Colors
+                                                                          .white),
+                                                                ))
+                                                          ],
+                                                        );
+                                                      }
+
+                                                      return const Center(
+                                                        child: Text(
+                                                          "Tidak ada Skill",
+                                                          style: TextStyle(
+                                                            fontSize: 24,
+                                                          ),
+                                                        ),
                                                       );
                                                     },
                                                   ),
