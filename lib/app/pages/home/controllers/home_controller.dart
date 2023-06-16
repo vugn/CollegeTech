@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_auth.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:path/path.dart' as path;
@@ -78,7 +79,7 @@ class HomeController extends GetxController {
     }
   }
 
-  showAddCertificateDialog(BuildContext context) {
+  void showAddCertificateDialog(BuildContext context) {
     update();
     Widget addButton = TextButton(
       child: const Text("Tambah"),
@@ -102,6 +103,7 @@ class HomeController extends GetxController {
           await firebaseFunctions.updateCertificatesTechnician(
               currentUser!.uid, await result);
           certificates.clear();
+          certificateName.value = '';
           Indicator.closeLoading();
         }
 
@@ -133,6 +135,42 @@ class HomeController extends GetxController {
       title: const Text("Tambah Sertifikat"),
       content: Obx(() => Text(certificateName.value)),
       actions: [addButton, okButton, deleteButton, cancelButton],
+    );
+
+    showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showDeleteCertificateDialog(BuildContext context, String url) {
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () async {
+        Indicator.showLoading();
+        await firebaseFunctions.deleteCertificatesTechnician(
+            currentUser!.uid, url);
+        Indicator.closeLoading();
+        Get.back();
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: const Text(
+        "Batal",
+        style: TextStyle(color: Colors.redAccent),
+      ),
+      onPressed: () async {
+        Get.back();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Hapus Sertifikat"),
+      content: Text(
+          "Apakah kamu yakin untuk menghapus Sertifikat ${getFileName(url)}?"),
+      actions: [okButton, cancelButton],
     );
 
     showDialog(

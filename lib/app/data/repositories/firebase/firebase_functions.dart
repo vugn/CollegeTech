@@ -247,6 +247,24 @@ class FirebaseFunctions {
     }
   }
 
+  Future deleteCertificatesTechnician(String uid, String file) async {
+    try {
+      Reference reference = _storage
+          .ref()
+          .child('images/certificates/technicians/$uid/')
+          .child('/${getFileName(file)}');
+      await _firebaseFirestore.collection('users').doc(uid).update({
+        'certificates': FieldValue.arrayRemove([file])
+      });
+      await reference.delete();
+    } catch (e) {
+      Indicator.closeLoading();
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
   Future<String> uploadKtmsTechnician(
       {required File file, required String uid}) async {
     try {

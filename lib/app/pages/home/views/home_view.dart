@@ -286,94 +286,116 @@ class HomeView extends GetView<HomeController> {
                                                         const EdgeInsets.all(0),
                                                     physics:
                                                         const BouncingScrollPhysics(),
-                                                    itemExtent: 20,
-                                                    itemCount:
-                                                        certificateList.length,
+                                                    itemExtent: certificateList
+                                                            .isNotEmpty
+                                                        ? 20
+                                                        : null,
+                                                    itemCount: certificateList
+                                                            .isNotEmpty
+                                                        ? certificateList.length
+                                                        : 1,
                                                     itemBuilder:
                                                         (context, index) {
-                                                      return Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2.3,
-                                                            child: Text(
-                                                              getFileName(
-                                                                  certificateList[
-                                                                      index]),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                      if (certificateList
+                                                          .isNotEmpty) {
+                                                        return Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2.3,
+                                                              child: Text(
+                                                                getFileName(
+                                                                    certificateList[
+                                                                        index]),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                FilledButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await controller
+                                                                          .openCertificate(
+                                                                              certificateList[index]);
+                                                                    },
+                                                                    style:
+                                                                        ButtonStyle(
+                                                                      minimumSize:
+                                                                          const MaterialStatePropertyAll(Size(
+                                                                              33,
+                                                                              15)),
+                                                                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(2))),
+                                                                      padding: const MaterialStatePropertyAll(
+                                                                          EdgeInsets
+                                                                              .zero),
+                                                                    ),
+                                                                    child:
+                                                                        const Text(
+                                                                      'Lihat',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          color:
+                                                                              Colors.white),
+                                                                    )),
+                                                                FilledButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      controller.showDeleteCertificateDialog(
+                                                                          context,
+                                                                          certificateList[
+                                                                              index]);
+                                                                    },
+                                                                    style:
+                                                                        ButtonStyle(
+                                                                      minimumSize:
+                                                                          const MaterialStatePropertyAll(Size(
+                                                                              33,
+                                                                              15)),
+                                                                      backgroundColor:
+                                                                          const MaterialStatePropertyAll(
+                                                                              Colors.redAccent),
+                                                                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(2))),
+                                                                      padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              4)),
+                                                                    ),
+                                                                    child:
+                                                                        const Text(
+                                                                      'Hapus',
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              10,
+                                                                          color:
+                                                                              Colors.white),
+                                                                    )),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        );
+                                                      } else {
+                                                        return const Center(
+                                                          child: Text(
+                                                            "Tidak ada Sertifikat",
+                                                            style: TextStyle(
+                                                              fontSize: 24,
                                                             ),
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              FilledButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await controller
-                                                                        .openCertificate(
-                                                                            certificateList[index]);
-                                                                  },
-                                                                  style:
-                                                                      ButtonStyle(
-                                                                    minimumSize:
-                                                                        const MaterialStatePropertyAll(Size(
-                                                                            33,
-                                                                            15)),
-                                                                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(2))),
-                                                                    padding: const MaterialStatePropertyAll(
-                                                                        EdgeInsets
-                                                                            .zero),
-                                                                  ),
-                                                                  child:
-                                                                      const Text(
-                                                                    'Lihat',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            10,
-                                                                        color: Colors
-                                                                            .white),
-                                                                  )),
-                                                              FilledButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  style:
-                                                                      ButtonStyle(
-                                                                    minimumSize:
-                                                                        const MaterialStatePropertyAll(Size(
-                                                                            33,
-                                                                            15)),
-                                                                    backgroundColor:
-                                                                        const MaterialStatePropertyAll(
-                                                                            Colors.redAccent),
-                                                                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(2))),
-                                                                    padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            4)),
-                                                                  ),
-                                                                  child:
-                                                                      const Text(
-                                                                    'Hapus',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            10,
-                                                                        color: Colors
-                                                                            .white),
-                                                                  )),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      );
+                                                        );
+                                                      }
                                                     },
                                                   ),
                                                 ),
