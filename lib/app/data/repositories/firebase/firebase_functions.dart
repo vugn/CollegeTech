@@ -234,6 +234,19 @@ class FirebaseFunctions {
     }
   }
 
+  Future updateCertificatesTechnician(String uid, List<String> files) async {
+    try {
+      await _firebaseFirestore
+          .collection('users')
+          .doc(uid)
+          .update({'certificates': FieldValue.arrayUnion(files)});
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
   Future<String> uploadKtmsTechnician(
       {required File file, required String uid}) async {
     try {

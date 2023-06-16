@@ -1,6 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +11,13 @@ import 'package:get/get.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_auth.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:path/path.dart' as path;
+import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class HomeController extends GetxController {
   final FirebaseAuthentication _authentication = FirebaseAuthentication();
   final FirebaseFunctions firebaseFunctions = FirebaseFunctions();
+  final FirebaseSnapshots _firebaseSnapshots = FirebaseSnapshots();
 
   // Carousel
   final Rx<CarouselController> carouselController = CarouselController().obs;
@@ -20,14 +26,23 @@ class HomeController extends GetxController {
   User? currentUser;
   RxInt currentIndex = 0.obs;
 
-  RxList<File> certificiates = <File>[].obs;
+  RxList<File> certificates = <File>[].obs;
   RxString certificateName = ''.obs;
+
+  late Stream<DocumentSnapshot> userCredentialSnaphot =
+      _firebaseSnapshots.getUserCredentialSnapshot();
 
   @override
   void onInit() {
     currentUser = _authentication.currentUser();
     super.onInit();
   }
+
+  // void startStream() {
+  //   userCredentialSnaphot.listen((event) {
+
+  //   });
+  // }
 
   void navbarTap(int int) {
     currentIndex.value = int;
@@ -40,6 +55,7 @@ class HomeController extends GetxController {
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path ?? '')).toList();
       certificateName.value = formatFileList(isList: true, pathsList: files);
+      certificates.value = files;
       update();
     } else {
       result?.paths.map((path) async => await File(path ?? '').delete());
@@ -72,11 +88,37 @@ class HomeController extends GetxController {
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () async {
-        certificateName.value = '';
+        if (certificates.isNotEmpty) {
+          Indicator.showLoading();
+          List<Future<String>> certificatesUploaded = certificates
+              .map((certificate) async =>
+                  await firebaseFunctions.uploadCertificatesTechnician(
+                      file: certificate,
+                      uid: currentUser!.uid,
+                      fileExt: path.basename(certificate.path)))
+              .toList();
+          Future<List<String>> result = Future.wait(certificatesUploaded);
+          await firebaseFunctions.updateCertificatesTechnician(
+              currentUser!.uid, await result);
+          certificates.clear();
+          Indicator.closeLoading();
+        }
+
         Get.back();
       },
     );
     Widget deleteButton = TextButton(
+      child: const Text(
+        "Hapus",
+        style: TextStyle(color: Colors.redAccent),
+      ),
+      onPressed: () async {
+        certificateName.value = '';
+        certificates.clear();
+        Get.back();
+      },
+    );
+    Widget cancelButton = TextButton(
       child: const Text(
         "Batal",
         style: TextStyle(color: Colors.redAccent),
@@ -89,7 +131,7 @@ class HomeController extends GetxController {
     AlertDialog alert = AlertDialog(
       title: const Text("Tambah Sertifikat"),
       content: Obx(() => Text(certificateName.value)),
-      actions: [addButton, okButton, deleteButton],
+      actions: [addButton, okButton, deleteButton, cancelButton],
     );
 
     showDialog(

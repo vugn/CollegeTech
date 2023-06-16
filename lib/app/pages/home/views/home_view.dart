@@ -23,13 +23,14 @@ class HomeView extends GetView<HomeController> {
             currentIndex: controller.currentIndex.value,
             onTap: (value) => controller.navbarTap(value),
           )),
-      body: FutureBuilder<QuerySnapshot?>(
-        future: controller.firebaseFunctions
-            .getUserCredential(controller.currentUser!.email!),
+      body: StreamBuilder<DocumentSnapshot?>(
+        stream: controller.userCredentialSnaphot,
+        // future: controller.firebaseFunctions
+        //     .getUserCredential(controller.currentUser!.email!),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var userData =
-                jsonDecode(jsonEncode(snapshot.data?.docs.first.data()));
+          if (snapshot.connectionState != ConnectionState.waiting ||
+              snapshot.connectionState != ConnectionState.none) {
+            var userData = jsonDecode(jsonEncode(snapshot.data!.data()));
             List<dynamic> certificateList = userData['certificates'];
             List<dynamic> skillsList = userData['skills'];
             if (userData['accountType'] == 1) {
@@ -761,7 +762,7 @@ class HomeView extends GetView<HomeController> {
               ],
             );
           }
-          return Container();
+          return const CircularProgressIndicator();
         },
       ),
     );
