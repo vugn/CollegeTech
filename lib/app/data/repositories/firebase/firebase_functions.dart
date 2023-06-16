@@ -265,12 +265,24 @@ class FirebaseFunctions {
     }
   }
 
-  Future updateSkillsTechnician(String uid, List<String> files) async {
+  Future updateSkillsTechnician(String uid, List<String> skills) async {
     try {
       await _firebaseFirestore
           .collection('users')
           .doc(uid)
-          .update({'skills': FieldValue.arrayUnion(files)});
+          .update({'skills': FieldValue.arrayUnion(skills)});
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  Future deleteSkillTechnician(String uid, String skill) async {
+    try {
+      await _firebaseFirestore.collection('users').doc(uid).update({
+        'skills': FieldValue.arrayRemove([skill])
+      });
     } catch (e) {
       if (kDebugMode) {
         print(e);
