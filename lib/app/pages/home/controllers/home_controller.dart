@@ -169,7 +169,7 @@ class HomeController extends GetxController {
     AlertDialog alert = AlertDialog(
       title: const Text("Hapus Sertifikat"),
       content: Text(
-          "Apakah kamu yakin untuk menghapus Sertifikat ${getFileName(url)}?"),
+          "Apakah kamu yakin untuk menghapus Sertifikat ${getFileName(url, false)}?"),
       actions: [okButton, cancelButton],
     );
 

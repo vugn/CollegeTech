@@ -252,7 +252,7 @@ class FirebaseFunctions {
       Reference reference = _storage
           .ref()
           .child('images/certificates/technicians/$uid/')
-          .child('/${getFileName(file)}');
+          .child('/${getFileName(file, true)}');
       await _firebaseFirestore.collection('users').doc(uid).update({
         'certificates': FieldValue.arrayRemove([file])
       });

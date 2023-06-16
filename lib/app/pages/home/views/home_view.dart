@@ -312,7 +312,8 @@ class HomeView extends GetView<HomeController> {
                                                               child: Text(
                                                                 getFileName(
                                                                     certificateList[
-                                                                        index]),
+                                                                        index],
+                                                                    false),
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,
