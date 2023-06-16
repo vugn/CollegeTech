@@ -502,7 +502,12 @@ class HomeView extends GetView<HomeController> {
                                                             ),
                                                           ),
                                                           FilledButton(
-                                                              onPressed: () {},
+                                                              onPressed: () {
+                                                                controller.showDeleteSkillDialog(
+                                                                    context,
+                                                                    skillsList[
+                                                                        index]);
+                                                              },
                                                               style:
                                                                   ButtonStyle(
                                                                 minimumSize:

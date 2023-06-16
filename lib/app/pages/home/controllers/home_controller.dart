@@ -181,6 +181,40 @@ class HomeController extends GetxController {
     );
   }
 
+  void showDeleteSkillDialog(BuildContext context, String skill) {
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () async {
+        Indicator.showLoading();
+        await firebaseFunctions.deleteSkillTechnician(currentUser!.uid, skill);
+        Indicator.closeLoading();
+        Get.back();
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: const Text(
+        "Batal",
+        style: TextStyle(color: Colors.redAccent),
+      ),
+      onPressed: () async {
+        Get.back();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Hapus Sertifikat"),
+      content: Text("Apakah kamu yakin untuk menghapus Skill $skill?"),
+      actions: [okButton, cancelButton],
+    );
+
+    showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Future<void> openCertificate(String url) async {
     Uri data = Uri.parse(url);
     if (!await launchUrl(
