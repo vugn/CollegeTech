@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/pages/home/views/home_view.dart';
 import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
+import 'package:teknisi_app/app/pages/order/views/order_view.dart';
 import 'package:teknisi_app/app/pages/tes_page.dart';
 import 'package:teknisi_app/app/widgets/bottom_navbar.dart';
 
@@ -17,8 +18,9 @@ class MainPageView extends GetView<MainPageController> {
             onTap: (value) => controller.navbarTap(value),
           )),
       body: Obx(() => PageView(
+            physics: const NeverScrollableScrollPhysics(),
             controller: controller.pageController.value,
-            children: const [HomeView(), TESWIDGET()],
+            children: const [HomeView(), OrderView()],
           )),
     );
   }

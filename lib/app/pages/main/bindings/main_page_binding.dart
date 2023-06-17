@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
 import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
+import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
 
 class MainPageBinding extends Bindings {
   @override
@@ -9,5 +10,6 @@ class MainPageBinding extends Bindings {
       MainPageController(),
     );
     Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<OrderController>(() => OrderController());
   }
 }

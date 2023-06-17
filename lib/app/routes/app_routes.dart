@@ -8,6 +8,7 @@ abstract class Routes {
   static const MAIN = _Paths.MAIN;
   static const HOME = _Paths.HOME;
   static const LOGIN = _Paths.LOGIN;
+  static const ORDER = _Paths.ORDER;
   static const TESWIDGET = _Paths.TESWIDGET;
   static const REGISTER = _Paths.REGISTER;
 
@@ -18,6 +19,7 @@ abstract class _Paths {
   static const MAIN = '/';
   static const HOME = '/home';
   static const LOGIN = '/login';
+  static const ORDER = '/order';
   static const TESWIDGET = '/test';
 
   static const REGISTER = '/register';
