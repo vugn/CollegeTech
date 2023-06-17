@@ -566,8 +566,7 @@ class HomeView extends GetView<HomeController> {
                                                   child: AccountButton(
                                                       label: 'Tambah +',
                                                       isActive: true,
-                                                      onTap: () {
-                                                        controller.update();
+                                                      onTap: () async {
                                                         controller
                                                             .showAddSkillseDialog(
                                                                 context);

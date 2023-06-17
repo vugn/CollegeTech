@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -185,6 +186,18 @@ class FirebaseFunctions {
     } catch (e) {
       showAlert("$e");
       return [const UniversityEntity(name: '', value: '')];
+    }
+  }
+
+  Future<List<String>> getSkills() async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> getSkills =
+          await _firebaseFirestore.collection('skills').doc('skills').get();
+      List<dynamic> data = getSkills.data()!.values.toList()[0];
+      return data.map((e) => e.toString()).toList();
+    } catch (e) {
+      showAlert("$e");
+      return [''];
     }
   }
 

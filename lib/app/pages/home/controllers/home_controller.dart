@@ -32,6 +32,7 @@ class HomeController extends GetxController {
 
   User? currentUser;
   RxInt currentIndex = 0.obs;
+  late List<String> skillsList;
 
   RxList<File> certificates = <File>[].obs;
   RxString certificateName = ''.obs;
@@ -40,8 +41,10 @@ class HomeController extends GetxController {
       _firebaseSnapshots.getUserCredentialSnapshot();
 
   @override
-  void onInit() {
+  void onInit() async {
     currentUser = _authentication.currentUser();
+    skillsList = await firebaseFunctions.getSkills();
+    print(skillsList);
     super.onInit();
   }
 
@@ -152,12 +155,6 @@ class HomeController extends GetxController {
 
   void showAddSkillseDialog(BuildContext context) {
     update();
-    // Widget addButton = TextButton(
-    //   child: const Text("Tambah"),
-    //   onPressed: () async {
-    //     // filePicker();
-    //   },
-    // );
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () async {
@@ -199,7 +196,11 @@ class HomeController extends GetxController {
             hint: 'Skills',
             isDropdown: true,
             isMultiDropdown: true,
-            dropdownList: [],
+            dropdownList: skillsList
+                .map((skill) => DropDownValueModel(
+                    name: skill,
+                    value: skill.toLowerCase().replaceAll(' ', '')))
+                .toList(),
           )),
       actions: [okButton, cancelButton],
     );
