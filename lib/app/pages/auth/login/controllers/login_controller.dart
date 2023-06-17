@@ -29,7 +29,7 @@ class LoginController extends GetxController {
   void onInit() async {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_authentication.currentUser() != null) {
-        Get.offAllNamed(Routes.HOME);
+        Get.offAllNamed(Routes.MAIN);
       }
     });
 

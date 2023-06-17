@@ -31,7 +31,6 @@ class HomeController extends GetxController {
   RxInt carouselCurrent = 0.obs;
 
   User? currentUser;
-  RxInt currentIndex = 0.obs;
   late List<String> skillsList;
 
   RxList<File> certificates = <File>[].obs;
@@ -46,16 +45,6 @@ class HomeController extends GetxController {
     skillsList = await firebaseFunctions.getSkills();
     print(skillsList);
     super.onInit();
-  }
-
-  // void startStream() {
-  //   userCredentialSnaphot.listen((event) {
-
-  //   });
-  // }
-
-  void navbarTap(int int) {
-    currentIndex.value = int;
   }
 
   void filePicker() async {

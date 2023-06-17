@@ -11,7 +11,6 @@ import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
-import 'package:teknisi_app/app/widgets/bottom_navbar.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -19,10 +18,6 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Obx(() => BottomNavbar(
-            currentIndex: controller.currentIndex.value,
-            onTap: (value) => controller.navbarTap(value),
-          )),
       body: StreamBuilder<DocumentSnapshot?>(
         stream: controller.userCredentialSnaphot,
         builder: (context, snapshot) {
