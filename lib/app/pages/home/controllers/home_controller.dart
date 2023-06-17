@@ -263,7 +263,7 @@ class HomeController extends GetxController {
     );
 
     AlertDialog alert = AlertDialog(
-      title: const Text("Hapus Sertifikat"),
+      title: const Text("Hapus Skill"),
       content: Text("Apakah kamu yakin untuk menghapus Skill $skill?"),
       actions: [okButton, cancelButton],
     );
