@@ -158,23 +158,16 @@ class HomeController extends GetxController {
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () async {
-        // if (certificates.isNotEmpty) {
-        //   Indicator.showLoading();
-        //   List<Future<String>> certificatesUploaded = certificates
-        //       .map((certificate) async =>
-        //           await firebaseFunctions.uploadCertificatesTechnician(
-        //               file: certificate,
-        //               uid: currentUser!.uid,
-        //               fileExt: path.basename(certificate.path)))
-        //       .toList();
-        //   Future<List<String>> result = Future.wait(certificatesUploaded);
-        //   await firebaseFunctions.updateCertificatesTechnician(
-        //       currentUser!.uid, await result);
-        //   certificates.clear();
-        //   certificateName.value = '';
-        //   Indicator.closeLoading();
-        // }
-
+        if (addSkillsDropdownController.value.dropDownValueList != null) {
+          Indicator.showLoading();
+          await firebaseFunctions.updateSkillsTechnician(
+              currentUser!.uid,
+              addSkillsDropdownController.value.dropDownValueList!
+                  .map((e) => e.name)
+                  .toList());
+          addSkillsDropdownController.value.dropDownValueList!.clear();
+          Indicator.closeLoading();
+        }
         Get.back();
       },
     );
