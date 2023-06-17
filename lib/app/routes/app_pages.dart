@@ -5,6 +5,8 @@ import 'package:teknisi_app/app/pages/auth/register/bindings/register_binding.da
 import 'package:teknisi_app/app/pages/auth/register/views/register_view.dart';
 import 'package:teknisi_app/app/pages/home/bindings/home_binding.dart';
 import 'package:teknisi_app/app/pages/home/views/home_view.dart';
+import 'package:teknisi_app/app/pages/main/bindings/main_page_binding.dart';
+import 'package:teknisi_app/app/pages/main/views/main_page_view.dart';
 import 'package:teknisi_app/app/pages/tes_page.dart';
 
 part 'app_routes.dart';
@@ -13,6 +15,10 @@ class AppPages {
   AppPages._();
 
   static final routes = [
+    GetPage(
+        name: _Paths.MAIN,
+        page: () => const MainPageView(),
+        binding: MainPageBinding()),
     GetPage(
         name: _Paths.HOME,
         page: () => const HomeView(),
