@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:teknisi_app/app/data/repositories/firebase/firebase_auth.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:path/path.dart' as path;
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
+import 'package:teknisi_app/app/widgets/forms.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,6 +22,9 @@ class HomeController extends GetxController {
   final FirebaseAuthentication _authentication = FirebaseAuthentication();
   final FirebaseFunctions firebaseFunctions = FirebaseFunctions();
   final FirebaseSnapshots _firebaseSnapshots = FirebaseSnapshots();
+
+  Rx<MultiValueDropDownController> addSkillsDropdownController =
+      MultiValueDropDownController().obs;
 
   // Carousel
   final Rx<CarouselController> carouselController = CarouselController().obs;
@@ -135,6 +140,68 @@ class HomeController extends GetxController {
       title: const Text("Tambah Sertifikat"),
       content: Obx(() => Text(certificateName.value)),
       actions: [addButton, okButton, deleteButton, cancelButton],
+    );
+
+    showDialog(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showAddSkillseDialog(BuildContext context) {
+    update();
+    // Widget addButton = TextButton(
+    //   child: const Text("Tambah"),
+    //   onPressed: () async {
+    //     // filePicker();
+    //   },
+    // );
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () async {
+        // if (certificates.isNotEmpty) {
+        //   Indicator.showLoading();
+        //   List<Future<String>> certificatesUploaded = certificates
+        //       .map((certificate) async =>
+        //           await firebaseFunctions.uploadCertificatesTechnician(
+        //               file: certificate,
+        //               uid: currentUser!.uid,
+        //               fileExt: path.basename(certificate.path)))
+        //       .toList();
+        //   Future<List<String>> result = Future.wait(certificatesUploaded);
+        //   await firebaseFunctions.updateCertificatesTechnician(
+        //       currentUser!.uid, await result);
+        //   certificates.clear();
+        //   certificateName.value = '';
+        //   Indicator.closeLoading();
+        // }
+
+        Get.back();
+      },
+    );
+
+    Widget cancelButton = TextButton(
+      child: const Text(
+        "Batal",
+        style: TextStyle(color: Colors.redAccent),
+      ),
+      onPressed: () async {
+        Get.back();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: const Text("Tambah Skill"),
+      content: Obx(() => CustomTextField(
+            dropdownController: addSkillsDropdownController.value,
+            hint: 'Skills',
+            isDropdown: true,
+            isMultiDropdown: true,
+            dropdownList: [],
+          )),
+      actions: [okButton, cancelButton],
     );
 
     showDialog(

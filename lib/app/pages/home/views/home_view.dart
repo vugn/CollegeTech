@@ -566,7 +566,12 @@ class HomeView extends GetView<HomeController> {
                                                   child: AccountButton(
                                                       label: 'Tambah +',
                                                       isActive: true,
-                                                      onTap: () {}),
+                                                      onTap: () {
+                                                        controller.update();
+                                                        controller
+                                                            .showAddSkillseDialog(
+                                                                context);
+                                                      }),
                                                 ),
                                                 const SizedBox(
                                                   height: 20,

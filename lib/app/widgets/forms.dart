@@ -14,6 +14,7 @@ class CustomTextField extends StatefulWidget {
       this.type,
       this.maxLines,
       this.suffixIcon,
+      this.isMultiDropdown = false,
       this.label,
       this.onTap,
       this.readOnly,
@@ -27,7 +28,7 @@ class CustomTextField extends StatefulWidget {
       this.onChange,
       this.textInputAction});
   final TextEditingController? controller;
-  final SingleValueDropDownController? dropdownController;
+  final dynamic dropdownController;
   final FocusNode? node;
   final Size? size;
   final Icon? icon;
@@ -36,6 +37,7 @@ class CustomTextField extends StatefulWidget {
   final String? errorText;
   final bool? readOnly;
   final bool? expands;
+  final bool? isMultiDropdown;
   final bool? noLabel;
   final bool isDropdown;
   final List<DropDownValueModel>? dropdownList;
@@ -66,6 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             label: widget.label,
             dropdownList: widget.dropdownList,
             maxLines: widget.maxLines,
+            isMultiDropdown: widget.isMultiDropdown,
             noLabel: widget.noLabel,
             node: widget.node,
             onTap: widget.onTap,
@@ -123,7 +126,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 }
 
 Widget dropdownField(
-    {required SingleValueDropDownController? controller,
+    {required dynamic controller,
     FocusNode? node,
     Size? size,
     Icon? icon,
@@ -132,6 +135,7 @@ Widget dropdownField(
     bool? readOnly,
     bool? expands,
     bool? noLabel,
+    bool? isMultiDropdown,
     List<DropDownValueModel>? dropdownList,
     required String hint,
     TextInputType? type,
@@ -140,41 +144,87 @@ Widget dropdownField(
     VoidCallback? onTap,
     bool? isPassword,
     Iterable<String>? autofillHints}) {
-  return Container(
-    decoration: BoxDecoration(boxShadow: [
-      controller!.dropDownValue != null
-          ? BoxShadow(
-              offset: const Offset(0, 1), blurRadius: 5, color: cotech.shade100)
-          : const BoxShadow(color: Colors.transparent)
-    ]),
-    child: DropDownTextField(
-        dropDownIconProperty: IconProperty(
-            color: controller.dropDownValue != null
-                ? cotech
-                : const Color(cotechSecondaryValue),
-            size: 32),
-        clearOption: false,
-        controller: controller,
-        dropDownList: dropdownList ?? [],
-        textFieldDecoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-            filled: true,
-            suffixIcon: icon,
-            fillColor: const Color(0xFFF4F4F4),
-            border: const OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-            enabledBorder: OutlineInputBorder(
-                borderSide: controller.dropDownValue != null
-                    ? const BorderSide(color: cotech)
-                    : BorderSide.none,
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: cotech),
-                borderRadius: BorderRadius.all(Radius.circular(8))),
-            hintText: hint,
-            hintStyle: const TextStyle(color: Color(cotechSecondaryValue))),
-        onChanged: (item) {}),
-  );
+  return isMultiDropdown! == true
+      ? Container(
+          decoration: BoxDecoration(boxShadow: [
+            controller!.dropDownValueList != null
+                ? BoxShadow(
+                    offset: const Offset(0, 1),
+                    blurRadius: 5,
+                    color: cotech.shade100)
+                : const BoxShadow(color: Colors.transparent)
+          ]),
+          child: DropDownTextField.multiSelection(
+              dropDownIconProperty: IconProperty(
+                  color: controller.dropDownValueList != null
+                      ? cotech
+                      : const Color(cotechSecondaryValue),
+                  size: 32),
+              clearOption: true,
+              controller: controller,
+              dropDownList: dropdownList ?? [],
+              submitButtonColor: cotech,
+              submitButtonTextStyle: const TextStyle(color: Colors.white),
+              textFieldDecoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  filled: true,
+                  suffixIcon: icon,
+                  fillColor: const Color(0xFFF4F4F4),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: controller.dropDownValueList != null
+                          ? const BorderSide(color: cotech)
+                          : BorderSide.none,
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
+                  focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: cotech),
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  hintText: hint,
+                  hintStyle:
+                      const TextStyle(color: Color(cotechSecondaryValue))),
+              onChanged: (item) {}),
+        )
+      : Container(
+          decoration: BoxDecoration(boxShadow: [
+            controller!.dropDownValue != null
+                ? BoxShadow(
+                    offset: const Offset(0, 1),
+                    blurRadius: 5,
+                    color: cotech.shade100)
+                : const BoxShadow(color: Colors.transparent)
+          ]),
+          child: DropDownTextField(
+              dropDownIconProperty: IconProperty(
+                  color: controller.dropDownValue != null
+                      ? cotech
+                      : const Color(cotechSecondaryValue),
+                  size: 32),
+              clearOption: false,
+              controller: controller,
+              dropDownList: dropdownList ?? [],
+              textFieldDecoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  filled: true,
+                  suffixIcon: icon,
+                  fillColor: const Color(0xFFF4F4F4),
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: controller.dropDownValue != null
+                          ? const BorderSide(color: cotech)
+                          : BorderSide.none,
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
+                  focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: cotech),
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  hintText: hint,
+                  hintStyle:
+                      const TextStyle(color: Color(cotechSecondaryValue))),
+              onChanged: (item) {}),
+        );
 }
