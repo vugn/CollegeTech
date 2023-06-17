@@ -1,5 +1,7 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/pages/home/views/home_view.dart';
 import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
 import 'package:teknisi_app/app/pages/tes_page.dart';
 import 'package:teknisi_app/app/widgets/bottom_navbar.dart';
@@ -16,7 +18,7 @@ class MainPageView extends GetView<MainPageController> {
           )),
       body: Obx(() => PageView(
             controller: controller.pageController.value,
-            children: const [MainPageView(), TESWIDGET()],
+            children: const [HomeView(), TESWIDGET()],
           )),
     );
   }

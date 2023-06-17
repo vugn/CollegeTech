@@ -28,9 +28,11 @@ class LoginController extends GetxController {
   @override
   void onInit() async {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_authentication.currentUser() != null) {
-        Get.offAllNamed(Routes.MAIN);
-      }
+      Future.delayed(Duration.zero, () {
+        if (_authentication.currentUser() != null) {
+          Get.offAllNamed(Routes.MAIN);
+        }
+      });
     });
 
     await _googleMapsFunctions.getLocation();
