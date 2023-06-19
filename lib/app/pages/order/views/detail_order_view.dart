@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
+import 'package:swipe_to/swipe_to.dart';
 
 class DetailOrderView extends GetView<OrderController> {
   DetailOrderView({super.key});
@@ -133,15 +134,19 @@ class DetailOrderView extends GetView<OrderController> {
               children: [
                 SingleChildScrollView(
                   child: Column(
-                    children: const [
+                    children: [
                       SizedBox(
                         height: 24,
                       ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three without tail',
-                        color: Color(0xFF1B97F3),
-                        tail: false,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      SwipeTo(
+                        child: BubbleSpecialThree(
+                          text: 'bubble special three without tail',
+                          color: Color(0xFF1B97F3),
+                          tail: false,
+                          textStyle:
+                              TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        onRightSwipe: () {},
                       ),
                       BubbleSpecialThree(
                         text: 'bubble special three with tail',
@@ -149,11 +154,14 @@ class DetailOrderView extends GetView<OrderController> {
                         tail: true,
                         textStyle: TextStyle(color: Colors.white, fontSize: 16),
                       ),
-                      BubbleSpecialThree(
-                        text: "bubble special three without tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: false,
-                        isSender: false,
+                      SwipeTo(
+                        child: BubbleSpecialThree(
+                          text: "bubble special three without tail",
+                          color: Color(0xFFE8E8EE),
+                          tail: false,
+                          isSender: false,
+                        ),
+                        onRightSwipe: () {},
                       ),
                       BubbleSpecialThree(
                         text: "bubble special three with tail",
