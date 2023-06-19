@@ -11,6 +11,7 @@ import 'package:teknisi_app/app/pages/main/bindings/main_page_binding.dart';
 import 'package:teknisi_app/app/pages/main/views/main_page_view.dart';
 import 'package:teknisi_app/app/pages/order/bindings/order_binding.dart';
 import 'package:teknisi_app/app/pages/order/views/order_view.dart';
+import 'package:teknisi_app/app/pages/order/views/detail_order_view.dart';
 import 'package:teknisi_app/app/pages/settings/bindings/setting_binding.dart';
 import 'package:teknisi_app/app/pages/settings/views/setting_view.dart';
 import 'package:teknisi_app/app/pages/tes_page.dart';
@@ -36,6 +37,10 @@ class AppPages {
     GetPage(
         name: _Paths.ORDER,
         page: () => const OrderView(),
+        binding: OrderBinding()),
+    GetPage(
+        name: _Paths.DETAILORDER,
+        page: () => DetailOrderView(),
         binding: OrderBinding()),
     GetPage(
         name: _Paths.HISTORY,

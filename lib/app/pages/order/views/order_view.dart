@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
 
@@ -226,7 +227,10 @@ class OrderView extends GetView<OrderController> {
                                             size: const Size(100, 32),
                                             label: 'Hubungi',
                                             isActive: true,
-                                            onTap: () {})
+                                            onTap: () {
+                                              Get.toNamed(Routes.DETAILORDER,
+                                                  arguments: orderData);
+                                            })
                                       ],
                                     ),
                                   );
@@ -237,7 +241,7 @@ class OrderView extends GetView<OrderController> {
                                 child: CircularProgressIndicator());
                           },
                         ),
-                        Center(
+                        const Center(
                           child: Text('TAB 2'),
                         ),
                       ])))),
