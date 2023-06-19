@@ -389,11 +389,7 @@ class OrderView extends GetView<OrderController> {
                                                     size: const Size(100, 32),
                                                     label: 'Selesai',
                                                     isActive: true,
-                                                    onTap: () {
-                                                      Get.toNamed(
-                                                          Routes.DETAILORDER,
-                                                          arguments: orderData);
-                                                    }),
+                                                    onTap: () {}),
                                               ),
                                               const SizedBox(
                                                 height: 12,
@@ -402,9 +398,13 @@ class OrderView extends GetView<OrderController> {
                                                 height: 20,
                                                 child: AccountButton(
                                                     size: const Size(100, 32),
-                                                    label: 'Hubungi',
+                                                    label: 'Detail',
                                                     isActive: false,
-                                                    onTap: () {}),
+                                                    onTap: () {
+                                                      Get.toNamed(
+                                                          Routes.DETAILORDER,
+                                                          arguments: orderData);
+                                                    }),
                                               ),
                                             ],
                                           )
