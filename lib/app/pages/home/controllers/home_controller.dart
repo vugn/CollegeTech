@@ -43,7 +43,6 @@ class HomeController extends GetxController {
   void onInit() async {
     currentUser = _authentication.currentUser();
     skillsList = await firebaseFunctions.getSkills();
-    print(skillsList);
     super.onInit();
   }
 
