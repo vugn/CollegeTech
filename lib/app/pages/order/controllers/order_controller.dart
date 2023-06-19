@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
+import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/forms.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -120,6 +121,31 @@ class OrderController extends GetxController
                           CameraPosition(target: userLocation, zoom: 15),
                       markers: markers.values.toSet(),
                     ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 60,
+                    child: Text("Deskripsi Lokasi",
+                        style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                          fontSize: 14,
+                        ))),
+                  ),
+                  Container(
+                    width: 221,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 14, horizontal: 24),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: const Color(0xFFF4F4F4)),
+                    child: Text(orderData['address']),
                   )
                 ],
               ),
