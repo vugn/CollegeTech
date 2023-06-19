@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 
 class DetailOrderView extends GetView<OrderController> {
   DetailOrderView({super.key});
@@ -121,6 +123,162 @@ class DetailOrderView extends GetView<OrderController> {
                         ),
                       ],
                     )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    children: const [
+                      SizedBox(
+                        height: 24,
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three without tail',
+                        color: Color(0xFF1B97F3),
+                        tail: false,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three with tail',
+                        color: Color(0xFF1B97F3),
+                        tail: true,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three without tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: false,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three with tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: true,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three without tail',
+                        color: Color(0xFF1B97F3),
+                        tail: false,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three with tail',
+                        color: Color(0xFF1B97F3),
+                        tail: true,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three without tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: false,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three with tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: true,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three with tail',
+                        color: Color(0xFF1B97F3),
+                        tail: true,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three without tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: false,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three with tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: true,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three with tail',
+                        color: Color(0xFF1B97F3),
+                        tail: true,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three without tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: false,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three with tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: true,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three with tail',
+                        color: Color(0xFF1B97F3),
+                        tail: true,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three without tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: false,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three with tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: true,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: 'bubble special three with tail',
+                        color: Color(0xFF1B97F3),
+                        tail: true,
+                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three without tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: false,
+                        isSender: false,
+                      ),
+                      BubbleSpecialThree(
+                        text: "bubble special three with tail",
+                        color: Color(0xFFE8E8EE),
+                        tail: true,
+                        isSender: false,
+                      ),
+                      SizedBox(
+                        height: 100,
+                      ),
+                    ],
+                  ),
+                ),
+                MessageBar(
+                  sendButtonColor: cotech,
+                  onSend: (_) {
+                    if (kDebugMode) {
+                      print(_);
+                    }
+                  },
+                  actions: [
+                    InkWell(
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.black,
+                        size: 24,
+                      ),
+                      onTap: () {},
+                    ),
                   ],
                 ),
               ],
