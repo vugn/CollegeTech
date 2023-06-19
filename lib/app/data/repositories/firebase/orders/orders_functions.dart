@@ -8,18 +8,21 @@ class FirebaseOrdersFunctions {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<dynamic> getListOrdersTechnician() async {
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getListOrdersTechnician() async {
     try {
-      var orders = _firebaseFirestore
+      QuerySnapshot<Map<String, dynamic>> orders = await _firebaseFirestore
           .collection('users')
           .doc(_auth.currentUser!.uid)
           .collection('orders')
-          .where('status', isEqualTo: 0);
-      print(orders);
+          .where('status', isEqualTo: 0)
+          .get();
+      return orders.docs;
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+      return [];
     }
   }
 }
