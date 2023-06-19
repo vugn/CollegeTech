@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/forms.dart';
@@ -34,6 +35,35 @@ class OrderController extends GetxController
   void onClose() {
     tabBarController.value.dispose();
     super.onClose();
+  }
+
+  void pickDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2030));
+    if (pickedDate == null) {
+      return;
+    }
+    dateController.value.text = parseDateTime(pickedDate.toString());
+  }
+
+  void pickTime(BuildContext context) async {
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (pickedTime == null) {
+      return;
+    }
+    timeController.value.text = "${pickedTime.hour}:${pickedTime.minute}";
+  }
+
+  String parseDateTime(String inputDate) {
+    DateTime dateTime = DateFormat('yyyy-MM-dd').parse(inputDate);
+    String formattedDate = DateFormat('dd - MM - yyyy').format(dateTime);
+    return formattedDate;
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getOrders() async {
@@ -80,6 +110,9 @@ class OrderController extends GetxController
                           SizedBox(
                             width: 122,
                             child: CustomTextField(
+                              onTap: () {
+                                pickDate(context);
+                              },
                               controller: dateController.value,
                               hint: dateController.value.text,
                               style: const TextStyle(fontSize: 12),
@@ -92,6 +125,7 @@ class OrderController extends GetxController
                           SizedBox(
                             width: 85,
                             child: CustomTextField(
+                              onTap: () => pickTime(context),
                               controller: timeController.value,
                               hint: timeController.value.text,
                               style: const TextStyle(fontSize: 12),
