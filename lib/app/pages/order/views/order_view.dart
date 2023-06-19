@@ -143,7 +143,8 @@ class OrderView extends GetView<OrderController> {
                                     );
                                   }
                                   return Container(
-                                    margin: const EdgeInsets.all(24),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 24, vertical: 16),
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 16, vertical: 13),
                                     decoration: BoxDecoration(
