@@ -9,7 +9,18 @@ class FirebaseSnapshots {
     String? uid = _authentication.currentUser()!.uid;
     Stream<DocumentSnapshot> userSnapshot =
         _firebaseFirestore.collection('users').doc(uid).snapshots();
-    print(userSnapshot);
     return userSnapshot;
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> getOrdersTechnicianSnapshot() {
+    String? uid = _authentication.currentUser()!.uid;
+
+    Stream<QuerySnapshot<Map<String, dynamic>>> ordersSnapshot =
+        _firebaseFirestore
+            .collection('users')
+            .doc(uid)
+            .collection('orders')
+            .snapshots();
+    return ordersSnapshot;
   }
 }

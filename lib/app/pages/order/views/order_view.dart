@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -122,136 +123,302 @@ class OrderView extends GetView<OrderController> {
                       physics: const NeverScrollableScrollPhysics(),
                       controller: controller.tabBarController.value,
                       children: [
-                        FutureBuilder(
-                          future: controller.getOrders(),
+                        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                          stream: controller.firebaseSnapshots
+                              .getOrdersTechnicianSnapshot(),
                           builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              if (snapshot.data!.isEmpty) {
-                                return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height / 1.5,
-                                  child: const Center(
-                                    child: Text("Tidak ada Orderan"),
-                                  ),
-                                );
-                              }
-                              return ListView.builder(
-                                physics: const BouncingScrollPhysics(),
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  var orderData = snapshot.data![index].data();
-                                  var userData = orderData['to_user'];
-                                  bool isWaiting = orderData['status'] == 0;
-                                  if (!isWaiting) {
-                                    return SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              1.5,
-                                      child: const Center(
-                                        child: Text("Tidak ada Orderan"),
+                            if (snapshot.connectionState !=
+                                    ConnectionState.waiting ||
+                                snapshot.connectionState !=
+                                    ConnectionState.none) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, index) {
+                                    var orderData =
+                                        snapshot.data!.docs[index].data();
+                                    var userData = orderData['to_user'];
+                                    bool isWaiting = orderData['status'] == 0;
+                                    if (!isWaiting) {
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.5,
+                                        child: const Center(
+                                          child: Text("Tidak ada Orderan"),
+                                        ),
+                                      );
+                                    }
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 16),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 13),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                offset: const Offset(0, 2),
+                                                blurRadius: 12,
+                                                color: Colors.black
+                                                    .withOpacity(0.25))
+                                          ]),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      userData['profilePhoto'],
+                                                  width: 50,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 15,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          orderData['title'],
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          10)),
+                                                        ),
+                                                        const VerticalDivider(
+                                                          thickness: 1,
+                                                          color: Color(
+                                                              cotechSecondaryValue),
+                                                        ),
+                                                        Text(
+                                                          orderData['brand'],
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "Menunggu Konfirmasi",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                                color: cotech,
+                                                                fontSize: 10)),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          AccountButton(
+                                              size: const Size(100, 32),
+                                              label: 'Hubungi',
+                                              isActive: true,
+                                              onTap: () {
+                                                Get.toNamed(Routes.DETAILORDER,
+                                                    arguments: orderData);
+                                              })
+                                        ],
                                       ),
                                     );
-                                  }
-                                  return Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 24, vertical: 16),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 13),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: const Offset(0, 2),
-                                              blurRadius: 12,
-                                              color: Colors.black
-                                                  .withOpacity(0.25))
-                                        ]),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(100),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    userData['profilePhoto'],
-                                                width: 50,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: 15,
-                                                  child: Row(
-                                                    children: [
-                                                      Text(
-                                                        orderData['title'],
-                                                        style: GoogleFonts.poppins(
-                                                            textStyle:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        10)),
-                                                      ),
-                                                      const VerticalDivider(
-                                                        thickness: 1,
-                                                        color: Color(
-                                                            cotechSecondaryValue),
-                                                      ),
-                                                      Text(
-                                                        orderData['brand'],
-                                                        style: GoogleFonts.poppins(
-                                                            textStyle:
-                                                                const TextStyle(
-                                                                    fontSize:
-                                                                        10,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600)),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "Menunggu Konfirmasi",
-                                                  style: GoogleFonts.poppins(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              color: cotech,
-                                                              fontSize: 10)),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        AccountButton(
-                                            size: const Size(100, 32),
-                                            label: 'Hubungi',
-                                            isActive: true,
-                                            onTap: () {
-                                              Get.toNamed(Routes.DETAILORDER,
-                                                  arguments: orderData);
-                                            })
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
+                                  },
+                                );
+                              }
                             }
                             return const Center(
-                                child: CircularProgressIndicator());
+                              child: CircularProgressIndicator(),
+                            );
                           },
                         ),
-                        const Center(
-                          child: Text('TAB 2'),
+                        StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                          stream: controller.firebaseSnapshots
+                              .getOrdersTechnicianSnapshot(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                    ConnectionState.waiting ||
+                                snapshot.connectionState !=
+                                    ConnectionState.none) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, index) {
+                                    var orderData =
+                                        snapshot.data!.docs[index].data();
+                                    var userData = orderData['to_user'];
+                                    bool istimetable = orderData['status'] == 1;
+                                    if (!istimetable) {
+                                      return SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                1.5,
+                                        child: const Center(
+                                          child: Text("Tidak ada Jadwal"),
+                                        ),
+                                      );
+                                    }
+                                    return Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 16),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 13),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                                offset: const Offset(0, 2),
+                                                blurRadius: 12,
+                                                color: Colors.black
+                                                    .withOpacity(0.25))
+                                          ]),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      userData['profilePhoto'],
+                                                  width: 50,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 15,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          orderData['title'],
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          10)),
+                                                        ),
+                                                        const VerticalDivider(
+                                                          thickness: 1,
+                                                          color: Color(
+                                                              cotechSecondaryValue),
+                                                        ),
+                                                        Text(
+                                                          orderData['brand'],
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600)),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 15,
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          orderData[
+                                                                  'date_start']
+                                                              .toString()
+                                                              .replaceAll(
+                                                                  '-', ''),
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          10)),
+                                                        ),
+                                                        const VerticalDivider(
+                                                          thickness: 1,
+                                                          color: Color(
+                                                              cotechSecondaryValue),
+                                                        ),
+                                                        Text(
+                                                          orderData[
+                                                              'time_start'],
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                                  textStyle:
+                                                                      const TextStyle(
+                                                            fontSize: 10,
+                                                          )),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 20,
+                                                child: AccountButton(
+                                                    size: const Size(100, 32),
+                                                    label: 'Selesai',
+                                                    isActive: true,
+                                                    onTap: () {
+                                                      Get.toNamed(
+                                                          Routes.DETAILORDER,
+                                                          arguments: orderData);
+                                                    }),
+                                              ),
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              SizedBox(
+                                                height: 20,
+                                                child: AccountButton(
+                                                    size: const Size(100, 32),
+                                                    label: 'Hubungi',
+                                                    isActive: false,
+                                                    onTap: () {}),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            }
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
                         ),
                       ])))),
     );
