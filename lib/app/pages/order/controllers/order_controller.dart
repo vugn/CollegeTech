@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
@@ -13,7 +15,6 @@ class OrderController extends GetxController
   @override
   void onInit() {
     tabBarController = TabController(vsync: this, length: 2).obs;
-
     super.onInit();
   }
 
@@ -21,5 +22,17 @@ class OrderController extends GetxController
   void onClose() {
     tabBarController.value.dispose();
     super.onClose();
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getOrders() async {
+    try {
+      var orders = await firebaseOrdersFunctions.getListOrdersTechnician();
+      return orders;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return [];
+    }
   }
 }
