@@ -25,9 +25,10 @@ class HomeView extends GetView<HomeController> {
               snapshot.connectionState != ConnectionState.none) {
             if (snapshot.hasData) {
               var userData = jsonDecode(jsonEncode(snapshot.data!.data()));
-              List<dynamic> certificateList = userData['certificates'];
-              List<dynamic> skillsList = userData['skills'];
-              if (userData['accountType'] == 1) {
+              var accountType = userData['accountType'];
+              if (accountType == 0) {
+                List<dynamic>? certificateList = userData['certificates'];
+                List<dynamic>? skillsList = userData['skills'];
                 return Stack(
                   children: [
                     Container(
@@ -67,15 +68,15 @@ class HomeView extends GetView<HomeController> {
                                       fontWeight: FontWeight.w600,
                                     )),
                                   ),
-                                  Text(
-                                    ' ${skillsList.isNotEmpty ? 'Teknisi ${skillsList[0]}' : 'Belum Memiliki Skill'}',
-                                    style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 8,
-                                      fontWeight: FontWeight.normal,
-                                    )),
-                                  ),
+                                  // Text(
+                                  //   ' ${skillsList.isNotEmpty ? 'Teknisi ${skillsList[0]}' : 'Belum Memiliki Skill'}',
+                                  //   style: GoogleFonts.poppins(
+                                  //       textStyle: const TextStyle(
+                                  //     color: Colors.white,
+                                  //     fontSize: 8,
+                                  //     fontWeight: FontWeight.normal,
+                                  //   )),
+                                  // ),
                                 ],
                               )
                             ],
@@ -235,354 +236,354 @@ class HomeView extends GetView<HomeController> {
                                       const SizedBox(
                                         height: 41,
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 24),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Sertifikat/Lisensi",
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                            ),
-                                            const SizedBox(
-                                              height: 14,
-                                            ),
-                                            Container(
-                                              width: double.maxFinite,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  4,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        offset:
-                                                            const Offset(0, 2),
-                                                        blurRadius: 12,
-                                                        color: Colors.black
-                                                            .withOpacity(0.25))
-                                                  ]),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    color: Colors.grey.shade200,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            7,
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 16,
-                                                        vertical: 14),
-                                                    child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      physics:
-                                                          const BouncingScrollPhysics(),
-                                                      itemExtent:
-                                                          certificateList
-                                                                  .isNotEmpty
-                                                              ? 20
-                                                              : null,
-                                                      itemCount: certificateList
-                                                              .isNotEmpty
-                                                          ? certificateList
-                                                              .length
-                                                          : 1,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        if (certificateList
-                                                            .isNotEmpty) {
-                                                          return Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    2.3,
-                                                                child: Text(
-                                                                  getFileName(
-                                                                      certificateList[
-                                                                          index],
-                                                                      false),
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                ),
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  FilledButton(
-                                                                      onPressed:
-                                                                          () async {
-                                                                        await controller
-                                                                            .openCertificate(certificateList[index]);
-                                                                      },
-                                                                      style:
-                                                                          ButtonStyle(
-                                                                        minimumSize: const MaterialStatePropertyAll(Size(
-                                                                            33,
-                                                                            15)),
-                                                                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(2))),
-                                                                        padding:
-                                                                            const MaterialStatePropertyAll(EdgeInsets.zero),
-                                                                      ),
-                                                                      child:
-                                                                          const Text(
-                                                                        'Lihat',
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                10,
-                                                                            color:
-                                                                                Colors.white),
-                                                                      )),
-                                                                  FilledButton(
-                                                                      onPressed:
-                                                                          () async {
-                                                                        controller.showDeleteCertificateDialog(
-                                                                            context,
-                                                                            certificateList[index]);
-                                                                      },
-                                                                      style:
-                                                                          ButtonStyle(
-                                                                        minimumSize: const MaterialStatePropertyAll(Size(
-                                                                            33,
-                                                                            15)),
-                                                                        backgroundColor:
-                                                                            const MaterialStatePropertyAll(Colors.redAccent),
-                                                                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(2))),
-                                                                        padding:
-                                                                            const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 4)),
-                                                                      ),
-                                                                      child:
-                                                                          const Text(
-                                                                        'Hapus',
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                10,
-                                                                            color:
-                                                                                Colors.white),
-                                                                      )),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          );
-                                                        } else {
-                                                          return const Center(
-                                                            child: Text(
-                                                              "Tidak ada Sertifikat",
-                                                              style: TextStyle(
-                                                                fontSize: 24,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }
-                                                      },
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  SizedBox(
-                                                    width: 218,
-                                                    child: AccountButton(
-                                                        label: 'Tambah +',
-                                                        isActive: true,
-                                                        onTap: () {
-                                                          controller
-                                                              .showAddCertificateDialog(
-                                                                  context);
-                                                        }),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      // Container(
+                                      //   margin: const EdgeInsets.symmetric(
+                                      //       horizontal: 24),
+                                      //   child: Column(
+                                      //     crossAxisAlignment:
+                                      //         CrossAxisAlignment.start,
+                                      //     children: [
+                                      //       Text(
+                                      //         "Sertifikat/Lisensi",
+                                      //         style: GoogleFonts.poppins(
+                                      //             textStyle: const TextStyle(
+                                      //                 fontSize: 16,
+                                      //                 fontWeight:
+                                      //                     FontWeight.w600)),
+                                      //       ),
+                                      //       const SizedBox(
+                                      //         height: 14,
+                                      //       ),
+                                      //       Container(
+                                      //         width: double.maxFinite,
+                                      //         height: MediaQuery.of(context)
+                                      //                 .size
+                                      //                 .height /
+                                      //             4,
+                                      //         decoration: BoxDecoration(
+                                      //             borderRadius:
+                                      //                 BorderRadius.circular(12),
+                                      //             color: Colors.white,
+                                      //             boxShadow: [
+                                      //               BoxShadow(
+                                      //                   offset:
+                                      //                       const Offset(0, 2),
+                                      //                   blurRadius: 12,
+                                      //                   color: Colors.black
+                                      //                       .withOpacity(0.25))
+                                      //             ]),
+                                      //         child: Column(
+                                      //           children: [
+                                      //             Container(
+                                      //               color: Colors.grey.shade200,
+                                      //               height:
+                                      //                   MediaQuery.of(context)
+                                      //                           .size
+                                      //                           .height /
+                                      //                       7,
+                                      //               padding: const EdgeInsets
+                                      //                       .symmetric(
+                                      //                   horizontal: 16,
+                                      //                   vertical: 14),
+                                      //               child: ListView.builder(
+                                      //                 shrinkWrap: true,
+                                      //                 padding:
+                                      //                     const EdgeInsets.all(
+                                      //                         0),
+                                      //                 physics:
+                                      //                     const BouncingScrollPhysics(),
+                                      //                 itemExtent:
+                                      //                     certificateList
+                                      //                             .isNotEmpty
+                                      //                         ? 20
+                                      //                         : null,
+                                      //                 itemCount: certificateList
+                                      //                         .isNotEmpty
+                                      //                     ? certificateList
+                                      //                         .length
+                                      //                     : 1,
+                                      //                 itemBuilder:
+                                      //                     (context, index) {
+                                      //                   if (certificateList
+                                      //                       .isNotEmpty) {
+                                      //                     return Row(
+                                      //                       mainAxisAlignment:
+                                      //                           MainAxisAlignment
+                                      //                               .spaceBetween,
+                                      //                       children: [
+                                      //                         SizedBox(
+                                      //                           width: MediaQuery.of(
+                                      //                                       context)
+                                      //                                   .size
+                                      //                                   .width /
+                                      //                               2.3,
+                                      //                           child: Text(
+                                      //                             getFileName(
+                                      //                                 certificateList[
+                                      //                                     index],
+                                      //                                 false),
+                                      //                             overflow:
+                                      //                                 TextOverflow
+                                      //                                     .ellipsis,
+                                      //                           ),
+                                      //                         ),
+                                      //                         Row(
+                                      //                           children: [
+                                      //                             FilledButton(
+                                      //                                 onPressed:
+                                      //                                     () async {
+                                      //                                   await controller
+                                      //                                       .openCertificate(certificateList[index]);
+                                      //                                 },
+                                      //                                 style:
+                                      //                                     ButtonStyle(
+                                      //                                   minimumSize: const MaterialStatePropertyAll(Size(
+                                      //                                       33,
+                                      //                                       15)),
+                                      //                                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                      //                                       borderRadius:
+                                      //                                           BorderRadius.circular(2))),
+                                      //                                   padding:
+                                      //                                       const MaterialStatePropertyAll(EdgeInsets.zero),
+                                      //                                 ),
+                                      //                                 child:
+                                      //                                     const Text(
+                                      //                                   'Lihat',
+                                      //                                   style: TextStyle(
+                                      //                                       fontSize:
+                                      //                                           10,
+                                      //                                       color:
+                                      //                                           Colors.white),
+                                      //                                 )),
+                                      //                             FilledButton(
+                                      //                                 onPressed:
+                                      //                                     () async {
+                                      //                                   controller.showDeleteCertificateDialog(
+                                      //                                       context,
+                                      //                                       certificateList[index]);
+                                      //                                 },
+                                      //                                 style:
+                                      //                                     ButtonStyle(
+                                      //                                   minimumSize: const MaterialStatePropertyAll(Size(
+                                      //                                       33,
+                                      //                                       15)),
+                                      //                                   backgroundColor:
+                                      //                                       const MaterialStatePropertyAll(Colors.redAccent),
+                                      //                                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                      //                                       borderRadius:
+                                      //                                           BorderRadius.circular(2))),
+                                      //                                   padding:
+                                      //                                       const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 4)),
+                                      //                                 ),
+                                      //                                 child:
+                                      //                                     const Text(
+                                      //                                   'Hapus',
+                                      //                                   style: TextStyle(
+                                      //                                       fontSize:
+                                      //                                           10,
+                                      //                                       color:
+                                      //                                           Colors.white),
+                                      //                                 )),
+                                      //                           ],
+                                      //                         )
+                                      //                       ],
+                                      //                     );
+                                      //                   } else {
+                                      //                     return const Center(
+                                      //                       child: Text(
+                                      //                         "Tidak ada Sertifikat",
+                                      //                         style: TextStyle(
+                                      //                           fontSize: 24,
+                                      //                         ),
+                                      //                       ),
+                                      //                     );
+                                      //                   }
+                                      //                 },
+                                      //               ),
+                                      //             ),
+                                      //             const Spacer(),
+                                      //             SizedBox(
+                                      //               width: 218,
+                                      //               child: AccountButton(
+                                      //                   label: 'Tambah +',
+                                      //                   isActive: true,
+                                      //                   onTap: () {
+                                      //                     controller
+                                      //                         .showAddCertificateDialog(
+                                      //                             context);
+                                      //                   }),
+                                      //             ),
+                                      //             const SizedBox(
+                                      //               height: 20,
+                                      //             )
+                                      //           ],
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
                                       const SizedBox(
                                         height: 41,
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 24),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Keahlian",
-                                              style: GoogleFonts.poppins(
-                                                  textStyle: const TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600)),
-                                            ),
-                                            const SizedBox(
-                                              height: 14,
-                                            ),
-                                            Container(
-                                              width: double.maxFinite,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  4,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        offset:
-                                                            const Offset(0, 2),
-                                                        blurRadius: 12,
-                                                        color: Colors.black
-                                                            .withOpacity(0.25))
-                                                  ]),
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    color: Colors.grey.shade200,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            7,
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 16,
-                                                        vertical: 14),
-                                                    child: ListView.builder(
-                                                      shrinkWrap: true,
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              0),
-                                                      physics:
-                                                          const BouncingScrollPhysics(),
-                                                      itemExtent:
-                                                          skillsList.isNotEmpty
-                                                              ? 20
-                                                              : null,
-                                                      itemCount: skillsList
-                                                              .isNotEmpty
-                                                          ? skillsList.length
-                                                          : 1,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        if (skillsList
-                                                            .isNotEmpty) {
-                                                          return Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              SizedBox(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    2.3,
-                                                                child: Text(
-                                                                  skillsList[
-                                                                      index],
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                ),
-                                                              ),
-                                                              FilledButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    controller.showDeleteSkillDialog(
-                                                                        context,
-                                                                        skillsList[
-                                                                            index]);
-                                                                  },
-                                                                  style:
-                                                                      ButtonStyle(
-                                                                    minimumSize:
-                                                                        const MaterialStatePropertyAll(Size(
-                                                                            33,
-                                                                            15)),
-                                                                    backgroundColor:
-                                                                        const MaterialStatePropertyAll(
-                                                                            Colors.redAccent),
-                                                                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(2))),
-                                                                    padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
-                                                                        horizontal:
-                                                                            4)),
-                                                                  ),
-                                                                  child:
-                                                                      const Text(
-                                                                    'Hapus',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            10,
-                                                                        color: Colors
-                                                                            .white),
-                                                                  ))
-                                                            ],
-                                                          );
-                                                        }
+                                      // Container(
+                                      //   margin: const EdgeInsets.symmetric(
+                                      //       horizontal: 24),
+                                      //   child: Column(
+                                      //     crossAxisAlignment:
+                                      //         CrossAxisAlignment.start,
+                                      //     children: [
+                                      //       Text(
+                                      //         "Keahlian",
+                                      //         style: GoogleFonts.poppins(
+                                      //             textStyle: const TextStyle(
+                                      //                 fontSize: 16,
+                                      //                 fontWeight:
+                                      //                     FontWeight.w600)),
+                                      //       ),
+                                      //       const SizedBox(
+                                      //         height: 14,
+                                      //       ),
+                                      //       Container(
+                                      //         width: double.maxFinite,
+                                      //         height: MediaQuery.of(context)
+                                      //                 .size
+                                      //                 .height /
+                                      //             4,
+                                      //         decoration: BoxDecoration(
+                                      //             borderRadius:
+                                      //                 BorderRadius.circular(12),
+                                      //             color: Colors.white,
+                                      //             boxShadow: [
+                                      //               BoxShadow(
+                                      //                   offset:
+                                      //                       const Offset(0, 2),
+                                      //                   blurRadius: 12,
+                                      //                   color: Colors.black
+                                      //                       .withOpacity(0.25))
+                                      //             ]),
+                                      //         child: Column(
+                                      //           children: [
+                                      //             Container(
+                                      //               color: Colors.grey.shade200,
+                                      //               height:
+                                      //                   MediaQuery.of(context)
+                                      //                           .size
+                                      //                           .height /
+                                      //                       7,
+                                      //               padding: const EdgeInsets
+                                      //                       .symmetric(
+                                      //                   horizontal: 16,
+                                      //                   vertical: 14),
+                                      //               child: ListView.builder(
+                                      //                 shrinkWrap: true,
+                                      //                 padding:
+                                      //                     const EdgeInsets.all(
+                                      //                         0),
+                                      //                 physics:
+                                      //                     const BouncingScrollPhysics(),
+                                      //                 itemExtent:
+                                      //                     skillsList.isNotEmpty
+                                      //                         ? 20
+                                      //                         : null,
+                                      //                 itemCount: skillsList
+                                      //                         .isNotEmpty
+                                      //                     ? skillsList.length
+                                      //                     : 1,
+                                      //                 itemBuilder:
+                                      //                     (context, index) {
+                                      //                   if (skillsList
+                                      //                       .isNotEmpty) {
+                                      //                     return Row(
+                                      //                       mainAxisAlignment:
+                                      //                           MainAxisAlignment
+                                      //                               .spaceBetween,
+                                      //                       children: [
+                                      //                         SizedBox(
+                                      //                           width: MediaQuery.of(
+                                      //                                       context)
+                                      //                                   .size
+                                      //                                   .width /
+                                      //                               2.3,
+                                      //                           child: Text(
+                                      //                             skillsList[
+                                      //                                 index],
+                                      //                             overflow:
+                                      //                                 TextOverflow
+                                      //                                     .ellipsis,
+                                      //                           ),
+                                      //                         ),
+                                      //                         FilledButton(
+                                      //                             onPressed:
+                                      //                                 () {
+                                      //                               controller.showDeleteSkillDialog(
+                                      //                                   context,
+                                      //                                   skillsList[
+                                      //                                       index]);
+                                      //                             },
+                                      //                             style:
+                                      //                                 ButtonStyle(
+                                      //                               minimumSize:
+                                      //                                   const MaterialStatePropertyAll(Size(
+                                      //                                       33,
+                                      //                                       15)),
+                                      //                               backgroundColor:
+                                      //                                   const MaterialStatePropertyAll(
+                                      //                                       Colors.redAccent),
+                                      //                               shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                      //                                   borderRadius:
+                                      //                                       BorderRadius.circular(2))),
+                                      //                               padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(
+                                      //                                   horizontal:
+                                      //                                       4)),
+                                      //                             ),
+                                      //                             child:
+                                      //                                 const Text(
+                                      //                               'Hapus',
+                                      //                               style: TextStyle(
+                                      //                                   fontSize:
+                                      //                                       10,
+                                      //                                   color: Colors
+                                      //                                       .white),
+                                      //                             ))
+                                      //                       ],
+                                      //                     );
+                                      //                   }
 
-                                                        return const Center(
-                                                          child: Text(
-                                                            "Tidak ada Skill",
-                                                            style: TextStyle(
-                                                              fontSize: 24,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ),
-                                                  const Spacer(),
-                                                  SizedBox(
-                                                    width: 218,
-                                                    child: AccountButton(
-                                                        label: 'Tambah +',
-                                                        isActive: true,
-                                                        onTap: () async {
-                                                          controller
-                                                              .showAddSkillseDialog(
-                                                                  context);
-                                                        }),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 20,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 200,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      //                   return const Center(
+                                      //                     child: Text(
+                                      //                       "Tidak ada Skill",
+                                      //                       style: TextStyle(
+                                      //                         fontSize: 24,
+                                      //                       ),
+                                      //                     ),
+                                      //                   );
+                                      //                 },
+                                      //               ),
+                                      //             ),
+                                      //             const Spacer(),
+                                      //             SizedBox(
+                                      //               width: 218,
+                                      //               child: AccountButton(
+                                      //                   label: 'Tambah +',
+                                      //                   isActive: true,
+                                      //                   onTap: () async {
+                                      //                     controller
+                                      //                         .showAddSkillseDialog(
+                                      //                             context);
+                                      //                   }),
+                                      //             ),
+                                      //             const SizedBox(
+                                      //               height: 20,
+                                      //             )
+                                      //           ],
+                                      //         ),
+                                      //       ),
+                                      //       const SizedBox(
+                                      //         height: 200,
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
                                     ],
                                   )),
                             ),
@@ -627,32 +628,37 @@ class HomeView extends GetView<HomeController> {
                                                   width: 4,
                                                 ),
                                                 Text(
-                                                  'Pelanggan: ${userData['customers']}',
+                                                  accountType == 0
+                                                      ? 'Pesanan: ${userData['orders']}'
+                                                      : 'Pelanggan: ${userData['customers']}',
                                                   style: const TextStyle(
                                                       fontSize: 10),
                                                 )
                                               ],
                                             ),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                const Text(
-                                                  'Rating Kamu:',
-                                                  style:
-                                                      TextStyle(fontSize: 10),
-                                                ),
-                                                const SizedBox(
-                                                  width: 4,
-                                                ),
-                                                Text(
-                                                  '${userData['rating']}/5',
-                                                  style: const TextStyle(
-                                                      color: cotech,
-                                                      fontSize: 10),
-                                                )
-                                              ],
-                                            ),
+                                            accountType == 0
+                                                ? const SizedBox()
+                                                : Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const Text(
+                                                        'Rating Kamu:',
+                                                        style: TextStyle(
+                                                            fontSize: 10),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 4,
+                                                      ),
+                                                      Text(
+                                                        '${userData['rating']}/5',
+                                                        style: const TextStyle(
+                                                            color: cotech,
+                                                            fontSize: 10),
+                                                      )
+                                                    ],
+                                                  ),
                                           ],
                                         ),
                                         Row(
@@ -668,10 +674,31 @@ class HomeView extends GetView<HomeController> {
                                               width: 4,
                                             ),
                                             Text(
-                                              'Level Kamu: Sang ${userData['levelType']}',
+                                              accountType == 0
+                                                  ? 'Lencana Kamu: '
+                                                  : 'Level Kamu: Sang ',
                                               style:
                                                   const TextStyle(fontSize: 10),
-                                            )
+                                            ),
+                                            Text(
+                                              accountType == 0
+                                                  ? '${userData['badge']}'
+                                                  : '${userData['levelType']}',
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: accountType == 0
+                                                      ? userData['badge'] ==
+                                                              'Gold'
+                                                          ? cotech
+                                                          : userData['badge'] ==
+                                                                  'Silver'
+                                                              ? Colors.grey
+                                                              : userData['badge'] ==
+                                                                      'Bronze'
+                                                                  ? Colors.brown
+                                                                  : Colors.black
+                                                      : Colors.black),
+                                            ),
                                           ],
                                         ),
                                       ],
@@ -685,120 +712,174 @@ class HomeView extends GetView<HomeController> {
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                    IntrinsicHeight(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              showAlert('Tidak ada pesanan');
-                                            },
-                                            child: Container(
-                                              height: 50,
-                                              width: 166,
-                                              padding: const EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        offset:
-                                                            const Offset(0, 2),
-                                                        blurRadius: 12,
-                                                        color: Colors.black
-                                                            .withOpacity(0.25))
-                                                  ]),
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    const Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: SizedBox(
-                                                        width: 75,
-                                                        child: Text(
-                                                          'TIdak ada pesanan terbaru',
-                                                          style: TextStyle(
-                                                              fontSize: 10),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    RotatedBox(
-                                                        quarterTurns: 1,
-                                                        child: Opacity(
-                                                          opacity: 0.5,
-                                                          child: Image.asset(
-                                                            'assets/images/wind.png',
-                                                          ),
-                                                        ))
-                                                  ]),
-                                            ),
-                                          ),
-                                          const VerticalDivider(
-                                            thickness: 2,
-                                          ),
-                                          InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              padding: const EdgeInsets.all(8),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(12),
-                                                  color: Colors.white,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        offset:
-                                                            const Offset(0, 2),
-                                                        blurRadius: 12,
-                                                        color: Colors.black
-                                                            .withOpacity(0.25))
-                                                  ]),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                    accountType == 0
+                                        ? Container(
+                                            height: 50,
+                                            padding: const EdgeInsets.all(8),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      offset:
+                                                          const Offset(0, 2),
+                                                      blurRadius: 12,
+                                                      color: Colors.black
+                                                          .withOpacity(0.25))
+                                                ]),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: const [
-                                                      Text(
-                                                        'Jam Produktif',
-                                                        style: TextStyle(
-                                                            fontSize: 8),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 1,
-                                                      ),
-                                                      Icon(
-                                                        CupertinoIcons
-                                                            .question_circle,
-                                                        size: 8,
-                                                        color: cotech,
-                                                      )
-                                                    ],
+                                                  const Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      'TIdak ada pesanan terbaru',
+                                                      style: TextStyle(
+                                                          fontSize: 10),
+                                                    ),
                                                   ),
-                                                  Text(
-                                                    '${userData['productiveHours']}',
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600)),
-                                                  )
-                                                ],
-                                              ),
+                                                  RotatedBox(
+                                                      quarterTurns: 1,
+                                                      child: Opacity(
+                                                        opacity: 0.5,
+                                                        child: Image.asset(
+                                                          'assets/images/wind.png',
+                                                        ),
+                                                      ))
+                                                ]),
+                                          )
+                                        : IntrinsicHeight(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    showAlert(
+                                                        'Tidak ada pesanan');
+                                                  },
+                                                  child: Container(
+                                                    height: 50,
+                                                    width: 166,
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                        color: Colors.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              offset:
+                                                                  const Offset(
+                                                                      0, 2),
+                                                              blurRadius: 12,
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.25))
+                                                        ]),
+                                                    child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          const Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child: SizedBox(
+                                                              width: 75,
+                                                              child: Text(
+                                                                'TIdak ada pesanan terbaru',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        10),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          RotatedBox(
+                                                              quarterTurns: 1,
+                                                              child: Opacity(
+                                                                opacity: 0.5,
+                                                                child:
+                                                                    Image.asset(
+                                                                  'assets/images/wind.png',
+                                                                ),
+                                                              ))
+                                                        ]),
+                                                  ),
+                                                ),
+                                                const VerticalDivider(
+                                                  thickness: 2,
+                                                ),
+                                                InkWell(
+                                                  onTap: () {},
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(8),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                        color: Colors.white,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              offset:
+                                                                  const Offset(
+                                                                      0, 2),
+                                                              blurRadius: 12,
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.25))
+                                                        ]),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: const [
+                                                            Text(
+                                                              'Jam Produktif',
+                                                              style: TextStyle(
+                                                                  fontSize: 8),
+                                                            ),
+                                                            SizedBox(
+                                                              width: 1,
+                                                            ),
+                                                            Icon(
+                                                              CupertinoIcons
+                                                                  .question_circle,
+                                                              size: 8,
+                                                              color: cotech,
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Text(
+                                                          '${userData['productiveHours']}',
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle: const TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600)),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
                                   ]),
                             ),
                           ),
@@ -808,13 +889,8 @@ class HomeView extends GetView<HomeController> {
                   ],
                 );
               }
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(userData['accountType'].toString()),
-                  )
-                ],
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
           }
