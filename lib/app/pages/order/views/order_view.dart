@@ -126,6 +126,15 @@ class OrderView extends GetView<OrderController> {
                           future: controller.getOrders(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
+                              if (snapshot.data!.isEmpty) {
+                                return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 1.5,
+                                  child: const Center(
+                                    child: Text("Tidak ada Orderan"),
+                                  ),
+                                );
+                              }
                               return ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: snapshot.data!.length,

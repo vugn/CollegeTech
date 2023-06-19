@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class FirebaseOrdersFunctions {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getListOrdersTechnician() async {
@@ -23,6 +22,31 @@ class FirebaseOrdersFunctions {
         print(e);
       }
       return [];
+    }
+  }
+
+  void setOrder(
+    String orderId,
+    int status,
+    String dateStart,
+    String timeStart,
+  ) async {
+    try {
+      await _firebaseFirestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('orders')
+          .doc(orderId)
+          .update({
+        "status": status,
+        "date_start": dateStart,
+        "time_start": timeStart
+      });
+    } catch (e) {
+      Indicator.closeLoading();
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 }

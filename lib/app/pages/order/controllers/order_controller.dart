@@ -6,9 +6,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
+import 'package:teknisi_app/app/widgets/account_button.dart';
 import 'package:teknisi_app/app/widgets/forms.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class OrderController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -183,6 +186,20 @@ class OrderController extends GetxController
                   )
                 ],
               ),
+              const SizedBox(
+                height: 50,
+              ),
+              AccountButton(
+                  label: 'Masukkan Ke Jadwal',
+                  isActive: true,
+                  onTap: () {
+                    Indicator.showLoading();
+                    firebaseOrdersFunctions.setOrder(orderData['order_id'], 1,
+                        dateController.value.text, timeController.value.text);
+                    Indicator.closeLoading();
+                    Get.back();
+                    Get.back();
+                  })
             ],
           ),
         );
