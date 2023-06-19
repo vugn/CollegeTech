@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
+import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
 import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
@@ -199,6 +200,11 @@ class OrderController extends GetxController
                     Indicator.closeLoading();
                     Get.back();
                     Get.back();
+                    Get.find<MainPageController>().currentIndex.value = 2;
+                    Get.find<MainPageController>()
+                        .pageController
+                        .value
+                        .jumpToPage(2);
                   })
             ],
           ),
