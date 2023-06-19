@@ -23,6 +23,7 @@ class CustomTextField extends StatefulWidget {
       required this.hint,
       this.isDropdown = false,
       this.isPassword,
+      this.style,
       this.noLabel,
       this.expands,
       this.onChange,
@@ -40,6 +41,7 @@ class CustomTextField extends StatefulWidget {
   final bool? isMultiDropdown;
   final bool? noLabel;
   final bool isDropdown;
+  final TextStyle? style;
   final List<DropDownValueModel>? dropdownList;
   final String hint;
   final TextInputType? type;
@@ -98,6 +100,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               textInputAction: widget.textInputAction,
               readOnly: widget.readOnly ?? false,
               onTap: widget.onTap,
+              style: widget.style,
               onChanged: widget.onChange,
               decoration: InputDecoration(
                   errorText: widget.errorText,

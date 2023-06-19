@@ -71,7 +71,9 @@ class DetailOrderView extends GetView<OrderController> {
                         SizedBox(
                           height: 26,
                           child: FilledButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.showOrderDetail(orderData);
+                            },
                             style: ButtonStyle(
                                 padding: const MaterialStatePropertyAll(
                                     EdgeInsets.all(6)),
