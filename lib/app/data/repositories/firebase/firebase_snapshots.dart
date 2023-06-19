@@ -23,4 +23,10 @@ class FirebaseSnapshots {
             .snapshots();
     return ordersSnapshot;
   }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getBrandsSnapshot() {
+    Stream<DocumentSnapshot<Map<String, dynamic>>> brandsSnapshot =
+        _firebaseFirestore.collection('brands').doc('brands').snapshots();
+    return brandsSnapshot;
+  }
 }
