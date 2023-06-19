@@ -204,7 +204,9 @@ class SettingView extends GetView<SettingController> {
                                     color: Colors.white,
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(12),
-                                      onTap: () {},
+                                      onTap: () {
+                                        controller.showLogOut();
+                                      },
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 16, vertical: 13),
