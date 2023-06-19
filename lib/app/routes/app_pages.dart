@@ -11,6 +11,8 @@ import 'package:teknisi_app/app/pages/main/bindings/main_page_binding.dart';
 import 'package:teknisi_app/app/pages/main/views/main_page_view.dart';
 import 'package:teknisi_app/app/pages/order/bindings/order_binding.dart';
 import 'package:teknisi_app/app/pages/order/views/order_view.dart';
+import 'package:teknisi_app/app/pages/settings/bindings/setting_binding.dart';
+import 'package:teknisi_app/app/pages/settings/views/setting_view.dart';
 import 'package:teknisi_app/app/pages/tes_page.dart';
 
 part 'app_routes.dart';
@@ -39,6 +41,10 @@ class AppPages {
         name: _Paths.HISTORY,
         page: () => const HistoryView(),
         binding: HistoryBinding()),
+    GetPage(
+        name: _Paths.SETTING,
+        page: () => const SettingView(),
+        binding: SettingBinding()),
     GetPage(
         name: _Paths.REGISTER,
         page: () => const RegisterView(),

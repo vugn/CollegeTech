@@ -10,6 +10,7 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const ORDER = _Paths.ORDER;
   static const HISTORY = _Paths.HISTORY;
+  static const SETTING = _Paths.SETTING;
   static const TESWIDGET = _Paths.TESWIDGET;
   static const REGISTER = _Paths.REGISTER;
 
@@ -22,6 +23,7 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const ORDER = '/order';
   static const HISTORY = '/history';
+  static const SETTING = '/setting';
   static const TESWIDGET = '/test';
 
   static const REGISTER = '/register';
