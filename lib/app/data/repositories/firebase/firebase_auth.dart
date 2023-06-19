@@ -47,7 +47,7 @@ class FirebaseAuthentication {
           email: email, password: password);
       User? user = result.user;
       Indicator.closeLoading();
-      Get.toNamed(Routes.HOME);
+      Get.toNamed(Routes.MAIN);
       return Future.value(user);
     } on FirebaseAuthException catch (e) {
       Indicator.closeLoading();
