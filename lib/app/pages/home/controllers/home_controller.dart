@@ -38,6 +38,8 @@ class HomeController extends GetxController {
 
   late Stream<DocumentSnapshot> userCredentialSnaphot =
       _firebaseSnapshots.getUserCredentialSnapshot();
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> brandsSnapshot =
+      _firebaseSnapshots.getBrandsSnapshot();
 
   @override
   void onInit() async {

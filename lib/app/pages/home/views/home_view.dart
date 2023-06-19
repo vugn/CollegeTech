@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/data/constants.dart';
+import 'package:teknisi_app/app/domain/entities/brands/brand_entity.dart';
 import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -68,15 +69,17 @@ class HomeView extends GetView<HomeController> {
                                       fontWeight: FontWeight.w600,
                                     )),
                                   ),
-                                  // Text(
-                                  //   ' ${skillsList.isNotEmpty ? 'Teknisi ${skillsList[0]}' : 'Belum Memiliki Skill'}',
-                                  //   style: GoogleFonts.poppins(
-                                  //       textStyle: const TextStyle(
-                                  //     color: Colors.white,
-                                  //     fontSize: 8,
-                                  //     fontWeight: FontWeight.normal,
-                                  //   )),
-                                  // ),
+                                  accountType == 0
+                                      ? const SizedBox()
+                                      : Text(
+                                          ' ${skillsList!.isNotEmpty ? 'Teknisi ${skillsList[0]}' : 'Belum Memiliki Skill'}',
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.normal,
+                                          )),
+                                        ),
                                 ],
                               )
                             ],
@@ -93,181 +96,150 @@ class HomeView extends GetView<HomeController> {
                     SingleChildScrollView(
                       child: Stack(
                         children: [
-                          IntrinsicHeight(
-                            child: Container(
-                              transform:
-                                  Matrix4.translationValues(0.0, 140.0, 0.0),
-                              width: double.maxFinite,
-                              decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(12),
-                                      topRight: Radius.circular(12)),
-                                  color: Colors.white),
-                              child: Obx(() => Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 145,
-                                      ),
-                                      CarouselSlider(
-                                          carouselController: controller
-                                              .carouselController.value,
-                                          items: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                color: Colors.grey.shade300,
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                color: Colors.grey.shade300,
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                color: Colors.grey.shade300,
-                                              ),
-                                            ),
-                                          ],
-                                          options: CarouselOptions(
-                                            height: 100,
-                                            autoPlay: true,
-                                            enlargeCenterPage: true,
-                                            autoPlayInterval:
-                                                const Duration(seconds: 10),
-                                            onPageChanged: (index, reason) =>
-                                                controller.carouselCurrent
-                                                    .value = index,
-                                          )),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () => controller
-                                                .carouselController.value
-                                                .animateToPage(0),
-                                            child: Container(
-                                              width: 5,
-                                              height: 5,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0,
-                                                      horizontal: 4.0),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: (Theme.of(context)
-                                                                  .brightness ==
-                                                              Brightness.dark
-                                                          ? Colors.white
-                                                          : cotech)
-                                                      .withOpacity(controller
-                                                                  .carouselCurrent
-                                                                  .value ==
-                                                              0
-                                                          ? 0.9
-                                                          : 0.4)),
+                          Container(
+                            transform:
+                                Matrix4.translationValues(0.0, 140.0, 0.0),
+                            width: double.maxFinite,
+                            decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(12),
+                                    topRight: Radius.circular(12)),
+                                color: Colors.white),
+                            child: Obx(() => Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 145,
+                                    ),
+                                    CarouselSlider(
+                                        carouselController:
+                                            controller.carouselController.value,
+                                        items: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: Colors.grey.shade300,
                                             ),
                                           ),
-                                          GestureDetector(
-                                            onTap: () => controller
-                                                .carouselController.value
-                                                .animateToPage(1),
-                                            child: Container(
-                                              width: 5,
-                                              height: 5,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0,
-                                                      horizontal: 4.0),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: (Theme.of(context)
-                                                                  .brightness ==
-                                                              Brightness.dark
-                                                          ? Colors.white
-                                                          : cotech)
-                                                      .withOpacity(controller
-                                                                  .carouselCurrent
-                                                                  .value ==
-                                                              1
-                                                          ? 0.9
-                                                          : 0.4)),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: Colors.grey.shade300,
                                             ),
                                           ),
-                                          GestureDetector(
-                                            onTap: () => controller
-                                                .carouselController.value
-                                                .animateToPage(2),
-                                            child: Container(
-                                              width: 5,
-                                              height: 5,
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8.0,
-                                                      horizontal: 4.0),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: (Theme.of(context)
-                                                                  .brightness ==
-                                                              Brightness.dark
-                                                          ? Colors.white
-                                                          : cotech)
-                                                      .withOpacity(controller
-                                                                  .carouselCurrent
-                                                                  .value ==
-                                                              2
-                                                          ? 0.9
-                                                          : 0.4)),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              color: Colors.grey.shade300,
                                             ),
                                           ),
                                         ],
-                                      ),
-                                      const SizedBox(
-                                        height: 41,
-                                      ),
-                                      accountType == 0
-                                          ? Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 24),
-                                              child: Column(
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      "Mau Perbaiki Apa Hari ini ?",
-                                                      style: GoogleFonts.poppins(
-                                                          textStyle:
-                                                              const TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          : Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 24),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Sertifikat/Lisensi",
+                                        options: CarouselOptions(
+                                          height: 100,
+                                          autoPlay: true,
+                                          enlargeCenterPage: true,
+                                          autoPlayInterval:
+                                              const Duration(seconds: 10),
+                                          onPageChanged: (index, reason) =>
+                                              controller.carouselCurrent.value =
+                                                  index,
+                                        )),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () => controller
+                                              .carouselController.value
+                                              .animateToPage(0),
+                                          child: Container(
+                                            width: 5,
+                                            height: 5,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 4.0),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.dark
+                                                        ? Colors.white
+                                                        : cotech)
+                                                    .withOpacity(controller
+                                                                .carouselCurrent
+                                                                .value ==
+                                                            0
+                                                        ? 0.9
+                                                        : 0.4)),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () => controller
+                                              .carouselController.value
+                                              .animateToPage(1),
+                                          child: Container(
+                                            width: 5,
+                                            height: 5,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 4.0),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.dark
+                                                        ? Colors.white
+                                                        : cotech)
+                                                    .withOpacity(controller
+                                                                .carouselCurrent
+                                                                .value ==
+                                                            1
+                                                        ? 0.9
+                                                        : 0.4)),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () => controller
+                                              .carouselController.value
+                                              .animateToPage(2),
+                                          child: Container(
+                                            width: 5,
+                                            height: 5,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 4.0),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.dark
+                                                        ? Colors.white
+                                                        : cotech)
+                                                    .withOpacity(controller
+                                                                .carouselCurrent
+                                                                .value ==
+                                                            2
+                                                        ? 0.9
+                                                        : 0.4)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 41,
+                                    ),
+                                    accountType == 0
+                                        ? Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 24),
+                                            child: Column(
+                                              children: [
+                                                Center(
+                                                  child: Text(
+                                                    "Mau Perbaiki Apa Hari ini ?",
                                                     style: GoogleFonts.poppins(
                                                         textStyle:
                                                             const TextStyle(
@@ -276,303 +248,251 @@ class HomeView extends GetView<HomeController> {
                                                                     FontWeight
                                                                         .w600)),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 14,
-                                                  ),
-                                                  Container(
-                                                    width: double.maxFinite,
-                                                    height:
-                                                        MediaQuery.of(context)
+                                                ),
+                                                StreamBuilder<
+                                                    DocumentSnapshot<
+                                                        Map<String, dynamic>>>(
+                                                  stream:
+                                                      controller.brandsSnapshot,
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.connectionState !=
+                                                            ConnectionState
+                                                                .waiting ||
+                                                        snapshot.connectionState !=
+                                                            ConnectionState
+                                                                .none) {
+                                                      if (snapshot.hasData) {
+                                                        List? data = snapshot
+                                                            .data!
+                                                            .data()!
+                                                            .values
+                                                            .toList()[0];
+                                                        List? brands = data
+                                                                ?.map((e) => e)
+                                                                .toList() ??
+                                                            [
+                                                              const BrandEntity(
+                                                                  image: '',
+                                                                  name: '')
+                                                            ];
+                                                        List<BrandEntity>
+                                                            result = brands
+                                                                .map((e) =>
+                                                                    BrandEntity
+                                                                        .fromJson(
+                                                                            e))
+                                                                .toList();
+                                                        return GridView.count(
+                                                          shrinkWrap: true,
+                                                          crossAxisCount: 2,
+                                                          physics:
+                                                              const BouncingScrollPhysics(),
+                                                          childAspectRatio:
+                                                              1.65,
+                                                          children:
+                                                              List.generate(
+                                                                  result.length,
+                                                                  (index) =>
+                                                                      Container(
+                                                                        margin:
+                                                                            const EdgeInsets.all(6),
+                                                                        child:
+                                                                            ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(12),
+                                                                          child:
+                                                                              Stack(
+                                                                            children: [
+                                                                              CachedNetworkImage(
+                                                                                imageUrl: result[index].image,
+                                                                                fit: BoxFit.cover,
+                                                                              ),
+                                                                              Material(
+                                                                                color: Colors.black.withOpacity(0.5),
+                                                                                child: InkWell(
+                                                                                  onTap: () {},
+                                                                                ),
+                                                                              ),
+                                                                              Center(
+                                                                                child: Text(
+                                                                                  result[index].name,
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      )),
+                                                        );
+                                                      }
+                                                    }
+                                                    return const CircularProgressIndicator();
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  height: 24,
+                                                ),
+                                                AccountButton(
+                                                    label: 'Lihat Selengkapnya',
+                                                    isActive: true,
+                                                    onTap: () {}),
+                                                const SizedBox(
+                                                  height: 200,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 24),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Sertifikat/Lisensi",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600)),
+                                                ),
+                                                const SizedBox(
+                                                  height: 14,
+                                                ),
+                                                Container(
+                                                  width: double.maxFinite,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      4,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      color: Colors.white,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            offset:
+                                                                const Offset(
+                                                                    0, 2),
+                                                            blurRadius: 12,
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.25))
+                                                      ]),
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        color: Colors
+                                                            .grey.shade200,
+                                                        height: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .height /
-                                                            4,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        color: Colors.white,
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  const Offset(
-                                                                      0, 2),
-                                                              blurRadius: 12,
-                                                              color: Colors
-                                                                  .black
-                                                                  .withOpacity(
-                                                                      0.25))
-                                                        ]),
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          color: Colors
-                                                              .grey.shade200,
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height /
-                                                              7,
+                                                            7,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 14),
+                                                        child: ListView.builder(
+                                                          shrinkWrap: true,
                                                           padding:
                                                               const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      16,
-                                                                  vertical: 14),
-                                                          child:
-                                                              ListView.builder(
-                                                            shrinkWrap: true,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(0),
-                                                            physics:
-                                                                const BouncingScrollPhysics(),
-                                                            itemExtent:
-                                                                certificateList!
-                                                                        .isNotEmpty
-                                                                    ? 20
-                                                                    : null,
-                                                            itemCount: certificateList
-                                                                    .isNotEmpty
-                                                                ? certificateList
-                                                                    .length
-                                                                : 1,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    index) {
-                                                              if (certificateList
-                                                                  .isNotEmpty) {
-                                                                return Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width /
-                                                                          2.3,
-                                                                      child:
-                                                                          Text(
-                                                                        getFileName(
-                                                                            certificateList[index],
-                                                                            false),
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                      ),
-                                                                    ),
-                                                                    Row(
-                                                                      children: [
-                                                                        FilledButton(
-                                                                            onPressed:
-                                                                                () async {
-                                                                              await controller.openCertificate(certificateList[index]);
-                                                                            },
-                                                                            style:
-                                                                                ButtonStyle(
-                                                                              minimumSize: const MaterialStatePropertyAll(Size(33, 15)),
-                                                                              shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
-                                                                              padding: const MaterialStatePropertyAll(EdgeInsets.zero),
-                                                                            ),
-                                                                            child:
-                                                                                const Text(
-                                                                              'Lihat',
-                                                                              style: TextStyle(fontSize: 10, color: Colors.white),
-                                                                            )),
-                                                                        FilledButton(
-                                                                            onPressed:
-                                                                                () async {
-                                                                              controller.showDeleteCertificateDialog(context, certificateList[index]);
-                                                                            },
-                                                                            style:
-                                                                                ButtonStyle(
-                                                                              minimumSize: const MaterialStatePropertyAll(Size(33, 15)),
-                                                                              backgroundColor: const MaterialStatePropertyAll(Colors.redAccent),
-                                                                              shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
-                                                                              padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 4)),
-                                                                            ),
-                                                                            child:
-                                                                                const Text(
-                                                                              'Hapus',
-                                                                              style: TextStyle(fontSize: 10, color: Colors.white),
-                                                                            )),
-                                                                      ],
-                                                                    )
-                                                                  ],
-                                                                );
-                                                              } else {
-                                                                return const Center(
-                                                                  child: Text(
-                                                                    "Tidak ada Sertifikat",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          24,
+                                                                  .all(0),
+                                                          physics:
+                                                              const BouncingScrollPhysics(),
+                                                          itemExtent:
+                                                              certificateList!
+                                                                      .isNotEmpty
+                                                                  ? 20
+                                                                  : null,
+                                                          itemCount: certificateList
+                                                                  .isNotEmpty
+                                                              ? certificateList
+                                                                  .length
+                                                              : 1,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            if (certificateList
+                                                                .isNotEmpty) {
+                                                              return Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width /
+                                                                        2.3,
+                                                                    child: Text(
+                                                                      getFileName(
+                                                                          certificateList[
+                                                                              index],
+                                                                          false),
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
                                                                     ),
                                                                   ),
-                                                                );
-                                                              }
-                                                            },
-                                                          ),
-                                                        ),
-                                                        const Spacer(),
-                                                        SizedBox(
-                                                          width: 218,
-                                                          child: AccountButton(
-                                                              label: 'Tambah +',
-                                                              isActive: true,
-                                                              onTap: () {
-                                                                controller
-                                                                    .showAddCertificateDialog(
-                                                                        context);
-                                                              }),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                      const SizedBox(
-                                        height: 41,
-                                      ),
-                                      accountType == 0
-                                          ? const SizedBox()
-                                          : Container(
-                                              margin:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 24),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Keahlian",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                            const TextStyle(
-                                                                fontSize: 16,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600)),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 14,
-                                                  ),
-                                                  Container(
-                                                    width: double.maxFinite,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            4,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                        color: Colors.white,
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  const Offset(
-                                                                      0, 2),
-                                                              blurRadius: 12,
-                                                              color: Colors
-                                                                  .black
-                                                                  .withOpacity(
-                                                                      0.25))
-                                                        ]),
-                                                    child: Column(
-                                                      children: [
-                                                        Container(
-                                                          color: Colors
-                                                              .grey.shade200,
-                                                          height: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .height /
-                                                              7,
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      16,
-                                                                  vertical: 14),
-                                                          child:
-                                                              ListView.builder(
-                                                            shrinkWrap: true,
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(0),
-                                                            physics:
-                                                                const BouncingScrollPhysics(),
-                                                            itemExtent: skillsList!
-                                                                    .isNotEmpty
-                                                                ? 20
-                                                                : null,
-                                                            itemCount: skillsList
-                                                                    .isNotEmpty
-                                                                ? skillsList
-                                                                    .length
-                                                                : 1,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    index) {
-                                                              if (skillsList
-                                                                  .isNotEmpty) {
-                                                                return Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width: MediaQuery.of(context)
-                                                                              .size
-                                                                              .width /
-                                                                          2.3,
-                                                                      child:
-                                                                          Text(
-                                                                        skillsList[
-                                                                            index],
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                      ),
-                                                                    ),
-                                                                    FilledButton(
-                                                                        onPressed:
-                                                                            () {
-                                                                          controller.showDeleteSkillDialog(
-                                                                              context,
-                                                                              skillsList[index]);
-                                                                        },
-                                                                        style:
-                                                                            ButtonStyle(
-                                                                          minimumSize: const MaterialStatePropertyAll(Size(
-                                                                              33,
-                                                                              15)),
-                                                                          backgroundColor:
-                                                                              const MaterialStatePropertyAll(Colors.redAccent),
-                                                                          shape:
-                                                                              MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
-                                                                          padding:
-                                                                              const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 4)),
-                                                                        ),
-                                                                        child:
-                                                                            const Text(
-                                                                          'Hapus',
-                                                                          style: TextStyle(
-                                                                              fontSize: 10,
-                                                                              color: Colors.white),
-                                                                        ))
-                                                                  ],
-                                                                );
-                                                              }
-
+                                                                  Row(
+                                                                    children: [
+                                                                      FilledButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            await controller.openCertificate(certificateList[index]);
+                                                                          },
+                                                                          style:
+                                                                              ButtonStyle(
+                                                                            minimumSize:
+                                                                                const MaterialStatePropertyAll(Size(33, 15)),
+                                                                            shape:
+                                                                                MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
+                                                                            padding:
+                                                                                const MaterialStatePropertyAll(EdgeInsets.zero),
+                                                                          ),
+                                                                          child:
+                                                                              const Text(
+                                                                            'Lihat',
+                                                                            style:
+                                                                                TextStyle(fontSize: 10, color: Colors.white),
+                                                                          )),
+                                                                      FilledButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            controller.showDeleteCertificateDialog(context,
+                                                                                certificateList[index]);
+                                                                          },
+                                                                          style:
+                                                                              ButtonStyle(
+                                                                            minimumSize:
+                                                                                const MaterialStatePropertyAll(Size(33, 15)),
+                                                                            backgroundColor:
+                                                                                const MaterialStatePropertyAll(Colors.redAccent),
+                                                                            shape:
+                                                                                MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2))),
+                                                                            padding:
+                                                                                const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 4)),
+                                                                          ),
+                                                                          child:
+                                                                              const Text(
+                                                                            'Hapus',
+                                                                            style:
+                                                                                TextStyle(fontSize: 10, color: Colors.white),
+                                                                          )),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              );
+                                                            } else {
                                                               return const Center(
                                                                 child: Text(
-                                                                  "Tidak ada Skill",
+                                                                  "Tidak ada Sertifikat",
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
@@ -580,36 +500,201 @@ class HomeView extends GetView<HomeController> {
                                                                   ),
                                                                 ),
                                                               );
-                                                            },
-                                                          ),
+                                                            }
+                                                          },
                                                         ),
-                                                        const Spacer(),
-                                                        SizedBox(
-                                                          width: 218,
-                                                          child: AccountButton(
-                                                              label: 'Tambah +',
-                                                              isActive: true,
-                                                              onTap: () async {
-                                                                controller
-                                                                    .showAddSkillseDialog(
-                                                                        context);
-                                                              }),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        )
-                                                      ],
-                                                    ),
+                                                      ),
+                                                      const Spacer(),
+                                                      SizedBox(
+                                                        width: 218,
+                                                        child: AccountButton(
+                                                            label: 'Tambah +',
+                                                            isActive: true,
+                                                            onTap: () {
+                                                              controller
+                                                                  .showAddCertificateDialog(
+                                                                      context);
+                                                            }),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      )
+                                                    ],
                                                   ),
-                                                  const SizedBox(
-                                                    height: 200,
-                                                  ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                    ],
-                                  )),
-                            ),
+                                          ),
+                                    const SizedBox(
+                                      height: 41,
+                                    ),
+                                    accountType == 0
+                                        ? const SizedBox()
+                                        : Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 24),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Keahlian",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600)),
+                                                ),
+                                                const SizedBox(
+                                                  height: 14,
+                                                ),
+                                                Container(
+                                                  width: double.maxFinite,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      4,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      color: Colors.white,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            offset:
+                                                                const Offset(
+                                                                    0, 2),
+                                                            blurRadius: 12,
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.25))
+                                                      ]),
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                        color: Colors
+                                                            .grey.shade200,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height /
+                                                            7,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 14),
+                                                        child: ListView.builder(
+                                                          shrinkWrap: true,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(0),
+                                                          physics:
+                                                              const BouncingScrollPhysics(),
+                                                          itemExtent: skillsList!
+                                                                  .isNotEmpty
+                                                              ? 20
+                                                              : null,
+                                                          itemCount: skillsList
+                                                                  .isNotEmpty
+                                                              ? skillsList
+                                                                  .length
+                                                              : 1,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            if (skillsList
+                                                                .isNotEmpty) {
+                                                              return Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: MediaQuery.of(context)
+                                                                            .size
+                                                                            .width /
+                                                                        2.3,
+                                                                    child: Text(
+                                                                      skillsList[
+                                                                          index],
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                    ),
+                                                                  ),
+                                                                  FilledButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        controller.showDeleteSkillDialog(
+                                                                            context,
+                                                                            skillsList[index]);
+                                                                      },
+                                                                      style:
+                                                                          ButtonStyle(
+                                                                        minimumSize: const MaterialStatePropertyAll(Size(
+                                                                            33,
+                                                                            15)),
+                                                                        backgroundColor:
+                                                                            const MaterialStatePropertyAll(Colors.redAccent),
+                                                                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(2))),
+                                                                        padding:
+                                                                            const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 4)),
+                                                                      ),
+                                                                      child:
+                                                                          const Text(
+                                                                        'Hapus',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            color:
+                                                                                Colors.white),
+                                                                      ))
+                                                                ],
+                                                              );
+                                                            }
+
+                                                            return const Center(
+                                                              child: Text(
+                                                                "Tidak ada Skill",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 24,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                      const Spacer(),
+                                                      SizedBox(
+                                                        width: 218,
+                                                        child: AccountButton(
+                                                            label: 'Tambah +',
+                                                            isActive: true,
+                                                            onTap: () async {
+                                                              controller
+                                                                  .showAddSkillseDialog(
+                                                                      context);
+                                                            }),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 200,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                  ],
+                                )),
                           ),
                           Center(
                             child: Container(

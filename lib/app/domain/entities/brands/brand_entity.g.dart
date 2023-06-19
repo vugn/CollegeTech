@@ -8,12 +8,12 @@ part of 'brand_entity.dart';
 
 _$_BrandEntity _$$_BrandEntityFromJson(Map<String, dynamic> json) =>
     _$_BrandEntity(
-      value: json['value'] as String,
+      image: json['image'] as String,
       name: json['name'] as String,
     );
 
 Map<String, dynamic> _$$_BrandEntityToJson(_$_BrandEntity instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'image': instance.image,
       'name': instance.name,
     };

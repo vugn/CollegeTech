@@ -20,7 +20,7 @@ BrandEntity _$BrandEntityFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BrandEntity {
-  String get value => throw _privateConstructorUsedError;
+  String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $BrandEntityCopyWith<$Res> {
           BrandEntity value, $Res Function(BrandEntity) then) =
       _$BrandEntityCopyWithImpl<$Res, BrandEntity>;
   @useResult
-  $Res call({String value, String name});
+  $Res call({String image, String name});
 }
 
 /// @nodoc
@@ -51,13 +51,13 @@ class _$BrandEntityCopyWithImpl<$Res, $Val extends BrandEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? value = null,
+    Object? image = null,
     Object? name = null,
   }) {
     return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -75,7 +75,7 @@ abstract class _$$_BrandEntityCopyWith<$Res>
       __$$_BrandEntityCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String value, String name});
+  $Res call({String image, String name});
 }
 
 /// @nodoc
@@ -89,13 +89,13 @@ class __$$_BrandEntityCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? value = null,
+    Object? image = null,
     Object? name = null,
   }) {
     return _then(_$_BrandEntity(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
+      image: null == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
               as String,
       name: null == name
           ? _value.name
@@ -108,19 +108,19 @@ class __$$_BrandEntityCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_BrandEntity implements _BrandEntity {
-  const _$_BrandEntity({required this.value, required this.name});
+  const _$_BrandEntity({required this.image, required this.name});
 
   factory _$_BrandEntity.fromJson(Map<String, dynamic> json) =>
       _$$_BrandEntityFromJson(json);
 
   @override
-  final String value;
+  final String image;
   @override
   final String name;
 
   @override
   String toString() {
-    return 'BrandEntity(value: $value, name: $name)';
+    return 'BrandEntity(image: $image, name: $name)';
   }
 
   @override
@@ -128,13 +128,13 @@ class _$_BrandEntity implements _BrandEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_BrandEntity &&
-            (identical(other.value, value) || other.value == value) &&
+            (identical(other.image, image) || other.image == image) &&
             (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, value, name);
+  int get hashCode => Object.hash(runtimeType, image, name);
 
   @JsonKey(ignore: true)
   @override
@@ -152,14 +152,14 @@ class _$_BrandEntity implements _BrandEntity {
 
 abstract class _BrandEntity implements BrandEntity {
   const factory _BrandEntity(
-      {required final String value,
+      {required final String image,
       required final String name}) = _$_BrandEntity;
 
   factory _BrandEntity.fromJson(Map<String, dynamic> json) =
       _$_BrandEntity.fromJson;
 
   @override
-  String get value;
+  String get image;
   @override
   String get name;
   @override
