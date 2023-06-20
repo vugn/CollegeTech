@@ -8,6 +8,7 @@ class BrandEntity with _$BrandEntity {
   const factory BrandEntity({
     required String image,
     required String name,
+    required List<dynamic> brands,
   }) = _BrandEntity;
 
   factory BrandEntity.fromJson(Map<String, dynamic> json) =>

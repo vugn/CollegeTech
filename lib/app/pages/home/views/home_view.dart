@@ -273,7 +273,8 @@ class HomeView extends GetView<HomeController> {
                                                             [
                                                               const BrandEntity(
                                                                   image: '',
-                                                                  name: '')
+                                                                  name: '',
+                                                                  brands: [])
                                                             ];
                                                         List<BrandEntity>
                                                             result = brands
@@ -282,6 +283,7 @@ class HomeView extends GetView<HomeController> {
                                                                         .fromJson(
                                                                             e))
                                                                 .toList();
+
                                                         return GridView.count(
                                                           shrinkWrap: true,
                                                           crossAxisCount: 2,
@@ -327,6 +329,7 @@ class HomeView extends GetView<HomeController> {
                                                         );
                                                       }
                                                     }
+
                                                     return const CircularProgressIndicator();
                                                   },
                                                 ),

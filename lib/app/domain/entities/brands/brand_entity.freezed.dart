@@ -22,6 +22,7 @@ BrandEntity _$BrandEntityFromJson(Map<String, dynamic> json) {
 mixin _$BrandEntity {
   String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  List<dynamic> get brands => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,7 @@ abstract class $BrandEntityCopyWith<$Res> {
           BrandEntity value, $Res Function(BrandEntity) then) =
       _$BrandEntityCopyWithImpl<$Res, BrandEntity>;
   @useResult
-  $Res call({String image, String name});
+  $Res call({String image, String name, List<dynamic> brands});
 }
 
 /// @nodoc
@@ -53,6 +54,7 @@ class _$BrandEntityCopyWithImpl<$Res, $Val extends BrandEntity>
   $Res call({
     Object? image = null,
     Object? name = null,
+    Object? brands = null,
   }) {
     return _then(_value.copyWith(
       image: null == image
@@ -63,6 +65,10 @@ class _$BrandEntityCopyWithImpl<$Res, $Val extends BrandEntity>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      brands: null == brands
+          ? _value.brands
+          : brands // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ) as $Val);
   }
 }
@@ -75,7 +81,7 @@ abstract class _$$_BrandEntityCopyWith<$Res>
       __$$_BrandEntityCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String image, String name});
+  $Res call({String image, String name, List<dynamic> brands});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$_BrandEntityCopyWithImpl<$Res>
   $Res call({
     Object? image = null,
     Object? name = null,
+    Object? brands = null,
   }) {
     return _then(_$_BrandEntity(
       image: null == image
@@ -101,6 +108,10 @@ class __$$_BrandEntityCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      brands: null == brands
+          ? _value._brands
+          : brands // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }
@@ -108,7 +119,11 @@ class __$$_BrandEntityCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_BrandEntity implements _BrandEntity {
-  const _$_BrandEntity({required this.image, required this.name});
+  const _$_BrandEntity(
+      {required this.image,
+      required this.name,
+      required final List<dynamic> brands})
+      : _brands = brands;
 
   factory _$_BrandEntity.fromJson(Map<String, dynamic> json) =>
       _$$_BrandEntityFromJson(json);
@@ -117,10 +132,17 @@ class _$_BrandEntity implements _BrandEntity {
   final String image;
   @override
   final String name;
+  final List<dynamic> _brands;
+  @override
+  List<dynamic> get brands {
+    if (_brands is EqualUnmodifiableListView) return _brands;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_brands);
+  }
 
   @override
   String toString() {
-    return 'BrandEntity(image: $image, name: $name)';
+    return 'BrandEntity(image: $image, name: $name, brands: $brands)';
   }
 
   @override
@@ -129,12 +151,14 @@ class _$_BrandEntity implements _BrandEntity {
         (other.runtimeType == runtimeType &&
             other is _$_BrandEntity &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._brands, _brands));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, image, name);
+  int get hashCode => Object.hash(
+      runtimeType, image, name, const DeepCollectionEquality().hash(_brands));
 
   @JsonKey(ignore: true)
   @override
@@ -153,7 +177,8 @@ class _$_BrandEntity implements _BrandEntity {
 abstract class _BrandEntity implements BrandEntity {
   const factory _BrandEntity(
       {required final String image,
-      required final String name}) = _$_BrandEntity;
+      required final String name,
+      required final List<dynamic> brands}) = _$_BrandEntity;
 
   factory _BrandEntity.fromJson(Map<String, dynamic> json) =
       _$_BrandEntity.fromJson;
@@ -162,6 +187,8 @@ abstract class _BrandEntity implements BrandEntity {
   String get image;
   @override
   String get name;
+  @override
+  List<dynamic> get brands;
   @override
   @JsonKey(ignore: true)
   _$$_BrandEntityCopyWith<_$_BrandEntity> get copyWith =>
