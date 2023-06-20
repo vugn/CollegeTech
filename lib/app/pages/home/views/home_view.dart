@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/domain/entities/brands/brand_entity.dart';
 import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
@@ -312,14 +313,16 @@ class HomeView extends GetView<HomeController> {
                                                                               Material(
                                                                                 color: Colors.black.withOpacity(0.5),
                                                                                 child: InkWell(
-                                                                                  onTap: () {},
-                                                                                ),
-                                                                              ),
-                                                                              Center(
-                                                                                child: Text(
-                                                                                  result[index].name,
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+                                                                                  onTap: () {
+                                                                                    Get.toNamed(Routes.TECHNICIANLIST);
+                                                                                  },
+                                                                                  child: Center(
+                                                                                    child: Text(
+                                                                                      result[index].name,
+                                                                                      textAlign: TextAlign.center,
+                                                                                      style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+                                                                                    ),
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                             ],
