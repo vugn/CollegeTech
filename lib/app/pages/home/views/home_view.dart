@@ -709,12 +709,15 @@ class HomeView extends GetView<HomeController> {
                                 ],
                               )),
                         ),
-                        Center(
+                        Positioned(
+                          top: 115,
+                          right: 0,
+                          left: 0,
                           child: Container(
-                            transform: Matrix4.translationValues(0, 115.0, 0.0),
+                            // transform: Matrix4.translationValues(0, 115.0, 0.0),
                             padding: const EdgeInsets.all(16),
-                            height: 150,
-                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 153,
+                            margin: const EdgeInsets.symmetric(horizontal: 24),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 color: Colors.white,
@@ -866,7 +869,7 @@ class HomeView extends GetView<HomeController> {
                                                       child: Image.asset(
                                                         'assets/images/wind.png',
                                                       ),
-                                                    ))
+                                                    )),
                                               ]),
                                         )
                                       : IntrinsicHeight(
@@ -874,60 +877,161 @@ class HomeView extends GetView<HomeController> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  showAlert(
-                                                      'Tidak ada pesanan');
-                                                },
-                                                child: Container(
-                                                  height: 50,
-                                                  width: 166,
-                                                  padding:
-                                                      const EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              12),
-                                                      color: Colors.white,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            offset:
-                                                                const Offset(
-                                                                    0, 2),
-                                                            blurRadius: 12,
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.25))
-                                                      ]),
-                                                  child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        const Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: SizedBox(
-                                                            width: 75,
-                                                            child: Text(
-                                                              'TIdak ada pesanan terbaru',
-                                                              style: TextStyle(
-                                                                  fontSize: 10),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        RotatedBox(
-                                                            quarterTurns: 1,
-                                                            child: Opacity(
-                                                              opacity: 0.5,
-                                                              child:
-                                                                  Image.asset(
-                                                                'assets/images/wind.png',
+                                              StreamBuilder<
+                                                      QuerySnapshot<
+                                                          Map<String,
+                                                              dynamic>>>(
+                                                  stream:
+                                                      controller.orderSnapshot,
+                                                  builder: (context, snapshot) {
+                                                    if (snapshot.connectionState !=
+                                                            ConnectionState
+                                                                .waiting ||
+                                                        snapshot.connectionState !=
+                                                            ConnectionState
+                                                                .none) {
+                                                      if (snapshot.hasData) {
+                                                        var orders = snapshot
+                                                            .data!.docs
+                                                            .where((element) =>
+                                                                element.data()[
+                                                                    'status'] ==
+                                                                0);
+                                                        if (orders.isNotEmpty) {
+                                                          var currentOrder =
+                                                              orders.first
+                                                                  .data();
+                                                          return InkWell(
+                                                            onTap: () {
+                                                              print('TES');
+                                                            },
+                                                            child: Container(
+                                                              height: 55,
+                                                              width: 166,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12),
+                                                                  color: Colors
+                                                                      .white,
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        offset: const Offset(
+                                                                            0,
+                                                                            2),
+                                                                        blurRadius:
+                                                                            12,
+                                                                        color: Colors
+                                                                            .black
+                                                                            .withOpacity(0.25))
+                                                                  ]),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                      'Perbaikan ${currentOrder['title']}',
+                                                                      style: GoogleFonts.poppins(
+                                                                          textStyle: const TextStyle(
+                                                                              fontSize: 8,
+                                                                              fontWeight: FontWeight.w600))),
+                                                                  Text(
+                                                                      currentOrder[
+                                                                          'desc_error'],
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: GoogleFonts.poppins(
+                                                                          textStyle: const TextStyle(
+                                                                              fontSize: 8,
+                                                                              color: cotech))),
+                                                                  Row(
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          const Icon(
+                                                                            CupertinoIcons.clock,
+                                                                            size:
+                                                                                8,
+                                                                            color:
+                                                                                cotech,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            width:
+                                                                                5,
+                                                                          ),
+                                                                          Text(
+                                                                              'Menuggu Perbaikan',
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: GoogleFonts.poppins(textStyle: const TextStyle(fontSize: 8, color: cotech)))
+                                                                        ],
+                                                                      )
+                                                                    ],
+                                                                  )
+                                                                ],
                                                               ),
-                                                            ))
-                                                      ]),
-                                                ),
-                                              ),
+                                                            ),
+                                                          );
+                                                        }
+                                                      }
+                                                    }
+                                                    return Container(
+                                                      height: 55,
+                                                      width: 166,
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          color: Colors.white,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                offset:
+                                                                    const Offset(
+                                                                        0, 2),
+                                                                blurRadius: 12,
+                                                                color: Colors
+                                                                    .black
+                                                                    .withOpacity(
+                                                                        0.25))
+                                                          ]),
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceEvenly,
+                                                          children: [
+                                                            const Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: SizedBox(
+                                                                width: 75,
+                                                                child: Text(
+                                                                  'TIdak ada pesanan terbaru',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          8),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            RotatedBox(
+                                                                quarterTurns: 1,
+                                                                child: Opacity(
+                                                                  opacity: 0.5,
+                                                                  child: Image
+                                                                      .asset(
+                                                                    'assets/images/wind.png',
+                                                                  ),
+                                                                ))
+                                                          ]),
+                                                    );
+                                                  }),
                                               const VerticalDivider(
                                                 thickness: 2,
                                               ),
