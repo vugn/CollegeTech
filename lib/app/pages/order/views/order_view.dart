@@ -139,6 +139,9 @@ class OrderView extends GetView<OrderController> {
                                     var orderData =
                                         snapshot.data!.docs[index].data();
                                     var userData = orderData['to_user'];
+                                    var technicianData =
+                                        orderData['to_technician'];
+                                    bool isTechnician = technicianData != null;
                                     bool isWaiting = orderData['status'] == 0;
                                     if (!isWaiting) {
                                       return SizedBox(
@@ -176,8 +179,11 @@ class OrderView extends GetView<OrderController> {
                                                 borderRadius:
                                                     BorderRadius.circular(100),
                                                 child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      userData['profilePhoto'],
+                                                  imageUrl: isTechnician
+                                                      ? technicianData[
+                                                          'profilePhoto']
+                                                      : userData[
+                                                          'profilePhoto'],
                                                   width: 50,
                                                 ),
                                               ),
@@ -265,6 +271,8 @@ class OrderView extends GetView<OrderController> {
                                     var orderData =
                                         snapshot.data!.docs[index].data();
                                     var userData = orderData['to_user'];
+                                    var technicianData =
+                                        orderData['to_technician'];
                                     bool istimetable = orderData['status'] == 1;
                                     if (!istimetable) {
                                       return SizedBox(
@@ -302,8 +310,11 @@ class OrderView extends GetView<OrderController> {
                                                 borderRadius:
                                                     BorderRadius.circular(100),
                                                 child: CachedNetworkImage(
-                                                  imageUrl:
-                                                      userData['profilePhoto'],
+                                                  imageUrl: technicianData
+                                                      ? technicianData[
+                                                          'profilePhoto']
+                                                      : userData[
+                                                          'profilePhoto'],
                                                   width: 50,
                                                 ),
                                               ),

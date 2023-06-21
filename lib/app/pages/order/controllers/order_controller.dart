@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:teknisi_app/app/data/repositories/firebase/firebase_auth.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
 import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
@@ -20,6 +21,7 @@ class OrderController extends GetxController
   final FirebaseOrdersFunctions firebaseOrdersFunctions =
       FirebaseOrdersFunctions();
   final FirebaseSnapshots firebaseSnapshots = FirebaseSnapshots();
+  final FirebaseAuthentication firebaseAuth = FirebaseAuthentication();
   late Rx<TabController> tabBarController;
 
   Rx<TextEditingController> dateController = TextEditingController().obs;
