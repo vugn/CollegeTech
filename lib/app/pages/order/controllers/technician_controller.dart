@@ -18,7 +18,7 @@ class TechniciansController extends GetxController {
     Indicator.showLoading();
     firebaseOrdersFunctions.createOrder(
         userId: _authentication.currentUser()!.uid,
-        technicianId: technicianData[0]['uid'],
+        technicianId: technicianData[0].data()['uid'],
         address: 'jalan ini itu',
         brand: 'LG',
         dateStart: '19 - 06 - 2023',
@@ -27,8 +27,8 @@ class TechniciansController extends GetxController {
         status: 0,
         timeStart: '16:00',
         title: 'TES RUSAK 1',
-        toTechnician: technicianData[0],
-        toUser: _authentication.currentUser()!);
+        userEmail: _authentication.currentUser()!.email!,
+        toTechnician: technicianData[0].data());
     Indicator.closeLoading();
   }
 }

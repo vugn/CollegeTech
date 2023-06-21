@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:teknisi_app/app/data/constants.dart';
+import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class FirebaseOrdersFunctions {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFunctions _firebaseFunctions = FirebaseFunctions();
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
       getListOrdersTechnician() async {
@@ -67,23 +70,23 @@ class FirebaseOrdersFunctions {
     }
   }
 
-  void createOrder({
-    required String userId,
-    required String technicianId,
-    required String address,
-    required String brand,
-    required String dateStart,
-    required String descError,
-    required String latlang,
-    required int status,
-    required String timeStart,
-    required String title,
-    required dynamic toTechnician,
-    required dynamic toUser,
-  }) async {
+  void createOrder(
+      {required String userId,
+      required String technicianId,
+      required String address,
+      required String brand,
+      required String dateStart,
+      required String descError,
+      required String latlang,
+      required int status,
+      required String timeStart,
+      required String title,
+      required dynamic toTechnician,
+      required String userEmail}) async {
     try {
       String orderId = generateId();
-
+      var userDataQuery = await _firebaseFunctions.getUserCredential(userEmail);
+      var userData = userDataQuery!.docs[0].data();
       await _firebaseFirestore
           .collection('users')
           .doc(userId)
@@ -115,7 +118,7 @@ class FirebaseOrdersFunctions {
         "status": status,
         "time_start": timeStart,
         "title": title,
-        "to_user": toUser,
+        "to_user": userData,
       });
     } catch (e) {
       if (kDebugMode) {
