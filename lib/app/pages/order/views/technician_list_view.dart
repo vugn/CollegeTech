@@ -141,7 +141,9 @@ class TechniciansView extends GetView<TechniciansController> {
                                 size: const Size(100, 32),
                                 label: 'Hubungi',
                                 isActive: true,
-                                onTap: () {}),
+                                onTap: () {
+                                  controller.createOrder();
+                                }),
                           ),
                           const SizedBox(
                             height: 12,
