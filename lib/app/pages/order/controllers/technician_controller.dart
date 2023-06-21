@@ -9,5 +9,5 @@ class TechniciansController extends GetxController {
   final FirebaseOrdersFunctions firebaseOrdersFunctions =
       FirebaseOrdersFunctions();
   final FirebaseSnapshots firebaseSnapshots = FirebaseSnapshots();
-  final BrandEntity brandResult = Get.arguments;
+  final dynamic technicianData = Get.arguments;
 }

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
 import 'package:teknisi_app/app/pages/order/controllers/brands_controller.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
 
 class BrandsList extends GetView<BrandsController> {
   const BrandsList({super.key});
@@ -70,7 +71,16 @@ class BrandsList extends GetView<BrandsController> {
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () async {},
+                                  onTap: () async {
+                                    var techniciansData = await controller
+                                        .firebaseOrdersFunctions
+                                        .getTechnicianListFromSkills(
+                                            controller.brandResult.name);
+                                    if (techniciansData.isNotEmpty) {
+                                      Get.toNamed(Routes.TECHNICIANLIST,
+                                          arguments: techniciansData);
+                                    }
+                                  },
                                 ),
                               ),
                             ],
