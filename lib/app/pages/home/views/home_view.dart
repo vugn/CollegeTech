@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/domain/entities/brands/brand_entity.dart';
 import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
+import 'package:teknisi_app/app/pages/order/views/brand_list_view.dart';
 import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -314,7 +315,7 @@ class HomeView extends GetView<HomeController> {
                                                                                 color: Colors.black.withOpacity(0.5),
                                                                                 child: InkWell(
                                                                                   onTap: () {
-                                                                                    Get.toNamed(Routes.TECHNICIANLIST);
+                                                                                    Get.toNamed(Routes.BRANDLIST, arguments: result[index]);
                                                                                   },
                                                                                   child: Center(
                                                                                     child: Text(

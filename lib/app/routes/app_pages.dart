@@ -12,7 +12,7 @@ import 'package:teknisi_app/app/pages/main/views/main_page_view.dart';
 import 'package:teknisi_app/app/pages/order/bindings/order_binding.dart';
 import 'package:teknisi_app/app/pages/order/views/order_view.dart';
 import 'package:teknisi_app/app/pages/order/views/detail_order_view.dart';
-import 'package:teknisi_app/app/pages/order/views/technician_list.dart';
+import 'package:teknisi_app/app/pages/order/views/brand_list_view.dart';
 import 'package:teknisi_app/app/pages/settings/bindings/setting_binding.dart';
 import 'package:teknisi_app/app/pages/settings/views/setting_view.dart';
 import 'package:teknisi_app/app/pages/tes_page.dart';
@@ -44,8 +44,8 @@ class AppPages {
         page: () => DetailOrderView(),
         binding: OrderBinding()),
     GetPage(
-        name: _Paths.TECHNICIANLIST,
-        page: () => const TechnicianListOrder(),
+        name: _Paths.BRANDLIST,
+        page: () => const BrandsList(),
         binding: OrderBinding()),
     GetPage(
         name: _Paths.HISTORY,
