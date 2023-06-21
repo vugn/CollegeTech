@@ -5,7 +5,7 @@ import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.da
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
 import 'package:teknisi_app/app/domain/entities/brands/brand_entity.dart';
 
-class BrandsController extends GetxController {
+class TechniciansController extends GetxController {
   final FirebaseOrdersFunctions firebaseOrdersFunctions =
       FirebaseOrdersFunctions();
   final FirebaseSnapshots firebaseSnapshots = FirebaseSnapshots();

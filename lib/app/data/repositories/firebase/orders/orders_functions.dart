@@ -51,11 +51,11 @@ class FirebaseOrdersFunctions {
   }
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getTechnicianListFromSkills() async {
+      getTechnicianListFromSkills(String skill) async {
     try {
       var results = await _firebaseFirestore
           .collection('users')
-          .where('skills', arrayContains: 'Air Conditioner')
+          .where('skills', arrayContains: skill)
           .get();
       return results.docs;
     } catch (e) {
