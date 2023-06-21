@@ -70,7 +70,7 @@ class BrandsList extends GetView<BrandsController> {
                               Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () async {},
                                 ),
                               ),
                             ],

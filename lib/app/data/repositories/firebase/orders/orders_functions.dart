@@ -49,4 +49,20 @@ class FirebaseOrdersFunctions {
       }
     }
   }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getTechnicianListFromSkills() async {
+    try {
+      var results = await _firebaseFirestore
+          .collection('users')
+          .where('skills', arrayContains: 'Air Conditioner')
+          .get();
+      return results.docs;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return [];
+    }
+  }
 }
