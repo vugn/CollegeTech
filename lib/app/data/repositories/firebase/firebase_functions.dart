@@ -55,6 +55,7 @@ class FirebaseFunctions {
         "certificates": await Future.wait(certificateList),
         "ktms": await Future.wait(ktmList),
         "address": address,
+        "skills_desc": skillDescription,
         "university": university,
         "profilePhoto": await uploadProfilePicture(
             file: profilePhoto,
