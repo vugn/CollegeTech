@@ -16,8 +16,8 @@ class DetailOrderView extends GetView<OrderController> {
 
   @override
   Widget build(BuildContext context) {
-    final userData = orderData['to_user'];
-    final technicianData = orderData['to_technician'];
+    final userData = orderData['to_technician'];
+    final technicianData = orderData['to_user'];
     bool isTechnician = technicianData != null && userData == null;
     return Scaffold(
       body: Column(
@@ -88,30 +88,97 @@ class DetailOrderView extends GetView<OrderController> {
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 26,
-                              child: FilledButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                    padding: const MaterialStatePropertyAll(
-                                        EdgeInsets.all(6)),
-                                    fixedSize: const MaterialStatePropertyAll(
-                                        Size(81, 26)),
-                                    shape: MaterialStatePropertyAll(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8))),
-                                    backgroundColor:
-                                        const MaterialStatePropertyAll(
-                                            Colors.redAccent)),
-                                child: Text("Lapor",
-                                    style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                    ))),
-                              ),
-                            )
+                            isTechnician
+                                ? Column(children: [
+                                    SizedBox(
+                                      height: 26,
+                                      child: FilledButton(
+                                        onPressed: () {
+                                          controller.showOrderDetail(orderData);
+                                        },
+                                        style: ButtonStyle(
+                                            padding:
+                                                const MaterialStatePropertyAll(
+                                                    EdgeInsets.all(6)),
+                                            fixedSize:
+                                                const MaterialStatePropertyAll(
+                                                    Size(81, 26)),
+                                            shape: MaterialStatePropertyAll(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8))),
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Colors.green.shade700)),
+                                        child: Text("Atur Jadwal",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                            ))),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 26,
+                                      child: FilledButton(
+                                        onPressed: () {
+                                          controller.showOrderDetail(orderData);
+                                        },
+                                        style: ButtonStyle(
+                                            padding:
+                                                const MaterialStatePropertyAll(
+                                                    EdgeInsets.all(6)),
+                                            fixedSize:
+                                                const MaterialStatePropertyAll(
+                                                    Size(81, 26)),
+                                            shape: MaterialStatePropertyAll(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8))),
+                                            backgroundColor:
+                                                const MaterialStatePropertyAll(
+                                                    Colors.redAccent)),
+                                        child: Text("Tolak",
+                                            style: GoogleFonts.poppins(
+                                                textStyle: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                            ))),
+                                      ),
+                                    ),
+                                  ])
+                                : SizedBox(
+                                    height: 26,
+                                    child: FilledButton(
+                                      onPressed: () {},
+                                      style: ButtonStyle(
+                                          padding:
+                                              const MaterialStatePropertyAll(
+                                                  EdgeInsets.all(6)),
+                                          fixedSize:
+                                              const MaterialStatePropertyAll(
+                                                  Size(81, 26)),
+                                          shape: MaterialStatePropertyAll(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8))),
+                                          backgroundColor:
+                                              const MaterialStatePropertyAll(
+                                                  Colors.redAccent)),
+                                      child: Text("Lapor",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                          ))),
+                                    ),
+                                  )
                           ],
                         ),
                       ],
