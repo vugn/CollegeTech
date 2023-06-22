@@ -35,7 +35,6 @@ class AddressController extends GetxController {
     locationSubscription =
         _location.onLocationChanged.listen((LocationData cLoc) async {
       userPosition = LatLng(cLoc.latitude!, cLoc.longitude!);
-      finalPosition = userPosition;
       updateMapCameraPosition();
     });
   }
@@ -50,7 +49,8 @@ class AddressController extends GetxController {
   void addMarker() {
     markers.add(Marker(
       markerId: const MarkerId('userMarker'),
-      infoWindow: const InfoWindow(title: "Geser Lokasi"),
+      infoWindow: const InfoWindow(
+          title: "Geser Lokasi", snippet: 'Tahan tanda untuk geser lokasi'),
       position: userPosition,
       draggable: true,
       onDragEnd: (value) => finalPosition = value,
@@ -66,7 +66,6 @@ class AddressController extends GetxController {
         await googleMapController.future;
     mapControllerComplete.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: userPosition, zoom: 19)));
-    finalPosition = userPosition;
     removeMarker();
     addMarker();
   }
@@ -75,5 +74,7 @@ class AddressController extends GetxController {
     googleMapController.complete(controller);
   }
 
-  void onSubmit() {}
+  void onSubmit() {
+    print(finalPosition);
+  }
 }

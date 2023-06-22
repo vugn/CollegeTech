@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:teknisi_app/app/pages/address/controllers/address_controller.dart';
-import 'package:teknisi_app/app/pages/address/views/address_map_view.dart';
-import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
 import 'package:teknisi_app/app/widgets/forms.dart';
 
@@ -22,6 +20,7 @@ class AddressView extends GetView<AddressController> {
         },
         child: SafeArea(
           child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
