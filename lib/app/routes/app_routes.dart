@@ -15,6 +15,7 @@ abstract class Routes {
   static const CRASHDETAIL = _Paths.CRASHDETAIL;
   static const HISTORY = _Paths.HISTORY;
   static const SETTING = _Paths.SETTING;
+  static const ADDRESS = _Paths.ADDRESS;
   static const TESWIDGET = _Paths.TESWIDGET;
   static const REGISTER = _Paths.REGISTER;
 
@@ -32,6 +33,7 @@ abstract class _Paths {
   static const CRASHDETAIL = '/crashDetail';
   static const HISTORY = '/history';
   static const SETTING = '/setting';
+  static const ADDRESS = '/address';
   static const TESWIDGET = '/test';
 
   static const REGISTER = '/register';

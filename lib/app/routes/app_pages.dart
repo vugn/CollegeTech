@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/pages/address/bindings/address_binding.dart';
+import 'package:teknisi_app/app/pages/address/views/address_view.dart';
 import 'package:teknisi_app/app/pages/auth/login/bindings/login_binding.dart';
 import 'package:teknisi_app/app/pages/auth/login/views/login_view.dart';
 import 'package:teknisi_app/app/pages/auth/register/bindings/register_binding.dart';
@@ -65,6 +67,10 @@ class AppPages {
         name: _Paths.SETTING,
         page: () => const SettingView(),
         binding: SettingBinding()),
+    GetPage(
+        name: _Paths.ADDRESS,
+        page: () => const AddressView(),
+        binding: AddressBinding()),
     GetPage(
         name: _Paths.REGISTER,
         page: () => const RegisterView(),
