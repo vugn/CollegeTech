@@ -57,6 +57,7 @@ class FirebaseFunctions {
         "address": address,
         "skills_desc": skillDescription,
         "university": university,
+        "skills": [],
         "profilePhoto": await uploadProfilePicture(
             file: profilePhoto,
             isTechnician: true,
@@ -65,7 +66,7 @@ class FirebaseFunctions {
       }).then((value) async {
         await _auth.currentUser!.updateDisplayName(fullName);
         Indicator.closeLoading();
-        Get.offAllNamed(Routes.TESWIDGET);
+        Get.offAllNamed(Routes.MAIN);
       });
     } catch (e) {
       Indicator.closeLoading();
@@ -96,7 +97,7 @@ class FirebaseFunctions {
       }).then((value) async {
         await _auth.currentUser!.updateDisplayName(fullName);
         Indicator.closeLoading();
-        Get.offAndToNamed(Routes.TESWIDGET);
+        Get.offAndToNamed(Routes.MAIN);
       });
     } catch (e) {
       Indicator.closeLoading();
