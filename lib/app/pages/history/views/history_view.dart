@@ -32,15 +32,16 @@ class HistoryView extends GetView<HistoryController> {
                   if (snapshot.connectionState != ConnectionState.waiting ||
                       snapshot.connectionState != ConnectionState.none) {
                     if (snapshot.hasData) {
+                      List orders = snapshot.data!.docs
+                          .where((element) =>
+                              element['status'] == 3 || element['status'] == 4)
+                          .toList();
                       return ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: snapshot.data!.docs.length,
+                        itemCount: orders.isNotEmpty ? orders.length : 1,
                         itemBuilder: (context, index) {
-                          var orderData = snapshot.data!.docs[index].data();
-                          var userData = orderData['to_user'];
-                          bool isHistory = orderData['status'] >= 3;
-                          if (!isHistory) {
+                          if (orders.isEmpty) {
                             return SizedBox(
                               height: MediaQuery.of(context).size.height / 1.5,
                               child: const Center(
@@ -48,6 +49,9 @@ class HistoryView extends GetView<HistoryController> {
                               ),
                             );
                           }
+                          var orderData = orders[index].data();
+                          var userData = orderData['to_user'];
+                          var technicianData = orderData['to_technician'];
                           return Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 24, vertical: 16),
@@ -70,7 +74,9 @@ class HistoryView extends GetView<HistoryController> {
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(100),
                                       child: CachedNetworkImage(
-                                        imageUrl: userData['profilePhoto'],
+                                        imageUrl: technicianData != null
+                                            ? technicianData['profilePhoto']
+                                            : userData['profilePhoto'],
                                         width: 50,
                                       ),
                                     ),
