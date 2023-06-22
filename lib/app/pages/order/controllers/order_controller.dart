@@ -221,8 +221,8 @@ class OrderController extends GetxController
                           firebaseOrdersFunctions.setOrder(
                               orderData['order_id'],
                               1,
-                              dateController.value.text,
-                              timeController.value.text);
+                              dateText.value,
+                              timeText.value);
                           Indicator.closeLoading();
                           Get.back();
                           Get.back();
