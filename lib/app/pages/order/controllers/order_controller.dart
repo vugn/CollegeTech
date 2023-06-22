@@ -220,6 +220,7 @@ class OrderController extends GetxController
                           Indicator.showLoading();
                           firebaseOrdersFunctions.setOrder(
                               orderData['order_id'],
+                              orderData['to_user']['uid'],
                               1,
                               dateText.value,
                               timeText.value);

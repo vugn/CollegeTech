@@ -8,6 +8,7 @@ import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:swipe_to/swipe_to.dart';
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class DetailOrderView extends GetView<OrderController> {
   DetailOrderView({super.key});
@@ -126,7 +127,13 @@ class DetailOrderView extends GetView<OrderController> {
                                       height: 26,
                                       child: FilledButton(
                                         onPressed: () {
-                                          controller.showOrderDetail(orderData);
+                                          Indicator.showLoading();
+                                          controller.firebaseOrdersFunctions
+                                              .setOrderStatus(
+                                                  orderData['order_id'],
+                                                  orderData['to_user']['uid'],
+                                                  4);
+                                          Indicator.closeLoading();
                                         },
                                         style: ButtonStyle(
                                             padding:

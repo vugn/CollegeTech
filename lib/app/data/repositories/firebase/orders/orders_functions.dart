@@ -48,6 +48,7 @@ class FirebaseOrdersFunctions {
 
   void setOrder(
     String orderId,
+    String userId,
     int status,
     String dateStart,
     String timeStart,
@@ -62,6 +63,48 @@ class FirebaseOrdersFunctions {
         "status": status,
         "date_start": dateStart,
         "time_start": timeStart
+      });
+      //
+      await _firebaseFirestore
+          .collection('users')
+          .doc(userId)
+          .collection('orders')
+          .doc(orderId)
+          .update({
+        "status": status,
+        "date_start": dateStart,
+        "time_start": timeStart
+      });
+    } catch (e) {
+      Indicator.closeLoading();
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  void setOrderStatus(
+    String orderId,
+    String userId,
+    int status,
+  ) async {
+    try {
+      await _firebaseFirestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('orders')
+          .doc(orderId)
+          .update({
+        "status": status,
+      });
+      //
+      await _firebaseFirestore
+          .collection('users')
+          .doc(userId)
+          .collection('orders')
+          .doc(orderId)
+          .update({
+        "status": status,
       });
     } catch (e) {
       Indicator.closeLoading();

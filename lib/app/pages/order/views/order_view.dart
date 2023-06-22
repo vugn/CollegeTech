@@ -7,6 +7,7 @@ import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
 import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class OrderView extends GetView<OrderController> {
   const OrderView({super.key});
@@ -417,7 +418,19 @@ class OrderView extends GetView<OrderController> {
                                                     size: const Size(100, 32),
                                                     label: 'Selesai',
                                                     isActive: true,
-                                                    onTap: () {}),
+                                                    onTap: () {
+                                                      Indicator.showLoading();
+                                                      controller
+                                                          .firebaseOrdersFunctions
+                                                          .setOrderStatus(
+                                                              orderData[
+                                                                  'order_id'],
+                                                              orderData[
+                                                                      'to_user']
+                                                                  ['uid'],
+                                                              3);
+                                                      Indicator.closeLoading();
+                                                    }),
                                               ),
                                               const SizedBox(
                                                 height: 12,
@@ -429,9 +442,9 @@ class OrderView extends GetView<OrderController> {
                                                     label: 'Detail',
                                                     isActive: false,
                                                     onTap: () {
-                                                      Get.toNamed(
-                                                          Routes.DETAILORDER,
-                                                          arguments: orderData);
+                                                      // Get.toNamed(
+                                                      //     Routes.DETAILORDER,
+                                                      //     arguments: orderData);
                                                     }),
                                               ),
                                             ],
