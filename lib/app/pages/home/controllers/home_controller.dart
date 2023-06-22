@@ -14,6 +14,7 @@ import 'package:teknisi_app/app/data/repositories/firebase/firebase_auth.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:path/path.dart' as path;
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
+import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
 import 'package:teknisi_app/app/widgets/forms.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +36,8 @@ class HomeController extends GetxController {
 
   RxList<File> certificates = <File>[].obs;
   RxString certificateName = ''.obs;
+
+  MainPageController bottomNavbarController = Get.find<MainPageController>();
 
   late Stream<DocumentSnapshot> userCredentialSnaphot =
       _firebaseSnapshots.getUserCredentialSnapshot();
