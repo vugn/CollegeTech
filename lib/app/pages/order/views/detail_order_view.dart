@@ -23,94 +23,102 @@ class DetailOrderView extends GetView<OrderController> {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 28),
             width: double.maxFinite,
             decoration: const BoxDecoration(
                 color: cotech,
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(20),
                     bottomLeft: Radius.circular(20))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    color: Colors.white,
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(CupertinoIcons.back)),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      color: Colors.white,
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(CupertinoIcons.back)),
+                  Container(
+                    padding:
+                        const EdgeInsets.only(right: 28, left: 28, bottom: 24),
+                    child: Column(
                       children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: CachedNetworkImage(
-                              imageUrl: isTechnician
-                                  ? technicianData['profilePhoto']
-                                  : userData['profilePhoto'],
-                              width: 50,
-                            )),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                                isTechnician
-                                    ? technicianData['fullName']
-                                    : userData['fullName'],
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600))),
-                            SizedBox(
-                              width: 142,
-                              child: Text(orderData['desc_error'],
-                                  style: GoogleFonts.poppins(
-                                      textStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 8,
-                                  ))),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: CachedNetworkImage(
+                                      imageUrl: isTechnician
+                                          ? technicianData['profilePhoto']
+                                          : userData['profilePhoto'],
+                                      width: 50,
+                                    )),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        isTechnician
+                                            ? technicianData['fullName']
+                                            : userData['fullName'],
+                                        style: GoogleFonts.poppins(
+                                            textStyle: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600))),
+                                    SizedBox(
+                                      width: 142,
+                                      child: Text(orderData['desc_error'],
+                                          style: GoogleFonts.poppins(
+                                              textStyle: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 8,
+                                          ))),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
+                            SizedBox(
+                              height: 26,
+                              child: FilledButton(
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                    padding: const MaterialStatePropertyAll(
+                                        EdgeInsets.all(6)),
+                                    fixedSize: const MaterialStatePropertyAll(
+                                        Size(81, 26)),
+                                    shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8))),
+                                    backgroundColor:
+                                        const MaterialStatePropertyAll(
+                                            Colors.redAccent)),
+                                child: Text("Lapor",
+                                    style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ))),
+                              ),
+                            )
                           ],
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 26,
-                      child: FilledButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                            padding: const MaterialStatePropertyAll(
-                                EdgeInsets.all(6)),
-                            fixedSize:
-                                const MaterialStatePropertyAll(Size(81, 26)),
-                            shape: MaterialStatePropertyAll(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8))),
-                            backgroundColor: const MaterialStatePropertyAll(
-                                Colors.redAccent)),
-                        child: Text("Lapor",
-                            style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                            ))),
-                      ),
-                    )
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
