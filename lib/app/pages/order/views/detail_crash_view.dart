@@ -56,7 +56,10 @@ class DetailCrashView extends GetView<DetailCrashController> {
                           controller: controller.brandName.value,
                           type: TextInputType.name,
                           textInputAction: TextInputAction.done,
-                          errorText: controller.brandName.value.text.isNotEmpty
+                          onChange: (v) {
+                            controller.brandNameText.value = v;
+                          },
+                          errorText: controller.brandNameText.value.isNotEmpty
                               ? null
                               : 'Harap isi Brand Elektronik',
                           readOnly: controller.brandResult['brandData'] != null
@@ -83,10 +86,12 @@ class DetailCrashView extends GetView<DetailCrashController> {
                             controller: controller.crashDesc.value,
                             expands: true,
                             maxLines: null,
-                            errorText:
-                                controller.crashDesc.value.text.isNotEmpty
-                                    ? null
-                                    : 'Harap isi Deskripsi Kerusakan',
+                            onChange: (v) {
+                              controller.crashDescText.value = v;
+                            },
+                            errorText: controller.crashDescText.value.isNotEmpty
+                                ? null
+                                : 'Harap isi Deskripsi Kerusakan',
                             type: TextInputType.multiline,
                           ),
                         ),

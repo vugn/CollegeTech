@@ -6,8 +6,10 @@ import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class DetailCrashController extends GetxController {
-  final Rx<TextEditingController> brandName = TextEditingController().obs;
-  final Rx<TextEditingController> crashDesc = TextEditingController().obs;
+  Rx<TextEditingController> brandName = TextEditingController().obs;
+  RxString brandNameText = ''.obs;
+  Rx<TextEditingController> crashDesc = TextEditingController().obs;
+  RxString crashDescText = ''.obs;
   final FirebaseOrdersFunctions firebaseOrdersFunctions =
       FirebaseOrdersFunctions();
   final FirebaseSnapshots firebaseSnapshots = FirebaseSnapshots();
@@ -16,8 +18,11 @@ class DetailCrashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    brandName = TextEditingController(text: brandNameText.value).obs;
+    crashDesc = TextEditingController(text: crashDescText.value).obs;
     if (brandResult['brandData'] != null) {
       brandName.value.text = brandResult['brandData']['name'];
+      brandNameText.value = brandResult['brandData']['name'];
     }
   }
 
