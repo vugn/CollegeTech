@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,8 @@ class DetailOrderView extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     final userData = orderData['to_user'];
+    final technicianData = orderData['to_technician'];
+    bool isTechnician = technicianData != null && userData == null;
     return Scaffold(
       body: Column(
         children: [
@@ -28,7 +31,16 @@ class DetailOrderView extends GetView<OrderController> {
                     bottomRight: Radius.circular(20),
                     bottomLeft: Radius.circular(20))),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    color: Colors.white,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(CupertinoIcons.back)),
                 const SizedBox(
                   height: 20,
                 ),
@@ -41,7 +53,9 @@ class DetailOrderView extends GetView<OrderController> {
                         ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: CachedNetworkImage(
-                              imageUrl: userData['profilePhoto'],
+                              imageUrl: isTechnician
+                                  ? technicianData['profilePhoto']
+                                  : userData['profilePhoto'],
                               width: 50,
                             )),
                         const SizedBox(
@@ -50,7 +64,10 @@ class DetailOrderView extends GetView<OrderController> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(userData['fullName'],
+                            Text(
+                                isTechnician
+                                    ? technicianData['fullName']
+                                    : userData['fullName'],
                                 style: GoogleFonts.poppins(
                                     textStyle: const TextStyle(
                                         color: Colors.white,
@@ -69,60 +86,27 @@ class DetailOrderView extends GetView<OrderController> {
                         ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 26,
-                          child: FilledButton(
-                            onPressed: () {
-                              controller.showOrderDetail(orderData);
-                            },
-                            style: ButtonStyle(
-                                padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.all(6)),
-                                fixedSize: const MaterialStatePropertyAll(
-                                    Size(81, 26)),
-                                shape: MaterialStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8))),
-                                backgroundColor: MaterialStatePropertyAll(
-                                    Colors.green.shade700)),
-                            child: Text("Atur Jadwal",
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ))),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(
-                          height: 26,
-                          child: FilledButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                                padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.all(6)),
-                                fixedSize: const MaterialStatePropertyAll(
-                                    Size(81, 26)),
-                                shape: MaterialStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8))),
-                                backgroundColor: const MaterialStatePropertyAll(
-                                    Colors.redAccent)),
-                            child: Text("Tolak",
-                                style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                ))),
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      height: 26,
+                      child: FilledButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                            padding: const MaterialStatePropertyAll(
+                                EdgeInsets.all(6)),
+                            fixedSize:
+                                const MaterialStatePropertyAll(Size(81, 26)),
+                            shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8))),
+                            backgroundColor: const MaterialStatePropertyAll(
+                                Colors.redAccent)),
+                        child: Text("Lapor",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                            ))),
+                      ),
                     )
                   ],
                 ),
@@ -133,139 +117,37 @@ class DetailOrderView extends GetView<OrderController> {
             child: Stack(
               children: [
                 SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     children: [
                       SizedBox(
-                        height: 24,
+                        height: MediaQuery.of(context).size.height / 1.8,
                       ),
                       SwipeTo(
-                        child: BubbleSpecialThree(
-                          text: 'bubble special three without tail',
-                          color: Color(0xFF1B97F3),
-                          tail: false,
-                          textStyle:
-                              TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        onRightSwipe: () {},
-                      ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three with tail',
-                        color: Color(0xFF1B97F3),
-                        tail: true,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      SwipeTo(
-                        child: BubbleSpecialThree(
-                          text: "bubble special three without tail",
+                        iconColor: cotech,
+                        child: const BubbleSpecialThree(
+                          text: 'Halo ada TV nya kenapa ya?',
                           color: Color(0xFFE8E8EE),
-                          tail: false,
+                          tail: true,
                           isSender: false,
                         ),
                         onRightSwipe: () {},
                       ),
-                      BubbleSpecialThree(
-                        text: "bubble special three with tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: true,
-                        isSender: false,
+                      const SizedBox(
+                        height: 10,
                       ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three without tail',
-                        color: Color(0xFF1B97F3),
-                        tail: false,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
+                      SwipeTo(
+                        iconColor: cotech,
+                        child: const BubbleSpecialThree(
+                          text: "TV Saya tidak mau nyala",
+                          color: cotech,
+                          tail: true,
+                          isSender: true,
+                          textStyle: TextStyle(color: Colors.white),
+                        ),
+                        onRightSwipe: () {},
                       ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three with tail',
-                        color: Color(0xFF1B97F3),
-                        tail: true,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three without tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: false,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three with tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: true,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three with tail',
-                        color: Color(0xFF1B97F3),
-                        tail: true,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three without tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: false,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three with tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: true,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three with tail',
-                        color: Color(0xFF1B97F3),
-                        tail: true,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three without tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: false,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three with tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: true,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three with tail',
-                        color: Color(0xFF1B97F3),
-                        tail: true,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three without tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: false,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three with tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: true,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: 'bubble special three with tail',
-                        color: Color(0xFF1B97F3),
-                        tail: true,
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three without tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: false,
-                        isSender: false,
-                      ),
-                      BubbleSpecialThree(
-                        text: "bubble special three with tail",
-                        color: Color(0xFFE8E8EE),
-                        tail: true,
-                        isSender: false,
-                      ),
-                      SizedBox(
+                      const SizedBox(
                         height: 100,
                       ),
                     ],
