@@ -84,5 +84,8 @@ class AddressController extends GetxController {
     await _firebaseFunctions.createUserAddress(
         text.value, "${finalPosition.latitude}, ${finalPosition.longitude}");
     Indicator.closeLoading();
+    locationSubscription.cancel();
+    Get.back();
+    Get.back();
   }
 }

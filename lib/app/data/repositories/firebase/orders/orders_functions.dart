@@ -29,6 +29,23 @@ class FirebaseOrdersFunctions {
     }
   }
 
+  Future<Map<String, dynamic>?> getUserOder(String orderId) async {
+    try {
+      var orders = await _firebaseFirestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection('orders')
+          .doc(orderId)
+          .get();
+      return orders.data();
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return null;
+    }
+  }
+
   void setOrder(
     String orderId,
     int status,
@@ -70,14 +87,14 @@ class FirebaseOrdersFunctions {
     }
   }
 
-  void createOrder(
+  Future<String> createOrder(
       {required String userId,
       required String technicianId,
       required String address,
       required String brand,
       required String dateStart,
       required String descError,
-      required String latlang,
+      required String latlng,
       required int status,
       required String timeStart,
       required String title,
@@ -97,8 +114,9 @@ class FirebaseOrdersFunctions {
         "brand": brand,
         "date_start": dateStart,
         "desc_error": descError,
-        "latlang": latlang,
+        "latlng": latlng,
         "status": status,
+        "order_id": orderId,
         "time_start": timeStart,
         "title": title,
         "to_technician": toTechnician,
@@ -114,17 +132,20 @@ class FirebaseOrdersFunctions {
         "brand": brand,
         "date_start": dateStart,
         "desc_error": descError,
-        "latlang": latlang,
+        "latlng": latlng,
         "status": status,
+        "order_id": orderId,
         "time_start": timeStart,
         "title": title,
         "to_user": userData,
       });
+      return orderId;
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
       Indicator.closeLoading();
+      return '';
     }
   }
 }

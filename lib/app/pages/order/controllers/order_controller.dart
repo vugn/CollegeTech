@@ -89,8 +89,8 @@ class OrderController extends GetxController
   void showOrderDetail(dynamic orderData) {
     dateController.value.text = orderData['date_start'];
     timeController.value.text = orderData['time_start'];
-    double lat = double.parse(orderData['latlang'].toString().split(',')[0]);
-    double lng = double.parse(orderData['latlang'].toString().split(',')[1]);
+    double lat = double.parse(orderData['latlng'].toString().split(',')[0]);
+    double lng = double.parse(orderData['latlng'].toString().split(',')[1]);
     userLocation = LatLng(lat, lng);
     final marker = Marker(
       markerId: const MarkerId('userLocation'),

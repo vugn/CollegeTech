@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/data/constants.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
 import 'package:teknisi_app/app/routes/app_pages.dart';
@@ -46,6 +47,8 @@ class DetailCrashController extends GetxController {
           "errorDesc": crashDesc.value.text,
           "skillName": brandResult['skillType'],
         });
+      } else {
+        showAlert("Tidak ada Teknisi ${brandResult['skillType']}");
       }
     }
     Indicator.closeLoading();
