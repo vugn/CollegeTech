@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class DetailCrashController extends GetxController {
@@ -34,6 +35,12 @@ class DetailCrashController extends GetxController {
           .getTechnicianListFromSkills(brandResult['skillType']);
       if (techniciansData.isNotEmpty) {
         Indicator.closeLoading();
+        Get.toNamed(Routes.TECHNICIANLIST, arguments: {
+          "technicianData": techniciansData,
+          "brandName": brandName.value.text,
+          "errorDesc": crashDesc.value.text,
+          "skillName": brandResult['skillType'],
+        });
       }
     }
     Indicator.closeLoading();

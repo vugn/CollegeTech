@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/order/controllers/technician_controller.dart';
-import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
 
@@ -142,7 +141,7 @@ class TechniciansView extends GetView<TechniciansController> {
                                 label: 'Hubungi',
                                 isActive: true,
                                 onTap: () {
-                                  controller.createOrder();
+                                  controller.createOrder(index);
                                 }),
                           ),
                           const SizedBox(
