@@ -72,14 +72,14 @@ class BrandsList extends GetView<BrandsController> {
                                 color: Colors.transparent,
                                 child: InkWell(
                                   onTap: () async {
+                                    Get.toNamed(Routes.CRASHDETAIL,
+                                        arguments: controller
+                                            .brandResult.brands[index]);
                                     var techniciansData = await controller
                                         .firebaseOrdersFunctions
                                         .getTechnicianListFromSkills(
                                             controller.brandResult.name);
-                                    if (techniciansData.isNotEmpty) {
-                                      Get.toNamed(Routes.TECHNICIANLIST,
-                                          arguments: techniciansData);
-                                    }
+                                    if (techniciansData.isNotEmpty) {}
                                   },
                                 ),
                               ),

@@ -10,6 +10,7 @@ import 'package:teknisi_app/app/pages/home/views/home_view.dart';
 import 'package:teknisi_app/app/pages/main/bindings/main_page_binding.dart';
 import 'package:teknisi_app/app/pages/main/views/main_page_view.dart';
 import 'package:teknisi_app/app/pages/order/bindings/order_binding.dart';
+import 'package:teknisi_app/app/pages/order/views/detail_crash_view.dart';
 import 'package:teknisi_app/app/pages/order/views/order_view.dart';
 import 'package:teknisi_app/app/pages/order/views/detail_order_view.dart';
 import 'package:teknisi_app/app/pages/order/views/brand_list_view.dart';
@@ -43,6 +44,10 @@ class AppPages {
     GetPage(
         name: _Paths.DETAILORDER,
         page: () => DetailOrderView(),
+        binding: OrderBinding()),
+    GetPage(
+        name: _Paths.CRASHDETAIL,
+        page: () => const DetailCrashView(),
         binding: OrderBinding()),
     GetPage(
         name: _Paths.TECHNICIANLIST,

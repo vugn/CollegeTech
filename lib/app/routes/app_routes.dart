@@ -12,6 +12,7 @@ abstract class Routes {
   static const DETAILORDER = _Paths.DETAILORDER;
   static const TECHNICIANLIST = _Paths.TECHNICIANLIST;
   static const BRANDLIST = _Paths.BRANDLIST;
+  static const CRASHDETAIL = _Paths.CRASHDETAIL;
   static const HISTORY = _Paths.HISTORY;
   static const SETTING = _Paths.SETTING;
   static const TESWIDGET = _Paths.TESWIDGET;
@@ -28,6 +29,7 @@ abstract class _Paths {
   static const DETAILORDER = '/detailOrder';
   static const TECHNICIANLIST = '/techList';
   static const BRANDLIST = '/brands';
+  static const CRASHDETAIL = '/crashDetail';
   static const HISTORY = '/history';
   static const SETTING = '/setting';
   static const TESWIDGET = '/test';
