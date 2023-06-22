@@ -80,11 +80,6 @@ class BrandsList extends GetView<BrandsController> {
                                             "skillType":
                                                 controller.brandResult.name
                                           });
-                                      var techniciansData = await controller
-                                          .firebaseOrdersFunctions
-                                          .getTechnicianListFromSkills(
-                                              controller.brandResult.name);
-                                      if (techniciansData.isNotEmpty) {}
                                     },
                                   ),
                                 ),

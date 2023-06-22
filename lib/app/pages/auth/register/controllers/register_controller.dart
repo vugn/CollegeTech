@@ -234,7 +234,6 @@ class RegisterController extends GetxController {
 
         if (!emailRegistered) {
           if (!phoneRegistered) {
-            print(passwordRegisterController.value.text);
             await _authentication.createAccount(
                 email: emailRegisterController.value.text,
                 password: passwordRegisterController.value.value.text);
