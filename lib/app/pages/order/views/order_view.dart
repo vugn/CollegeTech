@@ -132,18 +132,15 @@ class OrderView extends GetView<OrderController> {
                                 snapshot.connectionState !=
                                     ConnectionState.none) {
                               if (snapshot.hasData) {
+                                List orders = snapshot.data!.docs
+                                    .where((element) => element['status'] == 0)
+                                    .toList();
                                 return ListView.builder(
                                   physics: const BouncingScrollPhysics(),
-                                  itemCount: snapshot.data!.docs.length,
+                                  itemCount:
+                                      orders.isNotEmpty ? orders.length : 1,
                                   itemBuilder: (context, index) {
-                                    var orderData =
-                                        snapshot.data!.docs[index].data();
-                                    var userData = orderData['to_user'];
-                                    var technicianData =
-                                        orderData['to_technician'];
-                                    bool isTechnician = technicianData != null;
-                                    bool isWaiting = orderData['status'] == 0;
-                                    if (!isWaiting) {
+                                    if (orders.isEmpty) {
                                       return SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height /
@@ -153,9 +150,14 @@ class OrderView extends GetView<OrderController> {
                                         ),
                                       );
                                     }
+                                    var orderData = orders[index].data();
+                                    var userData = orderData['to_user'];
+                                    var technicianData =
+                                        orderData['to_technician'];
+                                    bool isTechnician = technicianData != null;
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
-                                          horizontal: 24, vertical: 16),
+                                          horizontal: 24, vertical: 12),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16, vertical: 13),
                                       decoration: BoxDecoration(
@@ -276,17 +278,15 @@ class OrderView extends GetView<OrderController> {
                                 snapshot.connectionState !=
                                     ConnectionState.none) {
                               if (snapshot.hasData) {
+                                List orders = snapshot.data!.docs
+                                    .where((element) => element['status'] == 1)
+                                    .toList();
                                 return ListView.builder(
                                   physics: const BouncingScrollPhysics(),
-                                  itemCount: snapshot.data!.docs.length,
+                                  itemCount:
+                                      orders.isNotEmpty ? orders.length : 1,
                                   itemBuilder: (context, index) {
-                                    var orderData =
-                                        snapshot.data!.docs[index].data();
-                                    var userData = orderData['to_user'];
-                                    var technicianData =
-                                        orderData['to_technician'];
-                                    bool istimetable = orderData['status'] == 1;
-                                    if (!istimetable) {
+                                    if (orders.isEmpty) {
                                       return SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height /
@@ -296,9 +296,13 @@ class OrderView extends GetView<OrderController> {
                                         ),
                                       );
                                     }
+                                    var orderData = orders[index].data();
+                                    var userData = orderData['to_user'];
+                                    var technicianData =
+                                        orderData['to_technician'];
                                     return Container(
                                       margin: const EdgeInsets.symmetric(
-                                          horizontal: 24, vertical: 16),
+                                          horizontal: 24, vertical: 12),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16, vertical: 13),
                                       decoration: BoxDecoration(
@@ -322,11 +326,12 @@ class OrderView extends GetView<OrderController> {
                                                 borderRadius:
                                                     BorderRadius.circular(100),
                                                 child: CachedNetworkImage(
-                                                  imageUrl: technicianData
-                                                      ? technicianData[
-                                                          'profilePhoto']
-                                                      : userData[
-                                                          'profilePhoto'],
+                                                  imageUrl:
+                                                      technicianData != null
+                                                          ? technicianData[
+                                                              'profilePhoto']
+                                                          : userData[
+                                                              'profilePhoto'],
                                                   width: 50,
                                                 ),
                                               ),
