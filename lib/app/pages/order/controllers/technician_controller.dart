@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ import 'package:teknisi_app/app/widgets/account_button.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class TechniciansController extends GetxController {
-  MainPageController _mainPageController = Get.find<MainPageController>();
+  final MainPageController _mainPageController = Get.find<MainPageController>();
   final FirebaseOrdersFunctions firebaseOrdersFunctions =
       FirebaseOrdersFunctions();
   final FirebaseFunctions _firebaseFunctions = FirebaseFunctions();
@@ -32,9 +33,7 @@ class TechniciansController extends GetxController {
   late dynamic skillName;
 
 // Maps
-  final GoogleMapsFunctions _googleMapsFunctions = GoogleMapsFunctions();
   late LatLng userPosition;
-  late LocationData? _locationData;
 
   @override
   void onInit() {
@@ -101,27 +100,6 @@ class TechniciansController extends GetxController {
         _mainPageController.currentIndex.value = 1;
         _mainPageController.pageController.value.jumpToPage(1);
         Get.toNamed(Routes.DETAILORDER, arguments: orderResult);
-        // showModalBottomSheet(
-        //   context: Get.context!,
-        //   builder: (context) {
-        //     return Container(
-        //       margin: const EdgeInsets.all(24),
-        //       child: Column(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           Text(
-        //             "Brand Elektronik",
-        //             style: GoogleFonts.poppins(
-        //                 textStyle: const TextStyle(
-        //               fontSize: 12,
-        //             )),
-        //           ),
-
-        //         ],
-        //       ),
-        //     );
-        //   },
-        // );
       } else {
         showNotFoundAddressDialog();
       }
@@ -132,5 +110,236 @@ class TechniciansController extends GetxController {
       Indicator.closeLoading();
     }
     Indicator.closeLoading();
+  }
+
+  void showTechnicianDetail(int index) {
+    var technicianResult = technicianData[index].data();
+    List<String> skillData = [];
+    var skillsMap = technicianResult['skills']
+        .toString()
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .split(',');
+
+    for (var skill in skillsMap) {
+      skillData.add('\n- $skill');
+    }
+    showModalBottomSheet(
+      context: Get.context!,
+      isScrollControlled: true,
+      builder: (context) {
+        return Wrap(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        imageUrl: technicianResult['profilePhoto'],
+                        width: 75,
+                        height: 75,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: Text(
+                          'Nama',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.9,
+                        child: Text(
+                          technicianResult['fullName'],
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: Text(
+                          'Alamat',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.9,
+                        child: Text(
+                          technicianResult['address'],
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: Text(
+                          'Lisensi',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.9,
+                        height: 20,
+                        child: AccountButton(
+                            label: 'Klik Untuk Melihat',
+                            isActive: true,
+                            onTap: () {}),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: Text(
+                          'Deskripsi Keahlian',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.9,
+                        child: Text(
+                          technicianResult['skills_desc'],
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 65,
+                        child: Text(
+                          'Kategori Teknisi',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 55,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.9,
+                        child: Text(
+                          skillData
+                              .toString()
+                              .replaceAll('[', '')
+                              .replaceAll(']', '')
+                              .replaceAll(',', ''),
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: Text(
+                          'Diselesaikan',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.9,
+                        child: Text(
+                          '${technicianResult['customers'].toString()} Pelanggan',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 65,
+                        child: Text(
+                          'Jam Produktif',
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 55,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.9,
+                        child: Text(
+                          technicianResult['productiveHours'],
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 22,
+                  ),
+                  AccountButton(
+                      label: 'Kembali', isActive: true, onTap: () => Get.back())
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

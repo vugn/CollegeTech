@@ -159,7 +159,9 @@ class TechniciansView extends GetView<TechniciansController> {
                                 size: const Size(100, 32),
                                 label: 'Detail',
                                 isActive: false,
-                                onTap: () {}),
+                                onTap: () {
+                                  controller.showTechnicianDetail(index);
+                                }),
                           ),
                         ],
                       )
