@@ -194,31 +194,43 @@ class OrderView extends GetView<OrderController> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  SizedBox(
-                                                    height: 15,
+                                                  IntrinsicHeight(
                                                     child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: [
-                                                        Text(
-                                                          orderData['title'],
-                                                          style: GoogleFonts.poppins(
-                                                              textStyle:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          10)),
+                                                        ConstrainedBox(
+                                                          constraints:
+                                                              const BoxConstraints(
+                                                                  maxWidth:
+                                                                      100),
+                                                          child: Text(
+                                                            orderData['title'],
+                                                            style: GoogleFonts.poppins(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            10)),
+                                                          ),
                                                         ),
                                                         const VerticalDivider(
                                                           thickness: 1,
                                                           color: Color(
                                                               cotechSecondaryValue),
                                                         ),
-                                                        Text(
-                                                          orderData['brand'],
-                                                          style: GoogleFonts.poppins(
-                                                              textStyle: const TextStyle(
-                                                                  fontSize: 10,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600)),
+                                                        ConstrainedBox(
+                                                          constraints:
+                                                              const BoxConstraints(
+                                                                  maxWidth: 35),
+                                                          child: Text(
+                                                            orderData['brand'],
+                                                            style: GoogleFonts.poppins(
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            10)),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
