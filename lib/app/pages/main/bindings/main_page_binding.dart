@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:teknisi_app/app/pages/address/controllers/address_controller.dart';
 import 'package:teknisi_app/app/pages/history/controllers/history_controller.dart';
 import 'package:teknisi_app/app/pages/home/controllers/home_controller.dart';
 import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
@@ -21,5 +22,6 @@ class MainPageBinding extends Bindings {
     Get.lazyPut<TechniciansController>(() => TechniciansController());
     Get.lazyPut<HistoryController>(() => HistoryController());
     Get.lazyPut<SettingController>(() => SettingController());
+    Get.lazyPut<AddressController>(() => AddressController());
   }
 }

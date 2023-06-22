@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_auth.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
-import 'package:teknisi_app/app/domain/entities/brands/brand_entity.dart';
+import 'package:teknisi_app/app/data/repositories/google_maps/maps_functions.dart';
+import 'package:teknisi_app/app/routes/app_pages.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
 import 'package:teknisi_app/app/widgets/indicator.dart';
 
@@ -23,6 +28,11 @@ class TechniciansController extends GetxController {
   late dynamic errorDesc;
   late dynamic skillName;
 
+// Maps
+  final GoogleMapsFunctions _googleMapsFunctions = GoogleMapsFunctions();
+  late LatLng userPosition;
+  late LocationData? _locationData;
+
   @override
   void onInit() {
     super.onInit();
@@ -32,11 +42,15 @@ class TechniciansController extends GetxController {
     skillName = technicianResult['skillName'];
   }
 
-  void showNotFoundAddressDialog() {
+  void showNotFoundAddressDialog() async {
     Widget okButton = SizedBox(
         height: 32,
-        child:
-            AccountButton(label: 'Isi Alamat', isActive: true, onTap: () {}));
+        child: AccountButton(
+            label: 'Isi Alamat',
+            isActive: true,
+            onTap: () {
+              Get.toNamed(Routes.ADDRESS);
+            }));
 
     Widget alert = AlertDialog(
       title: const Text("Kamu belum isi alamat"),
