@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,9 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_auth.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
-import 'package:teknisi_app/app/pages/main/controllers/main_page_controller.dart';
-import 'package:teknisi_app/app/routes/app_pages.dart';
-import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
 import 'package:teknisi_app/app/widgets/forms.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,7 +20,9 @@ class OrderController extends GetxController
   final FirebaseAuthentication firebaseAuth = FirebaseAuthentication();
   late Rx<TabController> tabBarController;
 
+  RxString dateText = ''.obs;
   Rx<TextEditingController> dateController = TextEditingController().obs;
+  RxString timeText = ''.obs;
   Rx<TextEditingController> timeController = TextEditingController().obs;
   RxInt currentTabIndex = 0.obs;
 
@@ -55,6 +53,8 @@ class OrderController extends GetxController
       return;
     }
     dateController.value.text = parseDateTime(pickedDate.toString());
+    dateText.value = parseDateTime(pickedDate.toString());
+    update();
   }
 
   void pickTime(BuildContext context) async {
@@ -66,6 +66,8 @@ class OrderController extends GetxController
       return;
     }
     timeController.value.text = "${pickedTime.hour}:${pickedTime.minute}";
+    timeText.value = "${pickedTime.hour}:${pickedTime.minute}";
+    update();
   }
 
   String parseDateTime(String inputDate) {
@@ -86,6 +88,14 @@ class OrderController extends GetxController
     }
   }
 
+  RxBool isFilled() {
+    if (dateText.value.isNotEmpty && timeText.value.isNotEmpty) {
+      return true.obs;
+    } else {
+      return false.obs;
+    }
+  }
+
   void showOrderDetail(dynamic orderData) {
     dateController.value.text = orderData['date_start'];
     timeController.value.text = orderData['time_start'];
@@ -99,117 +109,132 @@ class OrderController extends GetxController
     );
     markers[const MarkerId('userLocation')] = marker;
     showModalBottomSheet(
+      isScrollControlled: true,
       context: Get.context!,
       builder: (context) {
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 31),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return Wrap(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 31),
+              child: Column(
                 children: [
-                  Text("Mulai",
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                        fontSize: 14,
-                      ))),
-                  Obx(() => Row(
-                        children: [
-                          SizedBox(
-                            width: 122,
-                            child: CustomTextField(
-                              onTap: () {
-                                pickDate(context);
-                              },
-                              controller: dateController.value,
-                              hint: dateController.value.text,
-                              style: const TextStyle(fontSize: 12),
-                              readOnly: true,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          SizedBox(
-                            width: 85,
-                            child: CustomTextField(
-                              onTap: () => pickTime(context),
-                              controller: timeController.value,
-                              hint: timeController.value.text,
-                              style: const TextStyle(fontSize: 12),
-                              readOnly: true,
-                            ),
-                          ),
-                        ],
-                      ))
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Lokasi",
-                      style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                        fontSize: 14,
-                      ))),
-                  SizedBox(
-                    width: 221,
-                    height: 144,
-                    child: GoogleMap(
-                      initialCameraPosition:
-                          CameraPosition(target: userLocation, zoom: 15),
-                      markers: markers.values.toSet(),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 60,
-                    child: Text("Deskripsi Lokasi",
-                        style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                          fontSize: 14,
-                        ))),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Mulai",
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                            fontSize: 14,
+                          ))),
+                      Obx(() => Row(
+                            children: [
+                              SizedBox(
+                                width: 122,
+                                child: CustomTextField(
+                                  onTap: () {
+                                    pickDate(context);
+                                  },
+                                  controller: dateController.value,
+                                  hint: dateText.value.isEmpty
+                                      ? 'Pilih Tanggal'
+                                      : dateText.value,
+                                  style: const TextStyle(fontSize: 12),
+                                  readOnly: true,
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              SizedBox(
+                                width: 85,
+                                child: CustomTextField(
+                                  onTap: () => pickTime(context),
+                                  controller: timeController.value,
+                                  hint: timeText.value.isEmpty
+                                      ? 'Pilih Jam'
+                                      : timeText.value,
+                                  style: const TextStyle(fontSize: 12),
+                                  readOnly: true,
+                                ),
+                              ),
+                            ],
+                          ))
+                    ],
                   ),
-                  Container(
-                    width: 221,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 14, horizontal: 24),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: const Color(0xFFF4F4F4)),
-                    child: Text(orderData['address']),
-                  )
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Lokasi",
+                          style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                            fontSize: 14,
+                          ))),
+                      SizedBox(
+                        width: 221,
+                        height: 144,
+                        child: GoogleMap(
+                          initialCameraPosition:
+                              CameraPosition(target: userLocation, zoom: 15),
+                          markers: markers.values.toSet(),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 60,
+                        child: Text("Deskripsi Lokasi",
+                            style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                              fontSize: 14,
+                            ))),
+                      ),
+                      Container(
+                        width: 221,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 14, horizontal: 24),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: const Color(0xFFF4F4F4)),
+                        child: Text(orderData['address']),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  AccountButton(
+                      label: 'Masukkan Ke Jadwal',
+                      isActive: dateText.value.isNotEmpty &&
+                          timeText.value.isNotEmpty,
+                      onTap: () {
+                        if (isFilled().value) {
+                          Indicator.showLoading();
+                          firebaseOrdersFunctions.setOrder(
+                              orderData['order_id'],
+                              1,
+                              dateController.value.text,
+                              timeController.value.text);
+                          Indicator.closeLoading();
+                          Get.back();
+                          Get.back();
+                          update();
+                          currentTabIndex.value = 1;
+                          tabBarController.value.animateTo(1);
+                        }
+                      })
                 ],
               ),
-              const SizedBox(
-                height: 50,
-              ),
-              AccountButton(
-                  label: 'Masukkan Ke Jadwal',
-                  isActive: true,
-                  onTap: () {
-                    Indicator.showLoading();
-                    firebaseOrdersFunctions.setOrder(orderData['order_id'], 1,
-                        dateController.value.text, timeController.value.text);
-                    Indicator.closeLoading();
-                    Get.back();
-                    Get.back();
-                    update();
-                    currentTabIndex.value = 1;
-                    tabBarController.value.animateTo(1);
-                  })
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
