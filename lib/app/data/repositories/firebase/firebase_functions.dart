@@ -58,6 +58,7 @@ class FirebaseFunctions {
         "skills_desc": skillDescription,
         "university": university,
         "skills": [],
+        "productiveHours": "12:00",
         "profilePhoto": await uploadProfilePicture(
             file: profilePhoto,
             isTechnician: true,
