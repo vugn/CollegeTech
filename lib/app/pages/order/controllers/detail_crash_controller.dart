@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/firebase_snapshots.dart';
 import 'package:teknisi_app/app/data/repositories/firebase/orders/orders_functions.dart';
-import 'package:teknisi_app/app/domain/entities/brands/brand_entity.dart';
 
 class DetailCrashController extends GetxController {
   final Rx<TextEditingController> brandName = TextEditingController().obs;
@@ -16,6 +15,8 @@ class DetailCrashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    brandName.value.text = brandResult['name'];
+    if (brandResult['brandData'] != null) {
+      brandName.value.text = brandResult['brandData']['name'];
+    }
   }
 }

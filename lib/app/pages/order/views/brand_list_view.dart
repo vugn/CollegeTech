@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/order/controllers/order_controller.dart';
 import 'package:teknisi_app/app/pages/order/controllers/brands_controller.dart';
 import 'package:teknisi_app/app/routes/app_pages.dart';
+import 'package:teknisi_app/app/widgets/account_button.dart';
 
 class BrandsList extends GetView<BrandsController> {
   const BrandsList({super.key});
@@ -41,53 +42,71 @@ class BrandsList extends GetView<BrandsController> {
             const SizedBox(
               height: 21,
             ),
-            SingleChildScrollView(
-                child: GridView.count(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              crossAxisCount: 2,
-              childAspectRatio: 1.65,
-              children: List.generate(
-                  controller.brandResult.brands.length,
-                  (index) => Container(
-                        margin: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Stack(
-                            children: [
-                              CachedNetworkImage(
-                                imageUrl: controller.brandResult.brands[index]
-                                    ['image'],
-                                fit: BoxFit.cover,
-                                alignment: Alignment.center,
-                                placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ),
-                              Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () async {
-                                    Get.toNamed(Routes.CRASHDETAIL,
-                                        arguments: controller
-                                            .brandResult.brands[index]);
-                                    var techniciansData = await controller
-                                        .firebaseOrdersFunctions
-                                        .getTechnicianListFromSkills(
-                                            controller.brandResult.name);
-                                    if (techniciansData.isNotEmpty) {}
-                                  },
-                                ),
-                              ),
-                            ],
+            Expanded(
+              child: GridView.count(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                crossAxisCount: 2,
+                childAspectRatio: 1.65,
+                children: List.generate(
+                    controller.brandResult.brands.length,
+                    (index) => Container(
+                          margin: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ),
-                      )),
-            ))
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  imageUrl: controller.brandResult.brands[index]
+                                      ['image'],
+                                  fit: BoxFit.cover,
+                                  alignment: Alignment.center,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      Get.toNamed(Routes.CRASHDETAIL,
+                                          arguments: {
+                                            "brandData": controller
+                                                .brandResult.brands[index],
+                                            "skillType":
+                                                controller.brandResult.name
+                                          });
+                                      var techniciansData = await controller
+                                          .firebaseOrdersFunctions
+                                          .getTechnicianListFromSkills(
+                                              controller.brandResult.name);
+                                      if (techniciansData.isNotEmpty) {}
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 24),
+              child: AccountButton(
+                  label: 'Tidak Satupun Di Atas',
+                  isActive: true,
+                  onTap: () {
+                    Get.toNamed(Routes.CRASHDETAIL,
+                        arguments: {"skillType": controller.brandResult.name});
+                  }),
+            ),
+            const SizedBox(
+              height: 42,
+            )
           ],
         ),
       ),

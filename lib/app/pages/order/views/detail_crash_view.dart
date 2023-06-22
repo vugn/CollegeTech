@@ -54,7 +54,9 @@ class DetailCrashView extends GetView<DetailCrashController> {
                     ),
                     CustomTextField(
                       hint: 'Contoh: Panasonic',
-                      readOnly: controller.brandResult != null ? true : false,
+                      readOnly: controller.brandResult['brandData'] != null
+                          ? true
+                          : false,
                       controller: controller.brandName.value,
                     ),
                     const SizedBox(
