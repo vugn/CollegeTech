@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:teknisi_app/app/pages/order/controllers/technician_controller.dart';
 import 'package:teknisi_app/app/utils/color_palette.dart';
 import 'package:teknisi_app/app/widgets/account_button.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class TechniciansView extends GetView<TechniciansController> {
   const TechniciansView({super.key});
@@ -103,12 +104,17 @@ class TechniciansView extends GetView<TechniciansController> {
                                       thickness: 1,
                                       color: Color(cotechSecondaryValue),
                                     ),
-                                    Text(
-                                      technicianData['rating'].toString(),
-                                      style: GoogleFonts.poppins(
-                                          textStyle: const TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600)),
+                                    RatingBarIndicator(
+                                      rating: double.parse(
+                                          technicianData['rating'].toString()),
+                                      itemBuilder: (context, index) =>
+                                          const Icon(
+                                        Icons.star,
+                                        color: cotech,
+                                      ),
+                                      itemCount: 5,
+                                      itemSize: 14.0,
+                                      itemPadding: EdgeInsets.zero,
                                     ),
                                   ],
                                 ),
