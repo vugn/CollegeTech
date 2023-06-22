@@ -20,7 +20,7 @@ class AddressView extends GetView<AddressController> {
         },
         child: SafeArea(
           child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -103,7 +103,9 @@ class AddressView extends GetView<AddressController> {
                         child: Obx(() => AccountButton(
                             label: 'Tambah Alamat',
                             isActive: controller.text.value.isNotEmpty,
-                            onTap: () {})),
+                            onTap: () {
+                              controller.onSubmit();
+                            })),
                       )
                     ],
                   ),

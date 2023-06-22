@@ -106,6 +106,20 @@ class FirebaseFunctions {
     }
   }
 
+  Future<void> createUserAddress(String address, String latlng) async {
+    try {
+      await _firebaseFirestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .update({"address": address, "latlng": latlng});
+    } catch (e) {
+      Indicator.closeLoading();
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
   Future<bool> getUserTypeExist(
       {required String email, required int accountType}) async {
     try {

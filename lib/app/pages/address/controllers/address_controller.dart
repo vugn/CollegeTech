@@ -4,12 +4,15 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:teknisi_app/app/data/repositories/firebase/firebase_functions.dart';
 import 'package:teknisi_app/app/data/repositories/google_maps/maps_functions.dart';
 import 'package:teknisi_app/app/pages/address/views/address_map_view.dart';
+import 'package:teknisi_app/app/widgets/indicator.dart';
 
 class AddressController extends GetxController {
   RxString text = ''.obs;
   late Rx<TextEditingController> addressController;
+  final FirebaseFunctions _firebaseFunctions = FirebaseFunctions();
   final GoogleMapsFunctions _googleMapsFunctions = GoogleMapsFunctions();
   late LatLng userPosition;
   Completer<GoogleMapController> googleMapController = Completer();
@@ -76,7 +79,10 @@ class AddressController extends GetxController {
     googleMapController.complete(controller);
   }
 
-  void onSubmit() {
-    print(finalPosition);
+  void onSubmit() async {
+    Indicator.showLoading();
+    await _firebaseFunctions.createUserAddress(
+        text.value, "${finalPosition.latitude}, ${finalPosition.longitude}");
+    Indicator.closeLoading();
   }
 }
