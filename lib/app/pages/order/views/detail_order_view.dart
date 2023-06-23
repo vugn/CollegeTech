@@ -200,40 +200,75 @@ class DetailOrderView extends GetView<OrderController> {
               children: [
                 SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.8,
-                      ),
-                      SwipeTo(
-                        iconColor: cotech,
-                        child: const BubbleSpecialThree(
-                          text: 'Halo ada TV nya kenapa ya?',
-                          color: Color(0xFFE8E8EE),
-                          tail: true,
-                          isSender: false,
+                  child: isTechnician
+                      ? Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 1.8,
+                            ),
+                            SwipeTo(
+                              iconColor: cotech,
+                              child: BubbleSpecialThree(
+                                text: orderData['desc_error'],
+                                color: const Color(0xFFE8E8EE),
+                                tail: true,
+                                isSender: false,
+                              ),
+                              onRightSwipe: () {},
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SwipeTo(
+                              iconColor: cotech,
+                              child: const BubbleSpecialThree(
+                                text: "Baik, apakah warna layar tvnya berubah?",
+                                color: cotech,
+                                tail: true,
+                                isSender: true,
+                                textStyle: TextStyle(color: Colors.white),
+                              ),
+                              onRightSwipe: () {},
+                            ),
+                            const SizedBox(
+                              height: 100,
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 1.8,
+                            ),
+                            SwipeTo(
+                              iconColor: cotech,
+                              child: BubbleSpecialThree(
+                                text: orderData['desc_error'],
+                                color: cotech,
+                                tail: true,
+                                isSender: true,
+                                textStyle: const TextStyle(color: Colors.white),
+                              ),
+                              onRightSwipe: () {},
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            SwipeTo(
+                              iconColor: cotech,
+                              child: const BubbleSpecialThree(
+                                text: "Baik, apakah warna layar tvnya berubah?",
+                                color: Color(0xFFE8E8EE),
+                                tail: true,
+                                isSender: false,
+                              ),
+                              onRightSwipe: () {},
+                            ),
+                            const SizedBox(
+                              height: 100,
+                            ),
+                          ],
                         ),
-                        onRightSwipe: () {},
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SwipeTo(
-                        iconColor: cotech,
-                        child: const BubbleSpecialThree(
-                          text: "TV Saya tidak mau nyala",
-                          color: cotech,
-                          tail: true,
-                          isSender: true,
-                          textStyle: TextStyle(color: Colors.white),
-                        ),
-                        onRightSwipe: () {},
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      ),
-                    ],
-                  ),
                 ),
                 MessageBar(
                   sendButtonColor: cotech,
