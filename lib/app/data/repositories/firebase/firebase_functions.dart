@@ -55,6 +55,7 @@ class FirebaseFunctions {
         "certificates": await Future.wait(certificateList),
         "ktms": await Future.wait(ktmList),
         "address": address,
+        "rating": 0,
         "skills_desc": skillDescription,
         "university": university,
         "skills": [],
